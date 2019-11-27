@@ -1,0 +1,12 @@
+citHeader("To cite the 'VLTimeCausality' package in publications use:")
+
+citEntry(entry       = "Proceedings",
+         title       = "Variable-lag Granger Causality for Time Series Analysis.",
+         author      = personList(as.person("Chainarong Amornbunchornvej"),
+                        as.person("Elena Zheleva"),
+                        as.person("Tanya Berger-Wolf")
+                        ),
+         year        = "2019",
+         url         = "https://doi.org/10.1109/DSAA.2019.00016",
+         textVersion = "Variable-lag Granger Causality for Time Series Analysis. (2019) Chainarong Amornbunchornvej, Elena Zheleva, and Tanya Berger-Wolf. In Proceedings of the 6th IEEE International Conference on Data Science and Advanced Analytics (DSAA), pp. 21-30. IEEE, 2019."
+         )

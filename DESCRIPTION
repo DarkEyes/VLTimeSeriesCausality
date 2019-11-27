@@ -1,0 +1,24 @@
+Package: VLTimeCausality
+Title: Variable-lag Time series casuality inference framework
+Version: 0.1.0
+Authors@R: 
+    person(given = "Chainarong",
+           family = "Amornbunchornvej",
+           role = c("aut", "cre"),
+           email = "grandca@gmail.com",
+           comment =c(ORCID = "0000-0003-3131-0370"))
+Description: A framework to infer casality on a pair of time series of real numbers based on Variable-lag Granger causality and transfer entropy. 
+License: BSD_3_clause + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: 
+    R (>= 3.5.0),
+    dtw,
+    tseries,
+    RTransferEntropy 
+Imports:
+    igraph,
+    ggplot2 (>= 3.0)
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 7.0.0
