@@ -1,4 +1,7 @@
-VLGrangerFunc<-function(X,Y, maxLag=1,alpha=0.05,sigma=0.1)
+#'
+#'@import tseries
+#'@export
+VLGrangerFunc<-function(X,Y, maxLag=1,alpha=0.05,sigma=0.1, family = gaussian )
 {
   XgCsY_ftest<-FALSE
   follOut<-followingRelation(Y=Y,X=X,timeLagWindow=maxLag)
@@ -15,8 +18,8 @@ VLGrangerFunc<-function(X,Y, maxLag=1,alpha=0.05,sigma=0.1)
   xyPast <- D[,  - (1:2)] # delete two targted columns (leave only y past and x past)
   yPast <- xyPast[, ((1:maxLag) * 2) - 1] # delete all x columns (leave only y past)
   #========
-  H1 <- lm(y ~ xyPast)
-  H0 <- lm(y ~ yPast)
+  H1 <- glm(y ~ xyPast,family=family)
+  H0 <- glm(y ~ yPast,family=family)
   S1 <- sum(H1$resid^2)
   S0 <- sum(H0$resid^2)
 

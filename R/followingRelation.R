@@ -1,3 +1,5 @@
+#'@import dtw
+#'@export
 followingRelation<-function(Y,X,timeLagWindow,lagWindow=0.1)
 {
   Y<-as.numeric(Y)

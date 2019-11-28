@@ -1,3 +1,6 @@
+#'
+#'@import RTransferEntropy
+#'@export
 VLTransferEntropy<-function(Y,X,maxLag=1,nboot=0,lx=1,ly=1,VLflag=TRUE,autoLagflag=TRUE)
 {
   if(VLflag)
