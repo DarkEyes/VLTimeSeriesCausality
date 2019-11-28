@@ -1,11 +1,17 @@
 #'
 #'@import tseries
 #'@export
-GrangerFunc<-function(Y,X, maxLag=1,alpha=0.05, family = gaussian)
+GrangerFunc<-function(Y,X, maxLag=1,alpha=0.05, autoLagflag=TRUE, family = gaussian)
 {
   XgCsY_ftest<-FALSE
   YX<-cbind(ts(Y),ts(X))
   D <- YX
+
+  if(autoLagflag == TRUE)
+  {
+    follOut<-followingRelation(Y=Y,X=X)
+    maxLag<-max(1,follOut$optDelay)
+  }
 
   # Create time-shift vesions of y and x (y(t),x(t),y(t-1),x(t-1),...)
   for(i in 1:maxLag)
@@ -33,8 +39,7 @@ GrangerFunc<-function(Y,X, maxLag=1,alpha=0.05, family = gaussian)
     XgCsY_ftest=TRUE
   XgCsY_BIC<- (BIC_H1<BIC_H0)
 
-  res<-list(ftest = ftest, p.val = pval, R2 = R2,
-            BIC_H1=BIC_H1, BIC_H0=BIC_H0,
-            XgCsY_ftest=XgCsY_ftest,XgCsY_BIC=XgCsY_BIC)
+  res<-list(ftest = ftest, p.val = pval, BIC_H1=BIC_H1, BIC_H0=BIC_H0,
+            XgCsY_ftest=XgCsY_ftest,XgCsY_BIC=XgCsY_BIC,maxLag=maxLag,H1=H1,H0=H0)
   return(res)
 }

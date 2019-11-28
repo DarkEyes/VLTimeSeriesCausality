@@ -3,6 +3,7 @@
 #'@export
 VLTransferEntropy<-function(Y,X,maxLag=1,nboot=0,lx=1,ly=1,VLflag=TRUE,autoLagflag=TRUE)
 {
+  follOut<-c()
   if(VLflag)
   {
     if(autoLagflag == TRUE)
@@ -27,7 +28,16 @@ VLTransferEntropy<-function(Y,X,maxLag=1,nboot=0,lx=1,ly=1,VLflag=TRUE,autoLagfl
     lx<-follOut$optDelay
     ly<-follOut$optDelay
   }
+  lx<-max(1,lx)
+  ly<-max(1,ly)
+
   res<-transfer_entropy(x = X, y = Y, nboot=nboot, lx=lx,ly=ly,quiet=TRUE)
   TEratio<-res$coef[1]/res$coef[2] # TE(X->Y) / (Y->X)
-  return(list(TEratio=TEratio,res=res,follOut=follOut))
+
+  XgCsY_trns<-FALSE
+  if(!is.na(TEratio))
+    if(TEratio >1)
+    XgCsY_trns=TRUE
+  return(list(TEratio=TEratio,res=res,follOut=follOut,XgCsY_trns=XgCsY_trns))
 }
+

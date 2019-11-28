@@ -1,10 +1,20 @@
 #'
 #'@import tseries
+#'@importFrom dHSIC dhsic.test
 #'@export
-VLGrangerFunc<-function(X,Y, maxLag=1,alpha=0.05,sigma=0.1, family = gaussian )
+VLGrangerFunc<-function(Y,X, maxLag=1,alpha=0.05,sigma=0.1, autoLagflag=TRUE,family = gaussian )
 {
   XgCsY_ftest<-FALSE
-  follOut<-followingRelation(Y=Y,X=X,timeLagWindow=maxLag)
+  if(autoLagflag == TRUE)
+  {
+    follOut<-followingRelation(Y=Y,X=X)
+    maxLag<-max(1,follOut$optDelay)
+  }
+  else
+  {
+    follOut<-followingRelation(Y=Y,X=X,timeLagWindow=maxLag)
+  }
+
   X<-c(follOut$nX[-1],0)
   YX<-cbind(ts(Y),ts(X))
   D <- YX
@@ -29,14 +39,24 @@ VLGrangerFunc<-function(X,Y, maxLag=1,alpha=0.05,sigma=0.1, family = gaussian )
   BIC_H0<-(S0/n)*n^( (maxLag+1)/n ) # less value is better
   BIC_H1<-(S1/n)*n^( (2*maxLag+1)/n ) # less value is better
 
+
+  #============= independent test
+  iPval<-dhsic.test(X=list(follOut$nX,Y), alpha = 0.05, method="bootstrap",
+                    kernel=c("gaussian"),
+                    pairwise=FALSE, B=1000)$p.value
+
+
   # BIC_H1 < BIC_H0 implies X Granger-causes Y (option 1)
   # pval < \alpha implies  X Granger-causes Y (option 2)
-  if(pval<alpha && follOut$follVal>= sigma)
+  if(pval<alpha && follOut$follVal>= sigma && iPval<alpha)
     XgCsY_ftest=TRUE
   XgCsY_BIC<- ( (BIC_H1<BIC_H0) && (follOut$follVal>= sigma) )
 
-  res<-list(ftest = ftest, p.val = pval, R2 = R2,
-            BIC_H1=BIC_H1, BIC_H0=BIC_H0,
-            XgCsY_ftest=XgCsY_ftest,XgCsY_BIC=XgCsY_BIC)
+
+
+
+  res<-list(ftest = ftest, p.val = pval,BIC_H1=BIC_H1, BIC_H0=BIC_H0,
+            XgCsY_ftest=XgCsY_ftest,XgCsY_BIC=XgCsY_BIC,follOut=follOut,maxLag=maxLag,H1=H1,H0=H0)
   return(res)
 }
+

@@ -1,0 +1,20 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(VLTimeCausality)
+count1<-0
+for(i in seq(10))
+{ 
+  x1<-rnorm(200,0,1)
+  x2<-runif(200,-5,5)
+#a<-SimpleSimulationVLtimeseries()
+#b<-SimpleSimulationVLtimeseries()
+count1<-count1+as.integer(GrangerFunc(Y=x1,X=x2,alpha=0.01)$XgCsY_ftest)
+}
+count1
+```
+
