@@ -1,10 +1,11 @@
 #'@import dtw
 #'@export
-followingRelation<-function(Y,X,timeLagWindow,lagWindow=0.1)
+followingRelation<-function(Y,X,timeLagWindow,lagWindow=0.2)
 {
   Y<-as.numeric(Y)
   X<-as.numeric(X)
   T<-length(X)
+  follVal<-0
 
   if(missing(timeLagWindow))
   {
@@ -17,7 +18,10 @@ followingRelation<-function(Y,X,timeLagWindow,lagWindow=0.1)
   nX <- matrix(0, T)
 
   if(optDelay<0)
+  {
     follVal<- -1
+    VLval<-0
+  }
   else{
 
     if(optCor<0)
@@ -54,11 +58,12 @@ followingRelation<-function(Y,X,timeLagWindow,lagWindow=0.1)
         nX[t,1]<-X[t-optIndexVec[t]]
       }
     }
+    VLval<-mean(sign( optIndexVec!= optDelay))
     follVal<-mean(sign(optIndexVec))
   }
 
   nX<-as.numeric(nX)
 
-  list(follVal=follVal,nX=nX,optDelay=optDelay,optCor=optCor,optIndexVec=optIndexVec)
+  list(follVal=follVal,nX=nX,optDelay=optDelay,optCor=optCor,optIndexVec=optIndexVec,VLval=VLval,out1=out1)
 
 }

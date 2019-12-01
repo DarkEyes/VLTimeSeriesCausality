@@ -1,16 +1,25 @@
 #'
 #'@import RTransferEntropy
 #'@export
-VLTransferEntropy<-function(Y,X,maxLag=1,nboot=0,lx=1,ly=1,VLflag=TRUE,autoLagflag=TRUE)
+VLTransferEntropy<-function(Y,X,maxLag,nboot=0,lx=1,ly=1,VLflag=TRUE,autoLagflag=TRUE)
 {
   follOut<-c()
+  if(missing(maxLag))
+    maxLag<-0.2*length(Y)
   if(VLflag)
   {
     if(autoLagflag == TRUE)
     {
-      follOut<-followingRelation(Y=Y,X=X)
-      lx<-follOut$optDelay
-      ly<-follOut$optDelay
+      follOut<-followingRelation(Y=Y,X=X,timeLagWindow=maxLag)
+      if(follOut$optDelay>=20) # cannot go above 20
+      {
+        lx<-20
+        ly<-20
+      }else
+      {
+        lx<-follOut$optDelay
+        ly<-follOut$optDelay
+      }
     }
     else
     {
@@ -20,13 +29,19 @@ VLTransferEntropy<-function(Y,X,maxLag=1,nboot=0,lx=1,ly=1,VLflag=TRUE,autoLagfl
     follX<-c(follOut$nX[-1],0) # shift VLX back one time step (so that Y(t)=~ follX(t-1)).
     X<-follX
 
-
   }
   else if(autoLagflag)
   {
     follOut<-followingRelation(Y=Y,X=X)
-    lx<-follOut$optDelay
-    ly<-follOut$optDelay
+    if(follOut$optDelay>=20) # cannot go above 20
+    {
+      lx<-20
+      ly<-20
+    }else
+    {
+      lx<-follOut$optDelay
+      ly<-follOut$optDelay
+    }
   }
   lx<-max(1,lx)
   ly<-max(1,ly)
@@ -37,7 +52,7 @@ VLTransferEntropy<-function(Y,X,maxLag=1,nboot=0,lx=1,ly=1,VLflag=TRUE,autoLagfl
   XgCsY_trns<-FALSE
   if(!is.na(TEratio))
     if(TEratio >1)
-    XgCsY_trns=TRUE
+      XgCsY_trns=TRUE
   return(list(TEratio=TEratio,res=res,follOut=follOut,XgCsY_trns=XgCsY_trns))
 }
 

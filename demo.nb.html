@@ -228,27 +228,902 @@ summary {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShWTFRpbWVDYXVzYWxpdHkpXG5jb3VudDE8LTBcbmZvcihpIGluIHNlcSgxMCkpXG57IFxuICB4MTwtcm5vcm0oMjAwLDAsMSlcbiAgeDI8LXJ1bmlmKDIwMCwtNSw1KVxuI2E8LVNpbXBsZVNpbXVsYXRpb25WTHRpbWVzZXJpZXMoKVxuI2I8LVNpbXBsZVNpbXVsYXRpb25WTHRpbWVzZXJpZXMoKVxuY291bnQxPC1jb3VudDErYXMuaW50ZWdlcihHcmFuZ2VyRnVuYyhZPXgxLFg9eDIsYWxwaGE9MC4wMSkkWGdDc1lfZnRlc3QpXG59XG5jb3VudDFcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShWTFRpbWVDYXVzYWxpdHkpXG5jb3VudDA8LTBcbmNvdW50MTwtMFxuZm9yKGkgaW4gc2VxKDEwKSlcbnsgXG4gIHgxPC1ybm9ybSgyMDAsMCwxKVxuICB4Mjwtcm5vcm0oMjAwLDAsMSlcbiAgb3V0MDwtU2ltcGxlU2ltdWxhdGlvblZMdGltZXNlcmllcygpXG4gIHgxPC1vdXQwJHlcbiAgeDI8LW91dDAkeFxuI2E8LVNpbXBsZVNpbXVsYXRpb25WTHRpbWVzZXJpZXMoKVxuI2I8LVNpbXBsZVNpbXVsYXRpb25WTHRpbWVzZXJpZXMoKVxuICBcbiAgaVB2YWw8LWRoc2ljLnRlc3QoWD1saXN0KHgxLXgyLHgyKSwgYWxwaGEgPSAwLjA1LCBtZXRob2Q9XCJib290c3RyYXBcIixcbiAgICAgICAgICAgICAgICAgICAga2VybmVsPWMoXCJnYXVzc2lhblwiKSxcbiAgICAgICAgICAgICAgICAgICAgcGFpcndpc2U9RkFMU0UsIEI9MTAwMCkkcC52YWx1ZVxuY291bnQxPC1jb3VudDErYXMuaW50ZWdlcihpUHZhbDw9MC4wNSlcbkZvbGw8LWZvbGxvd2luZ1JlbGF0aW9uKFk9eDEsWD14MilcbkE8LVZMR3JhbmdlckZ1bmMoWT14MSxYPXgyLGFscGhhPTAuMDUpXG5WTEdkaWZmUmF0aW88LUEkQklDRGlmZlJhdGlvXG5jb3VudDA8LWNvdW50MCArIGFzLmludGVnZXIoIFZMR2RpZmZSYXRpbz49MC41IClcbnByaW50KHNwcmludGYoXCJpJWRcIixpKSApXG5wcmludChWTEdkaWZmUmF0aW8pXG5wcmludChBJHAudmFsKVxucHJpbnQoRm9sbCRWTHZhbClcbn1cbmBgYCJ9 -->
 <pre class="r"><code>library(VLTimeCausality)
+count0&lt;-0
 count1&lt;-0
 for(i in seq(10))
 { 
   x1&lt;-rnorm(200,0,1)
-  x2&lt;-runif(200,-5,5)
+  x2&lt;-rnorm(200,0,1)
+  out0&lt;-SimpleSimulationVLtimeseries()
+  x1&lt;-out0$y
+  x2&lt;-out0$x
 #a&lt;-SimpleSimulationVLtimeseries()
 #b&lt;-SimpleSimulationVLtimeseries()
-count1&lt;-count1+as.integer(GrangerFunc(Y=x1,X=x2,alpha=0.01)$XgCsY_ftest)
-}
-count1</code></pre>
+  
+  iPval&lt;-dhsic.test(X=list(x1-x2,x2), alpha = 0.05, method=&quot;bootstrap&quot;,
+                    kernel=c(&quot;gaussian&quot;),
+                    pairwise=FALSE, B=1000)$p.value
+count1&lt;-count1+as.integer(iPval&lt;=0.05)
+Foll&lt;-followingRelation(Y=x1,X=x2)
+A&lt;-VLGrangerFunc(Y=x1,X=x2,alpha=0.05)
+VLGdiffRatio&lt;-A$BICDiffRatio
+count0&lt;-count0 + as.integer( VLGdiffRatio&gt;=0.5 )
+print(sprintf(&quot;i%d&quot;,i) )
+print(VLGdiffRatio)
+print(A$p.val)
+print(Foll$VLval)
+}</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDFcbiJ9 -->
-<pre><code>[1] 1</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiaTFcIlxuWzFdIDAuODA5NTRcblsxXSAwXG5bMV0gMC4yNDVcblsxXSBcImkyXCJcblsxXSAwLjgwMTE4OFxuWzFdIDBcblsxXSAwLjIzNVxuWzFdIFwiaTNcIlxuWzFdIDAuODMxNTkxMVxuWzFdIDBcblsxXSAwLjI0NVxuWzFdIFwiaTRcIlxuWzFdIDAuOTIwNDkwN1xuWzFdIDBcblsxXSAwLjI0NVxuWzFdIFwiaTVcIlxuWzFdIDAuODI2NDI4MVxuWzFdIDBcblsxXSAwLjI1XG5bMV0gXCJpNlwiXG5bMV0gMC44MjA4MjExXG5bMV0gMFxuWzFdIDAuMjZcblsxXSBcImk3XCJcblsxXSAwLjczMDA3MzFcblsxXSAwXG5bMV0gMC4yNTVcblsxXSBcImk4XCJcblsxXSAwLjgyMjc3OThcblsxXSAwXG5bMV0gMC4yNVxuWzFdIFwiaTlcIlxuWzFdIDAuNzExODc3NFxuWzFdIDBcblsxXSAwLjI3NVxuWzFdIFwiaTEwXCJcblsxXSAwLjY5NjY3NzJcblsxXSAwXG5bMV0gMC4yNVxuIn0= -->
+<pre><code>[1] &quot;i1&quot;
+[1] 0.80954
+[1] 0
+[1] 0.245
+[1] &quot;i2&quot;
+[1] 0.801188
+[1] 0
+[1] 0.235
+[1] &quot;i3&quot;
+[1] 0.8315911
+[1] 0
+[1] 0.245
+[1] &quot;i4&quot;
+[1] 0.9204907
+[1] 0
+[1] 0.245
+[1] &quot;i5&quot;
+[1] 0.8264281
+[1] 0
+[1] 0.25
+[1] &quot;i6&quot;
+[1] 0.8208211
+[1] 0
+[1] 0.26
+[1] &quot;i7&quot;
+[1] 0.7300731
+[1] 0
+[1] 0.255
+[1] &quot;i8&quot;
+[1] 0.8227798
+[1] 0
+[1] 0.25
+[1] &quot;i9&quot;
+[1] 0.7118774
+[1] 0
+[1] 0.275
+[1] &quot;i10&quot;
+[1] 0.6966772
+[1] 0
+[1] 0.25</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoc3ByaW50ZihcIlZMY291bnQlZFwiLGNvdW50MCkpXG5gYGAifQ== -->
+<pre class="r"><code>print(sprintf(&quot;VLcount%d&quot;,count0))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVkxjb3VudDEwXCJcbiJ9 -->
+<pre><code>[1] &quot;VLcount10&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoc3ByaW50ZihcIklOVEVTVGNvdW50JWRcIixjb3VudDEpKVxuYGBgIn0= -->
+<pre class="r"><code>print(sprintf(&quot;INTESTcount%d&quot;,count1))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiSU5URVNUY291bnQxMFwiXG4ifQ== -->
+<pre><code>[1] &quot;INTESTcount10&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="test" class="section level1">
+<h1>TEST</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuVFM8LU11bHRpcGxlU2ltdWxhdGlvblZMdGltZXNlcmllcygpXG5vdXQ8LW11bHRpcGxlVkxHcmFuZ2VyRnVuYyhUUykkYWRqTWF0XG5jaGVja011bHRpcGxlU2ltdWxhdGlvblZMdGltZXNlcmllcyhvdXQpXG5gYGAifQ== -->
+<pre class="r"><code>TS&lt;-MultipleSimulationVLtimeseries()
+out&lt;-multipleVLGrangerFunc(TS)$adjMat
+checkMultipleSimulationVLtimeseries(out)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>…..</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI3NldC5zZWVkKDIwMTgwMTA4KVxubGlicmFyeShWTFRpbWVDYXVzYWxpdHkpXG5cbiMgY291bnRIMDwtMC4wXG4jIGNvdW50SDE8LTAuMFxuIyBjb3VudEhjb21wPC0wLjBcbmNvdW50RGlmZjwtMFxubiA8LSAyMDBcbkw8LTVcblxuZGlmZlZlYzA8LW51bWVyaWMoMTAwKVxuZGlmZlZlYzE8LW51bWVyaWMoMTAwKVxuXG5mb3IgKGsgaW4gc2VxKDEwMCkpXG57XG4gIHByaW50KGspXG4jIHggPC0gcmVwKDAsIG4gKyBMKVxuIyB5IDwtIHJlcCgwLCBuICsgTClcbiMgXG4jIFxuIyBmb3IgKGkgaW4gc2VxKG4pKSB7XG4jICAgeFtpICsgMV0gPC0gMC4yICogeFtpXSArIHJub3JtKDEsIDAsIDIpXG4jICAgeVtpICsgTF0gPC0geFtpXSArIHJub3JtKDEsIDAsIDAuNSlcbiMgfVxuIyBcbiMgeVsxMTE6MTUwXTwteFsxMDBdXG4jIFxuIyB4IDwtIHhbLSgxOkwpXVxuIyB5IDwtIHlbLSgxOkwpXVxub3V0MTwtVkxUaW1lQ2F1c2FsaXR5OjpTaW1wbGVTaW11bGF0aW9uVkx0aW1lc2VyaWVzKClcbng8LW91dDEkeFxueTwtb3V0MSR5XG5cbk0wPC1HcmFuZ2VyRnVuYyhZPXksWD14LCBtYXhMYWc9NSkgXG5NMTwtVkxHcmFuZ2VyRnVuYyhZPXksWD14LCBtYXhMYWc9NSkgXG5WTEdkaWZmPC1NMSRCSUNfSDAtTTEkQklDX0gxXG5HZGlmZjwtTTAkQklDX0gwLU0wJEJJQ19IMVxuXG5jb3VudERpZmY8LSBjb3VudERpZmYgKyBhcy5pbnRlZ2VyKEdkaWZmPFZMR2RpZmYpXG5kaWZmVmVjMFtrXTwtR2RpZmZcbmRpZmZWZWMxW2tdPC1WTEdkaWZmXG59XG5jb3VudERpZmZcblxuYGBgIn0= -->
+<pre class="r"><code>#set.seed(20180108)
+library(VLTimeCausality)
+
+# countH0&lt;-0.0
+# countH1&lt;-0.0
+# countHcomp&lt;-0.0
+countDiff&lt;-0
+n &lt;- 200
+L&lt;-5
+
+diffVec0&lt;-numeric(100)
+diffVec1&lt;-numeric(100)
+
+for (k in seq(100))
+{
+  print(k)
+# x &lt;- rep(0, n + L)
+# y &lt;- rep(0, n + L)
+# 
+# 
+# for (i in seq(n)) {
+#   x[i + 1] &lt;- 0.2 * x[i] + rnorm(1, 0, 2)
+#   y[i + L] &lt;- x[i] + rnorm(1, 0, 0.5)
+# }
+# 
+# y[111:150]&lt;-x[100]
+# 
+# x &lt;- x[-(1:L)]
+# y &lt;- y[-(1:L)]
+out1&lt;-VLTimeCausality::SimpleSimulationVLtimeseries()
+x&lt;-out1$x
+y&lt;-out1$y
+
+M0&lt;-GrangerFunc(Y=y,X=x, maxLag=5) 
+M1&lt;-VLGrangerFunc(Y=y,X=x, maxLag=5) 
+VLGdiff&lt;-M1$BIC_H0-M1$BIC_H1
+Gdiff&lt;-M0$BIC_H0-M0$BIC_H1
+
+countDiff&lt;- countDiff + as.integer(Gdiff&lt;VLGdiff)
+diffVec0[k]&lt;-Gdiff
+diffVec1[k]&lt;-VLGdiff
+}
+countDiff
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="result" class="section level1">
+<h1>result</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2xvYWQoXCJWTEdyZXN1bHQuUkRhdGFcIilcbmxpYnJhcnkoZ2dwbG90MilcblxuXG5kYXQgPC0gZGF0YS5mcmFtZShkZW5zID0gYyhkaWZmVmVjMCwgZGlmZlZlYzEpXG4gICAgICAgICAgICAgICAgICAgLCBsaW5lcyA9IHJlcChjKFwiR3JhbmdlclwiLCBcIlZMLUdyYW5nZXJcIiksIGVhY2ggPSAxMDApKVxuI1Bsb3QuXG50aGVtZV91cGRhdGUodGV4dCA9IGVsZW1lbnRfdGV4dCggc2l6ZT0yMCkgIClcbnAxPC1nZ3Bsb3QoZGF0LCBhZXMoeCA9IGRlbnMsIGZpbGwgPSBsaW5lcykpICsgZ2VvbV9kZW5zaXR5KGFscGhhID0gMC41KSArIHhsYWIoXCJCSUMgZGlmZmVyZW5jZVwiKSAreWxhYihcIkRlbnNpdHkgWzAsMV1cIikgKyB0aGVtZV9saWdodCgpK3RoZW1lKCBheGlzLnRleHQueCA9IGVsZW1lbnRfdGV4dChcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2l6ZT0yMCwgYW5nbGU9NDUpLCBheGlzLnRleHQueSA9IGVsZW1lbnRfdGV4dCggIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzaXplPTIwKSwgdGV4dCA9IGVsZW1lbnRfdGV4dChzaXplPTIwKSApXG5cbnAxJGxhYmVscyRmaWxsPC1cIk1ldGhvZHNcIlxucGxvdChwMSlcbmBgYCJ9 -->
+<pre class="r"><code>#load(&quot;VLGresult.RData&quot;)
+library(ggplot2)
+
+
+dat &lt;- data.frame(dens = c(diffVec0, diffVec1)
+                   , lines = rep(c(&quot;Granger&quot;, &quot;VL-Granger&quot;), each = 100))
+#Plot.
+theme_update(text = element_text( size=20)  )
+p1&lt;-ggplot(dat, aes(x = dens, fill = lines)) + geom_density(alpha = 0.5) + xlab(&quot;BIC difference&quot;) +ylab(&quot;Density [0,1]&quot;) + theme_light()+theme( axis.text.x = element_text(
+                                      size=20, angle=45), axis.text.y = element_text(  
+                                      size=20), text = element_text(size=20) )
+
+p1$labels$fill&lt;-&quot;Methods&quot;
+plot(p1)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="experiment" class="section level1">
+<h1>Experiment</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXV0b0xhZ2ZsYWc8LVRSVUVcbm1heExhZzwtcm91bmQoMC4yKjIwMClcbm9wdGlvbjA8LTBcbmBgYCJ9 -->
+<pre class="r"><code>autoLagflag&lt;-TRUE
+maxLag&lt;-round(0.2*200)
+option0&lt;-0</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Part1</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShybWF0aW8pXG5jb3VudDI8LTBcbmZvcihpIGluIHNlcSgxMDApKVxue1xuZmlsZW5hbWU8LXNwcmludGYoXCJkYXRhL1NpbURhdGEvU2ltVHJhamVjdG9yeURpci1OT1JNQUwtRk9MTC0lZC5tYXRcIixpKVxub3V0PC1yZWFkLm1hdChmaWxlbmFtZSlcbm9wdGlvbj1vcHRpb24wXG5mbGFnPC1GQUxTRVxuaWYob3B0aW9uPT0wKVxue1xuICBCPC1WTEdyYW5nZXJGdW5jKFk9b3V0JFksWD1vdXQkTCxnYW1tYT0wLjUgLGF1dG9MYWdmbGFnPWF1dG9MYWdmbGFnLG1heExhZz1tYXhMYWcpXG4gIHByaW50KHNwcmludGYoXCJpJWQsQklDZHIlZlwiLGksQiRCSUNEaWZmUmF0aW8pIClcbiAgZmxhZzwtIEIkWGdDc1lcbn1cbmVsc2UgaWYob3B0aW9uPT0xKVxue1xuICBCPC1WTFRyYW5zZmVyRW50cm9weShZPW91dCRZLFg9b3V0JEwsVkxmbGFnPUZBTFNFLG1heExhZz1tYXhMYWcsbHg9bWF4TGFnLGx5PW1heExhZyxhdXRvTGFnZmxhZz1hdXRvTGFnZmxhZylcbiAgZmxhZzwtQiRYZ0NzWV90cm5zXG4gIHByaW50KHNwcmludGYoXCJpJWQsVEZyYXRpbyVmXCIsaSxCJFRFcmF0aW8pIClcbn1cbmVsc2UgaWYob3B0aW9uPT0yKVxue1xuICBCPC1WTFRyYW5zZmVyRW50cm9weShZPW91dCRZLFg9b3V0JEwsVkxmbGFnPVRSVUUsbWF4TGFnPW1heExhZyxseD1tYXhMYWcsbHk9bWF4TGFnLGF1dG9MYWdmbGFnPWF1dG9MYWdmbGFnKVxuICBmbGFnPC1CJFhnQ3NZX3RybnNcbiAgcHJpbnQoc3ByaW50ZihcImklZCxURnJhdGlvJWZcIixpLEIkVEVyYXRpbykgKVxufVxuY291bnQyPC1jb3VudDIrYXMuaW50ZWdlciggZmxhZyApXG59XG5gYGAifQ== -->
+<pre class="r"><code>library(rmatio)
+count2&lt;-0
+for(i in seq(100))
+{
+filename&lt;-sprintf(&quot;data/SimData/SimTrajectoryDir-NORMAL-FOLL-%d.mat&quot;,i)
+out&lt;-read.mat(filename)
+option=option0
+flag&lt;-FALSE
+if(option==0)
+{
+  B&lt;-VLGrangerFunc(Y=out$Y,X=out$L,gamma=0.5 ,autoLagflag=autoLagflag,maxLag=maxLag)
+  print(sprintf(&quot;i%d,BICdr%f&quot;,i,B$BICDiffRatio) )
+  flag&lt;- B$XgCsY
+}
+else if(option==1)
+{
+  B&lt;-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=FALSE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag&lt;-B$XgCsY_trns
+  print(sprintf(&quot;i%d,TFratio%f&quot;,i,B$TEratio) )
+}
+else if(option==2)
+{
+  B&lt;-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=TRUE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag&lt;-B$XgCsY_trns
+  print(sprintf(&quot;i%d,TFratio%f&quot;,i,B$TEratio) )
+}
+count2&lt;-count2+as.integer( flag )
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiaTEsQklDZHIwLjkyODY5NlwiXG5bMV0gXCJpMixCSUNkcjAuODk1NDU1XCJcblsxXSBcImkzLEJJQ2RyMC44MzgzNDNcIlxuWzFdIFwiaTQsQklDZHIwLjgzNDUyNlwiXG5bMV0gXCJpNSxCSUNkcjAuNzIwNjc0XCJcblsxXSBcImk2LEJJQ2RyMC43MjkyMDlcIlxuWzFdIFwiaTcsQklDZHIwLjc4NjA5N1wiXG5bMV0gXCJpOCxCSUNkcjAuNzg2NDI1XCJcblsxXSBcImk5LEJJQ2RyMC45MTY2MjRcIlxuWzFdIFwiaTEwLEJJQ2RyMC45MDEwNzFcIlxuWzFdIFwiaTExLEJJQ2RyMC44NjQ5NDlcIlxuWzFdIFwiaTEyLEJJQ2RyMC44NDg4NTdcIlxuWzFdIFwiaTEzLEJJQ2RyMC45MDg3MDBcIlxuWzFdIFwiaTE0LEJJQ2RyMC45MzE1OTZcIlxuWzFdIFwiaTE1LEJJQ2RyMC42ODMwMTBcIlxuWzFdIFwiaTE2LEJJQ2RyMC44MzMxNjZcIlxuWzFdIFwiaTE3LEJJQ2RyMC44NjYwMjNcIlxuWzFdIFwiaTE4LEJJQ2RyMC44NzQ5NjFcIlxuWzFdIFwiaTE5LEJJQ2RyMC44ODQ4MTRcIlxuWzFdIFwiaTIwLEJJQ2RyMC45NDA5MTFcIlxuWzFdIFwiaTIxLEJJQ2RyMC44NDU0OTdcIlxuWzFdIFwiaTIyLEJJQ2RyMC43NzYwODFcIlxuWzFdIFwiaTIzLEJJQ2RyMC44NjY5MjNcIlxuWzFdIFwiaTI0LEJJQ2RyMC43OTE1OTFcIlxuWzFdIFwiaTI1LEJJQ2RyMC44NDYyMTBcIlxuWzFdIFwiaTI2LEJJQ2RyMC45MzI2NDJcIlxuWzFdIFwiaTI3LEJJQ2RyMC43NjM2MzdcIlxuWzFdIFwiaTI4LEJJQ2RyMC44NTAxMzZcIlxuWzFdIFwiaTI5LEJJQ2RyMC45MjIzNzFcIlxuWzFdIFwiaTMwLEJJQ2RyMC42MDc2NDhcIlxuWzFdIFwiaTMxLEJJQ2RyMC45MzYyMThcIlxuWzFdIFwiaTMyLEJJQ2RyMC44OTAyMDFcIlxuWzFdIFwiaTMzLEJJQ2RyMC44NTQ4ODFcIlxuWzFdIFwiaTM0LEJJQ2RyMC44MDgzMzZcIlxuWzFdIFwiaTM1LEJJQ2RyMC44ODUxNDVcIlxuWzFdIFwiaTM2LEJJQ2RyMC44NDQwNzlcIlxuWzFdIFwiaTM3LEJJQ2RyMC44ODk2MTdcIlxuWzFdIFwiaTM4LEJJQ2RyMC43OTQ4NzhcIlxuWzFdIFwiaTM5LEJJQ2RyMC45MDc1NjhcIlxuWzFdIFwiaTQwLEJJQ2RyMC45MDg5MzJcIlxuWzFdIFwiaTQxLEJJQ2RyMC45MTYxODRcIlxuWzFdIFwiaTQyLEJJQ2RyMC44NjQ0NTFcIlxuWzFdIFwiaTQzLEJJQ2RyMC41Mzg5NzNcIlxuWzFdIFwiaTQ0LEJJQ2RyMC43MzY4MzlcIlxuWzFdIFwiaTQ1LEJJQ2RyMC45MzUzNjdcIlxuWzFdIFwiaTQ2LEJJQ2RyMC44ODU5NjhcIlxuWzFdIFwiaTQ3LEJJQ2RyMC44MzM0NjlcIlxuWzFdIFwiaTQ4LEJJQ2RyMC44OTY2MjNcIlxuWzFdIFwiaTQ5LEJJQ2RyMC44ODM3NDVcIlxuWzFdIFwiaTUwLEJJQ2RyMC44Mjk0NTBcIlxuWzFdIFwiaTUxLEJJQ2RyMC44MzcwMDFcIlxuWzFdIFwiaTUyLEJJQ2RyMC44NDMwNzNcIlxuWzFdIFwiaTUzLEJJQ2RyMC42MjU5NTRcIlxuWzFdIFwiaTU0LEJJQ2RyMC45MzAwNDZcIlxuWzFdIFwiaTU1LEJJQ2RyMC44OTc0NTRcIlxuWzFdIFwiaTU2LEJJQ2RyMC44NjMzMTJcIlxuWzFdIFwiaTU3LEJJQ2RyMC43MzI4NTVcIlxuWzFdIFwiaTU4LEJJQ2RyMC44NzcwMTFcIlxuWzFdIFwiaTU5LEJJQ2RyMC44MjU0ODRcIlxuWzFdIFwiaTYwLEJJQ2RyMC45NDU5OTFcIlxuWzFdIFwiaTYxLEJJQ2RyMC44NDkwMTlcIlxuWzFdIFwiaTYyLEJJQ2RyMC44ODE3MzRcIlxuWzFdIFwiaTYzLEJJQ2RyMC45Mjg2MDFcIlxuWzFdIFwiaTY0LEJJQ2RyMC42ODUxODNcIlxuWzFdIFwiaTY1LEJJQ2RyMC43MzE5NzBcIlxuWzFdIFwiaTY2LEJJQ2RyMC45MzMxOTJcIlxuWzFdIFwiaTY3LEJJQ2RyMC43MjMyMjdcIlxuWzFdIFwiaTY4LEJJQ2RyMC45MzgxNjVcIlxuWzFdIFwiaTY5LEJJQ2RyMC44OTkzMTFcIlxuWzFdIFwiaTcwLEJJQ2RyMC44OTk5MzZcIlxuWzFdIFwiaTcxLEJJQ2RyMC41OTM5MzJcIlxuWzFdIFwiaTcyLEJJQ2RyMC44Nzc0NDhcIlxuWzFdIFwiaTczLEJJQ2RyMC45MjM1ODNcIlxuWzFdIFwiaTc0LEJJQ2RyMC43MTA1MDlcIlxuWzFdIFwiaTc1LEJJQ2RyMC42OTI0MjhcIlxuWzFdIFwiaTc2LEJJQ2RyMC45NDIwNzhcIlxuWzFdIFwiaTc3LEJJQ2RyMC44MjYyNzRcIlxuWzFdIFwiaTc4LEJJQ2RyMC43MTkzMDBcIlxuWzFdIFwiaTc5LEJJQ2RyMC43MDc3MTVcIlxuWzFdIFwiaTgwLEJJQ2RyMC45Njc4NTJcIlxuWzFdIFwiaTgxLEJJQ2RyMC43MzYxMjlcIlxuWzFdIFwiaTgyLEJJQ2RyMC44NDMwNTdcIlxuWzFdIFwiaTgzLEJJQ2RyMC44MzIxMzZcIlxuWzFdIFwiaTg0LEJJQ2RyMC44NzcxODlcIlxuWzFdIFwiaTg1LEJJQ2RyMC45MTk4MDJcIlxuWzFdIFwiaTg2LEJJQ2RyMC45ODUxODVcIlxuWzFdIFwiaTg3LEJJQ2RyMC44OTMwMzFcIlxuWzFdIFwiaTg4LEJJQ2RyMC45MjE0NDZcIlxuWzFdIFwiaTg5LEJJQ2RyMC43MTg3OTlcIlxuWzFdIFwiaTkwLEJJQ2RyMC44MjgxOTRcIlxuWzFdIFwiaTkxLEJJQ2RyMC45MDM4NjZcIlxuWzFdIFwiaTkyLEJJQ2RyMC43NjU0MTNcIlxuWzFdIFwiaTkzLEJJQ2RyMC44MTU1NDBcIlxuWzFdIFwiaTk0LEJJQ2RyMC43NjgyMTFcIlxuWzFdIFwiaTk1LEJJQ2RyMC44MzgwNzVcIlxuWzFdIFwiaTk2LEJJQ2RyMC44MjM0OTFcIlxuWzFdIFwiaTk3LEJJQ2RyMC44OTk3NTdcIlxuWzFdIFwiaTk4LEJJQ2RyMC45MTk5MjBcIlxuWzFdIFwiaTk5LEJJQ2RyMC44OTY5NTBcIlxuWzFdIFwiaTEwMCxCSUNkcjAuODI1MTQ2XCJcbiJ9 -->
+<pre><code>[1] &quot;i1,BICdr0.928696&quot;
+[1] &quot;i2,BICdr0.895455&quot;
+[1] &quot;i3,BICdr0.838343&quot;
+[1] &quot;i4,BICdr0.834526&quot;
+[1] &quot;i5,BICdr0.720674&quot;
+[1] &quot;i6,BICdr0.729209&quot;
+[1] &quot;i7,BICdr0.786097&quot;
+[1] &quot;i8,BICdr0.786425&quot;
+[1] &quot;i9,BICdr0.916624&quot;
+[1] &quot;i10,BICdr0.901071&quot;
+[1] &quot;i11,BICdr0.864949&quot;
+[1] &quot;i12,BICdr0.848857&quot;
+[1] &quot;i13,BICdr0.908700&quot;
+[1] &quot;i14,BICdr0.931596&quot;
+[1] &quot;i15,BICdr0.683010&quot;
+[1] &quot;i16,BICdr0.833166&quot;
+[1] &quot;i17,BICdr0.866023&quot;
+[1] &quot;i18,BICdr0.874961&quot;
+[1] &quot;i19,BICdr0.884814&quot;
+[1] &quot;i20,BICdr0.940911&quot;
+[1] &quot;i21,BICdr0.845497&quot;
+[1] &quot;i22,BICdr0.776081&quot;
+[1] &quot;i23,BICdr0.866923&quot;
+[1] &quot;i24,BICdr0.791591&quot;
+[1] &quot;i25,BICdr0.846210&quot;
+[1] &quot;i26,BICdr0.932642&quot;
+[1] &quot;i27,BICdr0.763637&quot;
+[1] &quot;i28,BICdr0.850136&quot;
+[1] &quot;i29,BICdr0.922371&quot;
+[1] &quot;i30,BICdr0.607648&quot;
+[1] &quot;i31,BICdr0.936218&quot;
+[1] &quot;i32,BICdr0.890201&quot;
+[1] &quot;i33,BICdr0.854881&quot;
+[1] &quot;i34,BICdr0.808336&quot;
+[1] &quot;i35,BICdr0.885145&quot;
+[1] &quot;i36,BICdr0.844079&quot;
+[1] &quot;i37,BICdr0.889617&quot;
+[1] &quot;i38,BICdr0.794878&quot;
+[1] &quot;i39,BICdr0.907568&quot;
+[1] &quot;i40,BICdr0.908932&quot;
+[1] &quot;i41,BICdr0.916184&quot;
+[1] &quot;i42,BICdr0.864451&quot;
+[1] &quot;i43,BICdr0.538973&quot;
+[1] &quot;i44,BICdr0.736839&quot;
+[1] &quot;i45,BICdr0.935367&quot;
+[1] &quot;i46,BICdr0.885968&quot;
+[1] &quot;i47,BICdr0.833469&quot;
+[1] &quot;i48,BICdr0.896623&quot;
+[1] &quot;i49,BICdr0.883745&quot;
+[1] &quot;i50,BICdr0.829450&quot;
+[1] &quot;i51,BICdr0.837001&quot;
+[1] &quot;i52,BICdr0.843073&quot;
+[1] &quot;i53,BICdr0.625954&quot;
+[1] &quot;i54,BICdr0.930046&quot;
+[1] &quot;i55,BICdr0.897454&quot;
+[1] &quot;i56,BICdr0.863312&quot;
+[1] &quot;i57,BICdr0.732855&quot;
+[1] &quot;i58,BICdr0.877011&quot;
+[1] &quot;i59,BICdr0.825484&quot;
+[1] &quot;i60,BICdr0.945991&quot;
+[1] &quot;i61,BICdr0.849019&quot;
+[1] &quot;i62,BICdr0.881734&quot;
+[1] &quot;i63,BICdr0.928601&quot;
+[1] &quot;i64,BICdr0.685183&quot;
+[1] &quot;i65,BICdr0.731970&quot;
+[1] &quot;i66,BICdr0.933192&quot;
+[1] &quot;i67,BICdr0.723227&quot;
+[1] &quot;i68,BICdr0.938165&quot;
+[1] &quot;i69,BICdr0.899311&quot;
+[1] &quot;i70,BICdr0.899936&quot;
+[1] &quot;i71,BICdr0.593932&quot;
+[1] &quot;i72,BICdr0.877448&quot;
+[1] &quot;i73,BICdr0.923583&quot;
+[1] &quot;i74,BICdr0.710509&quot;
+[1] &quot;i75,BICdr0.692428&quot;
+[1] &quot;i76,BICdr0.942078&quot;
+[1] &quot;i77,BICdr0.826274&quot;
+[1] &quot;i78,BICdr0.719300&quot;
+[1] &quot;i79,BICdr0.707715&quot;
+[1] &quot;i80,BICdr0.967852&quot;
+[1] &quot;i81,BICdr0.736129&quot;
+[1] &quot;i82,BICdr0.843057&quot;
+[1] &quot;i83,BICdr0.832136&quot;
+[1] &quot;i84,BICdr0.877189&quot;
+[1] &quot;i85,BICdr0.919802&quot;
+[1] &quot;i86,BICdr0.985185&quot;
+[1] &quot;i87,BICdr0.893031&quot;
+[1] &quot;i88,BICdr0.921446&quot;
+[1] &quot;i89,BICdr0.718799&quot;
+[1] &quot;i90,BICdr0.828194&quot;
+[1] &quot;i91,BICdr0.903866&quot;
+[1] &quot;i92,BICdr0.765413&quot;
+[1] &quot;i93,BICdr0.815540&quot;
+[1] &quot;i94,BICdr0.768211&quot;
+[1] &quot;i95,BICdr0.838075&quot;
+[1] &quot;i96,BICdr0.823491&quot;
+[1] &quot;i97,BICdr0.899757&quot;
+[1] &quot;i98,BICdr0.919920&quot;
+[1] &quot;i99,BICdr0.896950&quot;
+[1] &quot;i100,BICdr0.825146&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY291bnQyXG5gYGAifQ== -->
+<pre class="r"><code>count2</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEwMFxuIn0= -->
+<pre><code>[1] 100</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShybWF0aW8pXG5jb3VudDM8LTBcbmZvcihpIGluIHNlcSgxMDApKVxue1xuZmlsZW5hbWU8LXNwcmludGYoXCJkYXRhL1NpbURhdGEvU2ltVHJhamVjdG9yeURpci1OT1JNQUwtTk9STUFMLSVkLm1hdFwiLGkpXG5vdXQ8LXJlYWQubWF0KGZpbGVuYW1lKVxub3B0aW9uPW9wdGlvbjBcbmZsYWc8LUZBTFNFXG5pZihvcHRpb249PTApXG57XG4gIEI8LVZMR3JhbmdlckZ1bmMoWT1vdXQkWSxYPW91dCRMLGdhbW1hPTAuNSxhdXRvTGFnZmxhZz1hdXRvTGFnZmxhZyxtYXhMYWc9bWF4TGFnKVxuICBwcmludChzcHJpbnRmKFwiaSVkLEJJQ2RyJWZcIixpLEIkQklDRGlmZlJhdGlvKSApXG4gIGZsYWc8LSBCJFhnQ3NZXG59XG5lbHNlIGlmKG9wdGlvbj09MSlcbntcbiAgQjwtVkxUcmFuc2ZlckVudHJvcHkoWT1vdXQkWSxYPW91dCRMLFZMZmxhZz1GQUxTRSxtYXhMYWc9bWF4TGFnLGx4PW1heExhZyxseT1tYXhMYWcsYXV0b0xhZ2ZsYWc9YXV0b0xhZ2ZsYWcpXG4gIGZsYWc8LUIkWGdDc1lfdHJuc1xuICBwcmludChzcHJpbnRmKFwiaSVkLFRGcmF0aW8lZlwiLGksQiRURXJhdGlvKSApXG59XG5lbHNlIGlmKG9wdGlvbj09MilcbntcbiAgQjwtVkxUcmFuc2ZlckVudHJvcHkoWT1vdXQkWSxYPW91dCRMLFZMZmxhZz1UUlVFLG1heExhZz1tYXhMYWcsbHg9bWF4TGFnLGx5PW1heExhZyxhdXRvTGFnZmxhZz1hdXRvTGFnZmxhZylcbiAgZmxhZzwtQiRYZ0NzWV90cm5zXG4gIHByaW50KHNwcmludGYoXCJpJWQsVEZyYXRpbyVmXCIsaSxCJFRFcmF0aW8pIClcbn1cbmNvdW50MzwtY291bnQzK2FzLmludGVnZXIoIGZsYWcgKVxufVxuYGBgIn0= -->
+<pre class="r"><code>library(rmatio)
+count3&lt;-0
+for(i in seq(100))
+{
+filename&lt;-sprintf(&quot;data/SimData/SimTrajectoryDir-NORMAL-NORMAL-%d.mat&quot;,i)
+out&lt;-read.mat(filename)
+option=option0
+flag&lt;-FALSE
+if(option==0)
+{
+  B&lt;-VLGrangerFunc(Y=out$Y,X=out$L,gamma=0.5,autoLagflag=autoLagflag,maxLag=maxLag)
+  print(sprintf(&quot;i%d,BICdr%f&quot;,i,B$BICDiffRatio) )
+  flag&lt;- B$XgCsY
+}
+else if(option==1)
+{
+  B&lt;-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=FALSE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag&lt;-B$XgCsY_trns
+  print(sprintf(&quot;i%d,TFratio%f&quot;,i,B$TEratio) )
+}
+else if(option==2)
+{
+  B&lt;-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=TRUE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag&lt;-B$XgCsY_trns
+  print(sprintf(&quot;i%d,TFratio%f&quot;,i,B$TEratio) )
+}
+count3&lt;-count3+as.integer( flag )
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiaTEsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTIsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTMsQklDZHIwLjA1NzM4NVwiXG5bMV0gXCJpNCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNixCSUNkci0wLjM3NTMxN1wiXG5bMV0gXCJpNyxCSUNkci0wLjEwNjQ5N1wiXG5bMV0gXCJpOCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpOSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMTAsQklDZHIwLjAzMDYzN1wiXG5bMV0gXCJpMTEsQklDZHIwLjI0MDcyNFwiXG5bMV0gXCJpMTIsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTEzLEJJQ2RyLTAuMDI1NzQxXCJcblsxXSBcImkxNCxCSUNkci0wLjI4NDY5N1wiXG5bMV0gXCJpMTUsQklDZHIwLjA2NzQ0NFwiXG5bMV0gXCJpMTYsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTE3LEJJQ2RyLTAuMjUwOTA5XCJcblsxXSBcImkxOCxCSUNkcjAuMDY0MzczXCJcblsxXSBcImkxOSxCSUNkcjAuMDM4ODgyXCJcblsxXSBcImkyMCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMjEsQklDZHItMC4wMjk0ODhcIlxuWzFdIFwiaTIyLEJJQ2RyMC4yNTcxNzRcIlxuWzFdIFwiaTIzLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImkyNCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMjUsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTI2LEJJQ2RyMC4yMjc5NDVcIlxuWzFdIFwiaTI3LEJJQ2RyLTAuMTk0NDU3XCJcblsxXSBcImkyOCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMjksQklDZHIwLjIyMDQ1NFwiXG5bMV0gXCJpMzAsQklDZHIwLjE5MDYxOVwiXG5bMV0gXCJpMzEsQklDZHIwLjMwOTYxOFwiXG5bMV0gXCJpMzIsQklDZHItMC4xMzc2NjlcIlxuWzFdIFwiaTMzLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImkzNCxCSUNkci0wLjUzNTE4OFwiXG5bMV0gXCJpMzUsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTM2LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImkzNyxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMzgsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTM5LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk0MCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNDEsQklDZHIwLjE2NzYxOFwiXG5bMV0gXCJpNDIsQklDZHItMC4wMjY3NjhcIlxuWzFdIFwiaTQzLEJJQ2RyLTAuMTkyMDExXCJcblsxXSBcImk0NCxCSUNkci0wLjIxMDA3OFwiXG5bMV0gXCJpNDUsQklDZHItMC4yNzQxMzBcIlxuWzFdIFwiaTQ2LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk0NyxCSUNkci0wLjEyNzA3N1wiXG5bMV0gXCJpNDgsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTQ5LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk1MCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNTEsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTUyLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk1MyxCSUNkcjAuMTIwNzk1XCJcblsxXSBcImk1NCxCSUNkci0wLjA3NTI5OFwiXG5bMV0gXCJpNTUsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTU2LEJJQ2RyMC4wODgxNTBcIlxuWzFdIFwiaTU3LEJJQ2RyMC4yNjI4ODNcIlxuWzFdIFwiaTU4LEJJQ2RyMC4wOTQ1MTlcIlxuWzFdIFwiaTU5LEJJQ2RyMC4wNzM4NzRcIlxuWzFdIFwiaTYwLEJJQ2RyMC4wOTc2NzVcIlxuWzFdIFwiaTYxLEJJQ2RyLTAuMTYzMTAxXCJcblsxXSBcImk2MixCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNjMsQklDZHIwLjE4NTk1NlwiXG5bMV0gXCJpNjQsQklDZHItMC4yNzQyOTdcIlxuWzFdIFwiaTY1LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk2NixCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNjcsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTY4LEJJQ2RyLTAuMzc1ODQ2XCJcblsxXSBcImk2OSxCSUNkcjAuMjM0ODM5XCJcblsxXSBcImk3MCxCSUNkcjAuMTA4NDg3XCJcblsxXSBcImk3MSxCSUNkcjAuMTUwMzUwXCJcblsxXSBcImk3MixCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNzMsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTc0LEJJQ2RyLTAuMTI4ODk2XCJcblsxXSBcImk3NSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNzYsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTc3LEJJQ2RyLTAuMTI2Njg0XCJcblsxXSBcImk3OCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNzksQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTgwLEJJQ2RyLTAuMjA4NjM5XCJcblsxXSBcImk4MSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpODIsQklDZHIwLjIzODI4MFwiXG5bMV0gXCJpODMsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTg0LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk4NSxCSUNkcjAuMDMwODUxXCJcblsxXSBcImk4NixCSUNkci0wLjIzNjIyN1wiXG5bMV0gXCJpODcsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTg4LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk4OSxCSUNkci0wLjQzNzM4M1wiXG5bMV0gXCJpOTAsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTkxLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk5MixCSUNkcjAuMTM0NTYzXCJcblsxXSBcImk5MyxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpOTQsQklDZHItMC4zODYyMjVcIlxuWzFdIFwiaTk1LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk5NixCSUNkcjAuMjQ2NjU5XCJcblsxXSBcImk5NyxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpOTgsQklDZHIwLjA1Mzg2NlwiXG5bMV0gXCJpOTksQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTEwMCxCSUNkci0wLjI0ODg3N1wiXG4ifQ== -->
+<pre><code>[1] &quot;i1,BICdr-0.026846&quot;
+[1] &quot;i2,BICdr-0.026846&quot;
+[1] &quot;i3,BICdr0.057385&quot;
+[1] &quot;i4,BICdr-0.026846&quot;
+[1] &quot;i5,BICdr-0.026846&quot;
+[1] &quot;i6,BICdr-0.375317&quot;
+[1] &quot;i7,BICdr-0.106497&quot;
+[1] &quot;i8,BICdr-0.026846&quot;
+[1] &quot;i9,BICdr-0.026846&quot;
+[1] &quot;i10,BICdr0.030637&quot;
+[1] &quot;i11,BICdr0.240724&quot;
+[1] &quot;i12,BICdr-0.026846&quot;
+[1] &quot;i13,BICdr-0.025741&quot;
+[1] &quot;i14,BICdr-0.284697&quot;
+[1] &quot;i15,BICdr0.067444&quot;
+[1] &quot;i16,BICdr-0.026846&quot;
+[1] &quot;i17,BICdr-0.250909&quot;
+[1] &quot;i18,BICdr0.064373&quot;
+[1] &quot;i19,BICdr0.038882&quot;
+[1] &quot;i20,BICdr-0.026846&quot;
+[1] &quot;i21,BICdr-0.029488&quot;
+[1] &quot;i22,BICdr0.257174&quot;
+[1] &quot;i23,BICdr-0.026846&quot;
+[1] &quot;i24,BICdr-0.026846&quot;
+[1] &quot;i25,BICdr-0.026846&quot;
+[1] &quot;i26,BICdr0.227945&quot;
+[1] &quot;i27,BICdr-0.194457&quot;
+[1] &quot;i28,BICdr-0.026846&quot;
+[1] &quot;i29,BICdr0.220454&quot;
+[1] &quot;i30,BICdr0.190619&quot;
+[1] &quot;i31,BICdr0.309618&quot;
+[1] &quot;i32,BICdr-0.137669&quot;
+[1] &quot;i33,BICdr-0.026846&quot;
+[1] &quot;i34,BICdr-0.535188&quot;
+[1] &quot;i35,BICdr-0.026846&quot;
+[1] &quot;i36,BICdr-0.026846&quot;
+[1] &quot;i37,BICdr-0.026846&quot;
+[1] &quot;i38,BICdr-0.026846&quot;
+[1] &quot;i39,BICdr-0.026846&quot;
+[1] &quot;i40,BICdr-0.026846&quot;
+[1] &quot;i41,BICdr0.167618&quot;
+[1] &quot;i42,BICdr-0.026768&quot;
+[1] &quot;i43,BICdr-0.192011&quot;
+[1] &quot;i44,BICdr-0.210078&quot;
+[1] &quot;i45,BICdr-0.274130&quot;
+[1] &quot;i46,BICdr-0.026846&quot;
+[1] &quot;i47,BICdr-0.127077&quot;
+[1] &quot;i48,BICdr-0.026846&quot;
+[1] &quot;i49,BICdr-0.026846&quot;
+[1] &quot;i50,BICdr-0.026846&quot;
+[1] &quot;i51,BICdr-0.026846&quot;
+[1] &quot;i52,BICdr-0.026846&quot;
+[1] &quot;i53,BICdr0.120795&quot;
+[1] &quot;i54,BICdr-0.075298&quot;
+[1] &quot;i55,BICdr-0.026846&quot;
+[1] &quot;i56,BICdr0.088150&quot;
+[1] &quot;i57,BICdr0.262883&quot;
+[1] &quot;i58,BICdr0.094519&quot;
+[1] &quot;i59,BICdr0.073874&quot;
+[1] &quot;i60,BICdr0.097675&quot;
+[1] &quot;i61,BICdr-0.163101&quot;
+[1] &quot;i62,BICdr-0.026846&quot;
+[1] &quot;i63,BICdr0.185956&quot;
+[1] &quot;i64,BICdr-0.274297&quot;
+[1] &quot;i65,BICdr-0.026846&quot;
+[1] &quot;i66,BICdr-0.026846&quot;
+[1] &quot;i67,BICdr-0.026846&quot;
+[1] &quot;i68,BICdr-0.375846&quot;
+[1] &quot;i69,BICdr0.234839&quot;
+[1] &quot;i70,BICdr0.108487&quot;
+[1] &quot;i71,BICdr0.150350&quot;
+[1] &quot;i72,BICdr-0.026846&quot;
+[1] &quot;i73,BICdr-0.026846&quot;
+[1] &quot;i74,BICdr-0.128896&quot;
+[1] &quot;i75,BICdr-0.026846&quot;
+[1] &quot;i76,BICdr-0.026846&quot;
+[1] &quot;i77,BICdr-0.126684&quot;
+[1] &quot;i78,BICdr-0.026846&quot;
+[1] &quot;i79,BICdr-0.026846&quot;
+[1] &quot;i80,BICdr-0.208639&quot;
+[1] &quot;i81,BICdr-0.026846&quot;
+[1] &quot;i82,BICdr0.238280&quot;
+[1] &quot;i83,BICdr-0.026846&quot;
+[1] &quot;i84,BICdr-0.026846&quot;
+[1] &quot;i85,BICdr0.030851&quot;
+[1] &quot;i86,BICdr-0.236227&quot;
+[1] &quot;i87,BICdr-0.026846&quot;
+[1] &quot;i88,BICdr-0.026846&quot;
+[1] &quot;i89,BICdr-0.437383&quot;
+[1] &quot;i90,BICdr-0.026846&quot;
+[1] &quot;i91,BICdr-0.026846&quot;
+[1] &quot;i92,BICdr0.134563&quot;
+[1] &quot;i93,BICdr-0.026846&quot;
+[1] &quot;i94,BICdr-0.386225&quot;
+[1] &quot;i95,BICdr-0.026846&quot;
+[1] &quot;i96,BICdr0.246659&quot;
+[1] &quot;i97,BICdr-0.026846&quot;
+[1] &quot;i98,BICdr0.053866&quot;
+[1] &quot;i99,BICdr-0.026846&quot;
+[1] &quot;i100,BICdr-0.248877&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY291bnQzXG5gYGAifQ== -->
+<pre class="r"><code>count3</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
+<pre><code>[1] 0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShybWF0aW8pXG5jb3VudDQ8LTBcbmZvcihpIGluIHNlcSgxMDApKVxue1xuZmlsZW5hbWU8LXNwcmludGYoXCJkYXRhL1NpbURhdGEvU2ltVHJhamVjdG9yeURpci1BUk1BLUZPTEwtJWQubWF0XCIsaSlcbm91dDwtcmVhZC5tYXQoZmlsZW5hbWUpXG5vcHRpb249b3B0aW9uMFxuZmxhZzwtRkFMU0VcbmlmKG9wdGlvbj09MClcbntcbiAgQjwtVkxHcmFuZ2VyRnVuYyhZPW91dCRZLFg9b3V0JEwsZ2FtbWE9MC41LGF1dG9MYWdmbGFnPWF1dG9MYWdmbGFnLG1heExhZz1tYXhMYWcpXG4gIHByaW50KHNwcmludGYoXCJpJWQsQklDZHIlZlwiLGksQiRCSUNEaWZmUmF0aW8pIClcbiAgZmxhZzwtIEIkWGdDc1lcbn1cbmVsc2UgaWYob3B0aW9uPT0xKVxue1xuICBCPC1WTFRyYW5zZmVyRW50cm9weShZPW91dCRZLFg9b3V0JEwsVkxmbGFnPUZBTFNFLG1heExhZz1tYXhMYWcsbHg9bWF4TGFnLGx5PW1heExhZyxhdXRvTGFnZmxhZz1hdXRvTGFnZmxhZylcbiAgZmxhZzwtQiRYZ0NzWV90cm5zXG4gIHByaW50KHNwcmludGYoXCJpJWQsVEZyYXRpbyVmXCIsaSxCJFRFcmF0aW8pIClcbn1cbmVsc2UgaWYob3B0aW9uPT0yKVxue1xuICBCPC1WTFRyYW5zZmVyRW50cm9weShZPW91dCRZLFg9b3V0JEwsVkxmbGFnPVRSVUUsbWF4TGFnPW1heExhZyxseD1tYXhMYWcsbHk9bWF4TGFnLGF1dG9MYWdmbGFnPWF1dG9MYWdmbGFnKVxuICBmbGFnPC1CJFhnQ3NZX3RybnNcbiAgcHJpbnQoc3ByaW50ZihcImklZCxURnJhdGlvJWZcIixpLEIkVEVyYXRpbykgKVxufVxuY291bnQ0PC1jb3VudDQrYXMuaW50ZWdlciggZmxhZyApXG59XG5gYGAifQ== -->
+<pre class="r"><code>library(rmatio)
+count4&lt;-0
+for(i in seq(100))
+{
+filename&lt;-sprintf(&quot;data/SimData/SimTrajectoryDir-ARMA-FOLL-%d.mat&quot;,i)
+out&lt;-read.mat(filename)
+option=option0
+flag&lt;-FALSE
+if(option==0)
+{
+  B&lt;-VLGrangerFunc(Y=out$Y,X=out$L,gamma=0.5,autoLagflag=autoLagflag,maxLag=maxLag)
+  print(sprintf(&quot;i%d,BICdr%f&quot;,i,B$BICDiffRatio) )
+  flag&lt;- B$XgCsY
+}
+else if(option==1)
+{
+  B&lt;-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=FALSE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag&lt;-B$XgCsY_trns
+  print(sprintf(&quot;i%d,TFratio%f&quot;,i,B$TEratio) )
+}
+else if(option==2)
+{
+  B&lt;-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=TRUE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag&lt;-B$XgCsY_trns
+  print(sprintf(&quot;i%d,TFratio%f&quot;,i,B$TEratio) )
+}
+count4&lt;-count4+as.integer( flag )
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiaTEsQklDZHIwLjkyNzA4OFwiXG5bMV0gXCJpMixCSUNkcjAuODgxOTA4XCJcblsxXSBcImkzLEJJQ2RyMC45MTY2MTZcIlxuWzFdIFwiaTQsQklDZHIwLjgzOTAzNlwiXG5bMV0gXCJpNSxCSUNkcjAuOTAwOTczXCJcblsxXSBcImk2LEJJQ2RyMC44NzI4MTBcIlxuWzFdIFwiaTcsQklDZHIwLjYxNDE4NlwiXG5bMV0gXCJpOCxCSUNkcjAuODUxNTI5XCJcblsxXSBcImk5LEJJQ2RyMC45MDQwMTlcIlxuWzFdIFwiaTEwLEJJQ2RyMC42MTU3MTJcIlxuWzFdIFwiaTExLEJJQ2RyMC45MjE0NDRcIlxuWzFdIFwiaTEyLEJJQ2RyMC44NjE0OTlcIlxuWzFdIFwiaTEzLEJJQ2RyMC45NDQ2ODJcIlxuWzFdIFwiaTE0LEJJQ2RyMC45MDcwNjVcIlxuWzFdIFwiaTE1LEJJQ2RyMC43NDE1MDFcIlxuWzFdIFwiaTE2LEJJQ2RyMC44MjI0NzVcIlxuWzFdIFwiaTE3LEJJQ2RyMC45Mzc5MThcIlxuWzFdIFwiaTE4LEJJQ2RyMC43OTY1MTJcIlxuWzFdIFwiaTE5LEJJQ2RyMC44Nzg0ODNcIlxuWzFdIFwiaTIwLEJJQ2RyMC44NjE2NzVcIlxuWzFdIFwiaTIxLEJJQ2RyMC45MDA4ODZcIlxuWzFdIFwiaTIyLEJJQ2RyMC43NzkzMjhcIlxuWzFdIFwiaTIzLEJJQ2RyMC44MDQxMDJcIlxuWzFdIFwiaTI0LEJJQ2RyMC44NTg0MzhcIlxuWzFdIFwiaTI1LEJJQ2RyMC45MTc1NTZcIlxuWzFdIFwiaTI2LEJJQ2RyMC45MTQzNTNcIlxuWzFdIFwiaTI3LEJJQ2RyMC45MTM2NzdcIlxuWzFdIFwiaTI4LEJJQ2RyMC44NDgxNDRcIlxuWzFdIFwiaTI5LEJJQ2RyMC44ODA1NTVcIlxuWzFdIFwiaTMwLEJJQ2RyMC44MzAxNzNcIlxuWzFdIFwiaTMxLEJJQ2RyMC44OTkxMzdcIlxuWzFdIFwiaTMyLEJJQ2RyMC44NzU4NTJcIlxuWzFdIFwiaTMzLEJJQ2RyMC44MDYwNzRcIlxuWzFdIFwiaTM0LEJJQ2RyMC44Mzc3OTZcIlxuWzFdIFwiaTM1LEJJQ2RyMC43OTczMTJcIlxuWzFdIFwiaTM2LEJJQ2RyMC43MTI4MTdcIlxuWzFdIFwiaTM3LEJJQ2RyMC44MTIwNjVcIlxuWzFdIFwiaTM4LEJJQ2RyMC45MDgxMDFcIlxuWzFdIFwiaTM5LEJJQ2RyMC43NDU4NzdcIlxuWzFdIFwiaTQwLEJJQ2RyMC44NzE2NjRcIlxuWzFdIFwiaTQxLEJJQ2RyMC44NTYwNDFcIlxuWzFdIFwiaTQyLEJJQ2RyMC43NTE4NjJcIlxuWzFdIFwiaTQzLEJJQ2RyMC43NzQwMTJcIlxuWzFdIFwiaTQ0LEJJQ2RyMC45MDY1MDJcIlxuWzFdIFwiaTQ1LEJJQ2RyMC45NTA5MjNcIlxuWzFdIFwiaTQ2LEJJQ2RyMC43OTAxMDhcIlxuWzFdIFwiaTQ3LEJJQ2RyMC45NDIwNTRcIlxuWzFdIFwiaTQ4LEJJQ2RyMC44ODUwNzJcIlxuWzFdIFwiaTQ5LEJJQ2RyMC44OTM5NzFcIlxuWzFdIFwiaTUwLEJJQ2RyMC44NTEzMjVcIlxuWzFdIFwiaTUxLEJJQ2RyMC45MTQ1OTZcIlxuWzFdIFwiaTUyLEJJQ2RyMC44NjQ1NjFcIlxuWzFdIFwiaTUzLEJJQ2RyMC45MDE5NzVcIlxuWzFdIFwiaTU0LEJJQ2RyMC44MzUzMTBcIlxuWzFdIFwiaTU1LEJJQ2RyMC44ODQ1MjdcIlxuWzFdIFwiaTU2LEJJQ2RyMC45NTAzNDNcIlxuWzFdIFwiaTU3LEJJQ2RyMC44NjM0NTNcIlxuWzFdIFwiaTU4LEJJQ2RyMC44NDM0ODBcIlxuWzFdIFwiaTU5LEJJQ2RyMC45MjE5OThcIlxuWzFdIFwiaTYwLEJJQ2RyMC44MzgyNDFcIlxuWzFdIFwiaTYxLEJJQ2RyMC45NzI3MzVcIlxuWzFdIFwiaTYyLEJJQ2RyMC45MDg2MDZcIlxuWzFdIFwiaTYzLEJJQ2RyMC44MjYzNzhcIlxuWzFdIFwiaTY0LEJJQ2RyMC44NjI5ODFcIlxuWzFdIFwiaTY1LEJJQ2RyMC45MTIyMzJcIlxuWzFdIFwiaTY2LEJJQ2RyMC45MDUwMjNcIlxuWzFdIFwiaTY3LEJJQ2RyMC44NDEyMzhcIlxuWzFdIFwiaTY4LEJJQ2RyMC44NDQ2NjJcIlxuWzFdIFwiaTY5LEJJQ2RyMC43NjgyMzZcIlxuWzFdIFwiaTcwLEJJQ2RyMC45MDk1MjNcIlxuWzFdIFwiaTcxLEJJQ2RyMC43MDkxODRcIlxuWzFdIFwiaTcyLEJJQ2RyMC45NDIwNTJcIlxuWzFdIFwiaTczLEJJQ2RyMC44NTA1ODhcIlxuWzFdIFwiaTc0LEJJQ2RyMC43Mzk1MDJcIlxuWzFdIFwiaTc1LEJJQ2RyMC45MDI4MzdcIlxuWzFdIFwiaTc2LEJJQ2RyMC43NjIxMTdcIlxuWzFdIFwiaTc3LEJJQ2RyMC43NDEzNjhcIlxuWzFdIFwiaTc4LEJJQ2RyMC45NDE3ODdcIlxuWzFdIFwiaTc5LEJJQ2RyMC44NjIzNTBcIlxuWzFdIFwiaTgwLEJJQ2RyMC44MjIxNDRcIlxuWzFdIFwiaTgxLEJJQ2RyMC44OTMzNzhcIlxuWzFdIFwiaTgyLEJJQ2RyMC44NDc4NDlcIlxuWzFdIFwiaTgzLEJJQ2RyMC44NDAzMDFcIlxuWzFdIFwiaTg0LEJJQ2RyMC44NzY2NDhcIlxuWzFdIFwiaTg1LEJJQ2RyMC42NDgxMjhcIlxuWzFdIFwiaTg2LEJJQ2RyMC44NTA2OTVcIlxuWzFdIFwiaTg3LEJJQ2RyMC45MDc5OTZcIlxuWzFdIFwiaTg4LEJJQ2RyMC43NTYyNTBcIlxuWzFdIFwiaTg5LEJJQ2RyMC44MDkxNzhcIlxuWzFdIFwiaTkwLEJJQ2RyMC43NDI4NzRcIlxuWzFdIFwiaTkxLEJJQ2RyMC44ODUyNTFcIlxuWzFdIFwiaTkyLEJJQ2RyMC45NDc5OTJcIlxuWzFdIFwiaTkzLEJJQ2RyMC44OTM2NzNcIlxuWzFdIFwiaTk0LEJJQ2RyMC45MTcxMDdcIlxuWzFdIFwiaTk1LEJJQ2RyMC43ODg2NDJcIlxuWzFdIFwiaTk2LEJJQ2RyMC44NjA4MjVcIlxuWzFdIFwiaTk3LEJJQ2RyMC43NTUyODhcIlxuWzFdIFwiaTk4LEJJQ2RyMC43NDE5MjZcIlxuWzFdIFwiaTk5LEJJQ2RyMC40OTMzNzFcIlxuWzFdIFwiaTEwMCxCSUNkcjAuNTYwNTQ1XCJcbiJ9 -->
+<pre><code>[1] &quot;i1,BICdr0.927088&quot;
+[1] &quot;i2,BICdr0.881908&quot;
+[1] &quot;i3,BICdr0.916616&quot;
+[1] &quot;i4,BICdr0.839036&quot;
+[1] &quot;i5,BICdr0.900973&quot;
+[1] &quot;i6,BICdr0.872810&quot;
+[1] &quot;i7,BICdr0.614186&quot;
+[1] &quot;i8,BICdr0.851529&quot;
+[1] &quot;i9,BICdr0.904019&quot;
+[1] &quot;i10,BICdr0.615712&quot;
+[1] &quot;i11,BICdr0.921444&quot;
+[1] &quot;i12,BICdr0.861499&quot;
+[1] &quot;i13,BICdr0.944682&quot;
+[1] &quot;i14,BICdr0.907065&quot;
+[1] &quot;i15,BICdr0.741501&quot;
+[1] &quot;i16,BICdr0.822475&quot;
+[1] &quot;i17,BICdr0.937918&quot;
+[1] &quot;i18,BICdr0.796512&quot;
+[1] &quot;i19,BICdr0.878483&quot;
+[1] &quot;i20,BICdr0.861675&quot;
+[1] &quot;i21,BICdr0.900886&quot;
+[1] &quot;i22,BICdr0.779328&quot;
+[1] &quot;i23,BICdr0.804102&quot;
+[1] &quot;i24,BICdr0.858438&quot;
+[1] &quot;i25,BICdr0.917556&quot;
+[1] &quot;i26,BICdr0.914353&quot;
+[1] &quot;i27,BICdr0.913677&quot;
+[1] &quot;i28,BICdr0.848144&quot;
+[1] &quot;i29,BICdr0.880555&quot;
+[1] &quot;i30,BICdr0.830173&quot;
+[1] &quot;i31,BICdr0.899137&quot;
+[1] &quot;i32,BICdr0.875852&quot;
+[1] &quot;i33,BICdr0.806074&quot;
+[1] &quot;i34,BICdr0.837796&quot;
+[1] &quot;i35,BICdr0.797312&quot;
+[1] &quot;i36,BICdr0.712817&quot;
+[1] &quot;i37,BICdr0.812065&quot;
+[1] &quot;i38,BICdr0.908101&quot;
+[1] &quot;i39,BICdr0.745877&quot;
+[1] &quot;i40,BICdr0.871664&quot;
+[1] &quot;i41,BICdr0.856041&quot;
+[1] &quot;i42,BICdr0.751862&quot;
+[1] &quot;i43,BICdr0.774012&quot;
+[1] &quot;i44,BICdr0.906502&quot;
+[1] &quot;i45,BICdr0.950923&quot;
+[1] &quot;i46,BICdr0.790108&quot;
+[1] &quot;i47,BICdr0.942054&quot;
+[1] &quot;i48,BICdr0.885072&quot;
+[1] &quot;i49,BICdr0.893971&quot;
+[1] &quot;i50,BICdr0.851325&quot;
+[1] &quot;i51,BICdr0.914596&quot;
+[1] &quot;i52,BICdr0.864561&quot;
+[1] &quot;i53,BICdr0.901975&quot;
+[1] &quot;i54,BICdr0.835310&quot;
+[1] &quot;i55,BICdr0.884527&quot;
+[1] &quot;i56,BICdr0.950343&quot;
+[1] &quot;i57,BICdr0.863453&quot;
+[1] &quot;i58,BICdr0.843480&quot;
+[1] &quot;i59,BICdr0.921998&quot;
+[1] &quot;i60,BICdr0.838241&quot;
+[1] &quot;i61,BICdr0.972735&quot;
+[1] &quot;i62,BICdr0.908606&quot;
+[1] &quot;i63,BICdr0.826378&quot;
+[1] &quot;i64,BICdr0.862981&quot;
+[1] &quot;i65,BICdr0.912232&quot;
+[1] &quot;i66,BICdr0.905023&quot;
+[1] &quot;i67,BICdr0.841238&quot;
+[1] &quot;i68,BICdr0.844662&quot;
+[1] &quot;i69,BICdr0.768236&quot;
+[1] &quot;i70,BICdr0.909523&quot;
+[1] &quot;i71,BICdr0.709184&quot;
+[1] &quot;i72,BICdr0.942052&quot;
+[1] &quot;i73,BICdr0.850588&quot;
+[1] &quot;i74,BICdr0.739502&quot;
+[1] &quot;i75,BICdr0.902837&quot;
+[1] &quot;i76,BICdr0.762117&quot;
+[1] &quot;i77,BICdr0.741368&quot;
+[1] &quot;i78,BICdr0.941787&quot;
+[1] &quot;i79,BICdr0.862350&quot;
+[1] &quot;i80,BICdr0.822144&quot;
+[1] &quot;i81,BICdr0.893378&quot;
+[1] &quot;i82,BICdr0.847849&quot;
+[1] &quot;i83,BICdr0.840301&quot;
+[1] &quot;i84,BICdr0.876648&quot;
+[1] &quot;i85,BICdr0.648128&quot;
+[1] &quot;i86,BICdr0.850695&quot;
+[1] &quot;i87,BICdr0.907996&quot;
+[1] &quot;i88,BICdr0.756250&quot;
+[1] &quot;i89,BICdr0.809178&quot;
+[1] &quot;i90,BICdr0.742874&quot;
+[1] &quot;i91,BICdr0.885251&quot;
+[1] &quot;i92,BICdr0.947992&quot;
+[1] &quot;i93,BICdr0.893673&quot;
+[1] &quot;i94,BICdr0.917107&quot;
+[1] &quot;i95,BICdr0.788642&quot;
+[1] &quot;i96,BICdr0.860825&quot;
+[1] &quot;i97,BICdr0.755288&quot;
+[1] &quot;i98,BICdr0.741926&quot;
+[1] &quot;i99,BICdr0.493371&quot;
+[1] &quot;i100,BICdr0.560545&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY291bnQ0XG5gYGAifQ== -->
+<pre class="r"><code>count4</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDk5XG4ifQ== -->
+<pre><code>[1] 99</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShybWF0aW8pXG5jb3VudDU8LTBcbmZvcihpIGluIHNlcSgxMDApKVxue1xuZmlsZW5hbWU8LXNwcmludGYoXCJkYXRhL1NpbURhdGEvU2ltVHJhamVjdG9yeURpci1BUk1BLUFSTUEtJWQubWF0XCIsaSlcbm91dDwtcmVhZC5tYXQoZmlsZW5hbWUpXG5vcHRpb249b3B0aW9uMFxuZmxhZzwtRkFMU0VcbmlmKG9wdGlvbj09MClcbntcbiAgQjwtVkxHcmFuZ2VyRnVuYyhZPW91dCRZLFg9b3V0JEwsZ2FtbWE9MC41LGF1dG9MYWdmbGFnPWF1dG9MYWdmbGFnLG1heExhZz1tYXhMYWcpXG4gIHByaW50KHNwcmludGYoXCJpJWQsQklDZHIlZlwiLGksQiRCSUNEaWZmUmF0aW8pIClcbiAgZmxhZzwtIEIkWGdDc1lcbn1cbmVsc2UgaWYob3B0aW9uPT0xKVxue1xuICBCPC1WTFRyYW5zZmVyRW50cm9weShZPW91dCRZLFg9b3V0JEwsVkxmbGFnPUZBTFNFLG1heExhZz1tYXhMYWcsbHg9bWF4TGFnLGx5PW1heExhZyxhdXRvTGFnZmxhZz1hdXRvTGFnZmxhZylcbiAgZmxhZzwtQiRYZ0NzWV90cm5zXG4gIHByaW50KHNwcmludGYoXCJpJWQsVEZyYXRpbyVmXCIsaSxCJFRFcmF0aW8pIClcbn1cbmVsc2UgaWYob3B0aW9uPT0yKVxue1xuICBCPC1WTFRyYW5zZmVyRW50cm9weShZPW91dCRZLFg9b3V0JEwsVkxmbGFnPVRSVUUsbWF4TGFnPW1heExhZyxseD1tYXhMYWcsbHk9bWF4TGFnLGF1dG9MYWdmbGFnPWF1dG9MYWdmbGFnKVxuICBmbGFnPC1CJFhnQ3NZX3RybnNcbiAgcHJpbnQoc3ByaW50ZihcImklZCxURnJhdGlvJWZcIixpLEIkVEVyYXRpbykgKVxufVxuY291bnQ1PC1jb3VudDUrYXMuaW50ZWdlciggZmxhZyApXG59XG5gYGAifQ== -->
+<pre class="r"><code>library(rmatio)
+count5&lt;-0
+for(i in seq(100))
+{
+filename&lt;-sprintf(&quot;data/SimData/SimTrajectoryDir-ARMA-ARMA-%d.mat&quot;,i)
+out&lt;-read.mat(filename)
+option=option0
+flag&lt;-FALSE
+if(option==0)
+{
+  B&lt;-VLGrangerFunc(Y=out$Y,X=out$L,gamma=0.5,autoLagflag=autoLagflag,maxLag=maxLag)
+  print(sprintf(&quot;i%d,BICdr%f&quot;,i,B$BICDiffRatio) )
+  flag&lt;- B$XgCsY
+}
+else if(option==1)
+{
+  B&lt;-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=FALSE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag&lt;-B$XgCsY_trns
+  print(sprintf(&quot;i%d,TFratio%f&quot;,i,B$TEratio) )
+}
+else if(option==2)
+{
+  B&lt;-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=TRUE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag&lt;-B$XgCsY_trns
+  print(sprintf(&quot;i%d,TFratio%f&quot;,i,B$TEratio) )
+}
+count5&lt;-count5+as.integer( flag )
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiaTEsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTIsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTMsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTQsQklDZHItMC4zNDc5MjFcIlxuWzFdIFwiaTUsQklDZHIwLjEwNTgzMFwiXG5bMV0gXCJpNixCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNyxCSUNkcjAuMjMxNDEwXCJcblsxXSBcImk4LEJJQ2RyLTAuNTAyNTc0XCJcblsxXSBcImk5LEJJQ2RyMC4xODYzNTVcIlxuWzFdIFwiaTEwLEJJQ2RyLTAuMzU2NDM0XCJcblsxXSBcImkxMSxCSUNkcjAuMjc0MDY1XCJcblsxXSBcImkxMixCSUNkci0wLjMxNjg1OVwiXG5bMV0gXCJpMTMsQklDZHItMC4wODcwODZcIlxuWzFdIFwiaTE0LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImkxNSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMTYsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTE3LEJJQ2RyLTAuMjYwNjQyXCJcblsxXSBcImkxOCxCSUNkci0wLjEyMjc1N1wiXG5bMV0gXCJpMTksQklDZHIwLjI3NTI2NlwiXG5bMV0gXCJpMjAsQklDZHItMC4xMDc1NzdcIlxuWzFdIFwiaTIxLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImkyMixCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMjMsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTI0LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImkyNSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMjYsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTI3LEJJQ2RyLTAuMTA1MzYxXCJcblsxXSBcImkyOCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMjksQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTMwLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImkzMSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMzIsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTMzLEJJQ2RyMC4xODI2NzdcIlxuWzFdIFwiaTM0LEJJQ2RyMC4wNTczMTlcIlxuWzFdIFwiaTM1LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImkzNixCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMzcsQklDZHIwLjEyMjQ1MlwiXG5bMV0gXCJpMzgsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTM5LEJJQ2RyMC4yODAyMjlcIlxuWzFdIFwiaTQwLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk0MSxCSUNkci0wLjE5OTY2OFwiXG5bMV0gXCJpNDIsQklDZHItMC4yMjc5MTFcIlxuWzFdIFwiaTQzLEJJQ2RyLTAuMDI0ODc2XCJcblsxXSBcImk0NCxCSUNkci0wLjU1NTc3NlwiXG5bMV0gXCJpNDUsQklDZHItMC41OTkzODZcIlxuWzFdIFwiaTQ2LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk0NyxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNDgsQklDZHIwLjMxMjUzN1wiXG5bMV0gXCJpNDksQklDZHIwLjA0NjE0MVwiXG5bMV0gXCJpNTAsQklDZHItMC41ODM5NDVcIlxuWzFdIFwiaTUxLEJJQ2RyLTAuMzYwNDgyXCJcblsxXSBcImk1MixCSUNkci0wLjE0MDE1M1wiXG5bMV0gXCJpNTMsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTU0LEJJQ2RyLTAuMjE3MDU3XCJcblsxXSBcImk1NSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNTYsQklDZHIwLjEyNDk2NlwiXG5bMV0gXCJpNTcsQklDZHItMC4zOTU2OTFcIlxuWzFdIFwiaTU4LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk1OSxCSUNkci0wLjUzMDM3OVwiXG5bMV0gXCJpNjAsQklDZHIwLjAwNjY3M1wiXG5bMV0gXCJpNjEsQklDZHItMC4wMjY4NDNcIlxuWzFdIFwiaTYyLEJJQ2RyMC4yNDIyNzFcIlxuWzFdIFwiaTYzLEJJQ2RyMC4wNDQ2NzZcIlxuWzFdIFwiaTY0LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk2NSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNjYsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTY3LEJJQ2RyMC4xOTc4NDZcIlxuWzFdIFwiaTY4LEJJQ2RyLTAuMDI2Njc1XCJcblsxXSBcImk2OSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNzAsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTcxLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk3MixCSUNkcjAuMTk5NzkyXCJcblsxXSBcImk3MyxCSUNkcjAuMTg0MDAwXCJcblsxXSBcImk3NCxCSUNkci0wLjAyMzE1MlwiXG5bMV0gXCJpNzUsQklDZHItMC4zNjk0MzRcIlxuWzFdIFwiaTc2LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk3NyxCSUNkcjAuMjI1Mjg3XCJcblsxXSBcImk3OCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNzksQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTgwLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk4MSxCSUNkci0wLjIzNTAyMFwiXG5bMV0gXCJpODIsQklDZHIwLjAxMDAyOFwiXG5bMV0gXCJpODMsQklDZHItMC4wMDk4MjZcIlxuWzFdIFwiaTg0LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk4NSxCSUNkci0wLjI1Nzk1MVwiXG5bMV0gXCJpODYsQklDZHIwLjE1NTkzNFwiXG5bMV0gXCJpODcsQklDZHItMC4yNjM3NDZcIlxuWzFdIFwiaTg4LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk4OSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpOTAsQklDZHItMC4xODM4NTdcIlxuWzFdIFwiaTkxLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk5MixCSUNkcjAuMjIxMjc0XCJcblsxXSBcImk5MyxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpOTQsQklDZHItMC4wMjQzNjRcIlxuWzFdIFwiaTk1LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk5NixCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpOTcsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTk4LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk5OSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMTAwLEJJQ2RyLTAuMDI2ODQ2XCJcbiJ9 -->
+<pre><code>[1] &quot;i1,BICdr-0.026846&quot;
+[1] &quot;i2,BICdr-0.026846&quot;
+[1] &quot;i3,BICdr-0.026846&quot;
+[1] &quot;i4,BICdr-0.347921&quot;
+[1] &quot;i5,BICdr0.105830&quot;
+[1] &quot;i6,BICdr-0.026846&quot;
+[1] &quot;i7,BICdr0.231410&quot;
+[1] &quot;i8,BICdr-0.502574&quot;
+[1] &quot;i9,BICdr0.186355&quot;
+[1] &quot;i10,BICdr-0.356434&quot;
+[1] &quot;i11,BICdr0.274065&quot;
+[1] &quot;i12,BICdr-0.316859&quot;
+[1] &quot;i13,BICdr-0.087086&quot;
+[1] &quot;i14,BICdr-0.026846&quot;
+[1] &quot;i15,BICdr-0.026846&quot;
+[1] &quot;i16,BICdr-0.026846&quot;
+[1] &quot;i17,BICdr-0.260642&quot;
+[1] &quot;i18,BICdr-0.122757&quot;
+[1] &quot;i19,BICdr0.275266&quot;
+[1] &quot;i20,BICdr-0.107577&quot;
+[1] &quot;i21,BICdr-0.026846&quot;
+[1] &quot;i22,BICdr-0.026846&quot;
+[1] &quot;i23,BICdr-0.026846&quot;
+[1] &quot;i24,BICdr-0.026846&quot;
+[1] &quot;i25,BICdr-0.026846&quot;
+[1] &quot;i26,BICdr-0.026846&quot;
+[1] &quot;i27,BICdr-0.105361&quot;
+[1] &quot;i28,BICdr-0.026846&quot;
+[1] &quot;i29,BICdr-0.026846&quot;
+[1] &quot;i30,BICdr-0.026846&quot;
+[1] &quot;i31,BICdr-0.026846&quot;
+[1] &quot;i32,BICdr-0.026846&quot;
+[1] &quot;i33,BICdr0.182677&quot;
+[1] &quot;i34,BICdr0.057319&quot;
+[1] &quot;i35,BICdr-0.026846&quot;
+[1] &quot;i36,BICdr-0.026846&quot;
+[1] &quot;i37,BICdr0.122452&quot;
+[1] &quot;i38,BICdr-0.026846&quot;
+[1] &quot;i39,BICdr0.280229&quot;
+[1] &quot;i40,BICdr-0.026846&quot;
+[1] &quot;i41,BICdr-0.199668&quot;
+[1] &quot;i42,BICdr-0.227911&quot;
+[1] &quot;i43,BICdr-0.024876&quot;
+[1] &quot;i44,BICdr-0.555776&quot;
+[1] &quot;i45,BICdr-0.599386&quot;
+[1] &quot;i46,BICdr-0.026846&quot;
+[1] &quot;i47,BICdr-0.026846&quot;
+[1] &quot;i48,BICdr0.312537&quot;
+[1] &quot;i49,BICdr0.046141&quot;
+[1] &quot;i50,BICdr-0.583945&quot;
+[1] &quot;i51,BICdr-0.360482&quot;
+[1] &quot;i52,BICdr-0.140153&quot;
+[1] &quot;i53,BICdr-0.026846&quot;
+[1] &quot;i54,BICdr-0.217057&quot;
+[1] &quot;i55,BICdr-0.026846&quot;
+[1] &quot;i56,BICdr0.124966&quot;
+[1] &quot;i57,BICdr-0.395691&quot;
+[1] &quot;i58,BICdr-0.026846&quot;
+[1] &quot;i59,BICdr-0.530379&quot;
+[1] &quot;i60,BICdr0.006673&quot;
+[1] &quot;i61,BICdr-0.026843&quot;
+[1] &quot;i62,BICdr0.242271&quot;
+[1] &quot;i63,BICdr0.044676&quot;
+[1] &quot;i64,BICdr-0.026846&quot;
+[1] &quot;i65,BICdr-0.026846&quot;
+[1] &quot;i66,BICdr-0.026846&quot;
+[1] &quot;i67,BICdr0.197846&quot;
+[1] &quot;i68,BICdr-0.026675&quot;
+[1] &quot;i69,BICdr-0.026846&quot;
+[1] &quot;i70,BICdr-0.026846&quot;
+[1] &quot;i71,BICdr-0.026846&quot;
+[1] &quot;i72,BICdr0.199792&quot;
+[1] &quot;i73,BICdr0.184000&quot;
+[1] &quot;i74,BICdr-0.023152&quot;
+[1] &quot;i75,BICdr-0.369434&quot;
+[1] &quot;i76,BICdr-0.026846&quot;
+[1] &quot;i77,BICdr0.225287&quot;
+[1] &quot;i78,BICdr-0.026846&quot;
+[1] &quot;i79,BICdr-0.026846&quot;
+[1] &quot;i80,BICdr-0.026846&quot;
+[1] &quot;i81,BICdr-0.235020&quot;
+[1] &quot;i82,BICdr0.010028&quot;
+[1] &quot;i83,BICdr-0.009826&quot;
+[1] &quot;i84,BICdr-0.026846&quot;
+[1] &quot;i85,BICdr-0.257951&quot;
+[1] &quot;i86,BICdr0.155934&quot;
+[1] &quot;i87,BICdr-0.263746&quot;
+[1] &quot;i88,BICdr-0.026846&quot;
+[1] &quot;i89,BICdr-0.026846&quot;
+[1] &quot;i90,BICdr-0.183857&quot;
+[1] &quot;i91,BICdr-0.026846&quot;
+[1] &quot;i92,BICdr0.221274&quot;
+[1] &quot;i93,BICdr-0.026846&quot;
+[1] &quot;i94,BICdr-0.024364&quot;
+[1] &quot;i95,BICdr-0.026846&quot;
+[1] &quot;i96,BICdr-0.026846&quot;
+[1] &quot;i97,BICdr-0.026846&quot;
+[1] &quot;i98,BICdr-0.026846&quot;
+[1] &quot;i99,BICdr-0.026846&quot;
+[1] &quot;i100,BICdr-0.026846&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY291bnQ1XG5gYGAifQ== -->
+<pre class="r"><code>count5</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
+<pre><code>[1] 0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShybWF0aW8pXG5jb3VudDY8LTBcbmZvcihpIGluIHNlcSgxMDApKVxue1xuZmlsZW5hbWU8LXNwcmludGYoXCJkYXRhL1NpbURhdGEvU2ltVHJhamVjdG9yeURpci1BUk1BLU5PUk1BTC0lZC5tYXRcIixpKVxub3V0PC1yZWFkLm1hdChmaWxlbmFtZSlcbm9wdGlvbj1vcHRpb24wXG5mbGFnPC1GQUxTRVxuaWYob3B0aW9uPT0wKVxue1xuICBCPC1WTEdyYW5nZXJGdW5jKFk9b3V0JFksWD1vdXQkTCxnYW1tYT0wLjUsYXV0b0xhZ2ZsYWc9YXV0b0xhZ2ZsYWcsbWF4TGFnPW1heExhZylcbiAgcHJpbnQoc3ByaW50ZihcImklZCxCSUNkciVmXCIsaSxCJEJJQ0RpZmZSYXRpbykgKVxuICBmbGFnPC0gQiRYZ0NzWVxufVxuZWxzZSBpZihvcHRpb249PTEpXG57XG4gIEI8LVZMVHJhbnNmZXJFbnRyb3B5KFk9b3V0JFksWD1vdXQkTCxWTGZsYWc9RkFMU0UsbWF4TGFnPW1heExhZyxseD1tYXhMYWcsbHk9bWF4TGFnLGF1dG9MYWdmbGFnPWF1dG9MYWdmbGFnKVxuICBmbGFnPC1CJFhnQ3NZX3RybnNcbiAgcHJpbnQoc3ByaW50ZihcImklZCxURnJhdGlvJWZcIixpLEIkVEVyYXRpbykgKVxufVxuZWxzZSBpZihvcHRpb249PTIpXG57XG4gIEI8LVZMVHJhbnNmZXJFbnRyb3B5KFk9b3V0JFksWD1vdXQkTCxWTGZsYWc9VFJVRSxtYXhMYWc9bWF4TGFnLGx4PW1heExhZyxseT1tYXhMYWcsYXV0b0xhZ2ZsYWc9YXV0b0xhZ2ZsYWcpXG4gIGZsYWc8LUIkWGdDc1lfdHJuc1xuICBwcmludChzcHJpbnRmKFwiaSVkLFRGcmF0aW8lZlwiLGksQiRURXJhdGlvKSApXG59XG5jb3VudDY8LWNvdW50NSthcy5pbnRlZ2VyKCBmbGFnIClcbn1cbmBgYCJ9 -->
+<pre class="r"><code>library(rmatio)
+count6&lt;-0
+for(i in seq(100))
+{
+filename&lt;-sprintf(&quot;data/SimData/SimTrajectoryDir-ARMA-NORMAL-%d.mat&quot;,i)
+out&lt;-read.mat(filename)
+option=option0
+flag&lt;-FALSE
+if(option==0)
+{
+  B&lt;-VLGrangerFunc(Y=out$Y,X=out$L,gamma=0.5,autoLagflag=autoLagflag,maxLag=maxLag)
+  print(sprintf(&quot;i%d,BICdr%f&quot;,i,B$BICDiffRatio) )
+  flag&lt;- B$XgCsY
+}
+else if(option==1)
+{
+  B&lt;-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=FALSE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag&lt;-B$XgCsY_trns
+  print(sprintf(&quot;i%d,TFratio%f&quot;,i,B$TEratio) )
+}
+else if(option==2)
+{
+  B&lt;-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=TRUE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag&lt;-B$XgCsY_trns
+  print(sprintf(&quot;i%d,TFratio%f&quot;,i,B$TEratio) )
+}
+count6&lt;-count5+as.integer( flag )
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiaTEsQklDZHIwLjEzNzYxNlwiXG5bMV0gXCJpMixCSUNkci0wLjMzMjQ4MVwiXG5bMV0gXCJpMyxCSUNkcjAuMDU4ODkzXCJcblsxXSBcImk0LEJJQ2RyLTAuMjMzODg2XCJcblsxXSBcImk1LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk2LEJJQ2RyLTAuMDE4MjY1XCJcblsxXSBcImk3LEJJQ2RyLTAuMDI0MDk3XCJcblsxXSBcImk4LEJJQ2RyMC4zMTE1OTlcIlxuWzFdIFwiaTksQklDZHItMC4xMjYxNTVcIlxuWzFdIFwiaTEwLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImkxMSxCSUNkci0wLjA4Mjk0OVwiXG5bMV0gXCJpMTIsQklDZHItMC4wMTE1OTRcIlxuWzFdIFwiaTEzLEJJQ2RyLTAuMDUyNjM3XCJcblsxXSBcImkxNCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMTUsQklDZHIwLjE0NTQ1MlwiXG5bMV0gXCJpMTYsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTE3LEJJQ2RyLTAuMDU3NjI3XCJcblsxXSBcImkxOCxCSUNkcjAuMTQzMjgzXCJcblsxXSBcImkxOSxCSUNkci0wLjE5OTk2NVwiXG5bMV0gXCJpMjAsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTIxLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImkyMixCSUNkci0wLjA3NjQwM1wiXG5bMV0gXCJpMjMsQklDZHItMC4wNDg2OTBcIlxuWzFdIFwiaTI0LEJJQ2RyMC4wMzUzMTdcIlxuWzFdIFwiaTI1LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImkyNixCSUNkci0wLjUxOTU0MlwiXG5bMV0gXCJpMjcsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTI4LEJJQ2RyMC4wNDExNTBcIlxuWzFdIFwiaTI5LEJJQ2RyLTAuMzEyMzU2XCJcblsxXSBcImkzMCxCSUNkcjAuMjM3ODY5XCJcblsxXSBcImkzMSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMzIsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTMzLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImkzNCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMzUsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTM2LEJJQ2RyMC4wNzgxODBcIlxuWzFdIFwiaTM3LEJJQ2RyLTAuMDczNzI2XCJcblsxXSBcImkzOCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpMzksQklDZHItMC40MTI0MjNcIlxuWzFdIFwiaTQwLEJJQ2RyMC4yNzYzMDRcIlxuWzFdIFwiaTQxLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk0MixCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNDMsQklDZHItMC4zODQ0NjJcIlxuWzFdIFwiaTQ0LEJJQ2RyLTAuNDE1NTgwXCJcblsxXSBcImk0NSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNDYsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTQ3LEJJQ2RyLTAuMDczODgxXCJcblsxXSBcImk0OCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNDksQklDZHIwLjAwNDI3N1wiXG5bMV0gXCJpNTAsQklDZHItMC4xNjc2MDBcIlxuWzFdIFwiaTUxLEJJQ2RyMC4wNDI2MjlcIlxuWzFdIFwiaTUyLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk1MyxCSUNkcjAuMDg2NDg0XCJcblsxXSBcImk1NCxCSUNkci0wLjAyNTIwNVwiXG5bMV0gXCJpNTUsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTU2LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk1NyxCSUNkcjAuMTI4NTM5XCJcblsxXSBcImk1OCxCSUNkci0wLjA1OTgwNVwiXG5bMV0gXCJpNTksQklDZHItMC4xMDI4ODZcIlxuWzFdIFwiaTYwLEJJQ2RyMC4xMDA2MjNcIlxuWzFdIFwiaTYxLEJJQ2RyMC4wMDgyMjNcIlxuWzFdIFwiaTYyLEJJQ2RyMC4wNjg2NjdcIlxuWzFdIFwiaTYzLEJJQ2RyLTAuMzQ2MTE2XCJcblsxXSBcImk2NCxCSUNkcjAuMDc4MzAwXCJcblsxXSBcImk2NSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNjYsQklDZHItMC4yNDUxNTBcIlxuWzFdIFwiaTY3LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk2OCxCSUNkci0wLjE2NjM4OFwiXG5bMV0gXCJpNjksQklDZHItMC4wOTcyMjVcIlxuWzFdIFwiaTcwLEJJQ2RyLTAuMTgzMDgxXCJcblsxXSBcImk3MSxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNzIsQklDZHItMC4wMjY4NDZcIlxuWzFdIFwiaTczLEJJQ2RyLTAuMjMxNTg1XCJcblsxXSBcImk3NCxCSUNkci0wLjAyNjg0NlwiXG5bMV0gXCJpNzUsQklDZHIwLjEyODA4N1wiXG5bMV0gXCJpNzYsQklDZHIwLjIyMjgxOVwiXG5bMV0gXCJpNzcsQklDZHIwLjEyMDE3NVwiXG5bMV0gXCJpNzgsQklDZHItMC4zNzUzNTFcIlxuWzFdIFwiaTc5LEJJQ2RyLTAuNDM2MjA4XCJcblsxXSBcImk4MCxCSUNkcjAuMTk3OTk3XCJcblsxXSBcImk4MSxCSUNkci0wLjE0MTEzMFwiXG5bMV0gXCJpODIsQklDZHItMC4zMjUxNDFcIlxuWzFdIFwiaTgzLEJJQ2RyLTAuNDQ2OTc3XCJcblsxXSBcImk4NCxCSUNkci0wLjA4NzE1OVwiXG5bMV0gXCJpODUsQklDZHItMC4wOTYxMjVcIlxuWzFdIFwiaTg2LEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk4NyxCSUNkcjAuMDI1NTE2XCJcblsxXSBcImk4OCxCSUNkci0wLjAzMDgyNFwiXG5bMV0gXCJpODksQklDZHItMC4wNjcyMTRcIlxuWzFdIFwiaTkwLEJJQ2RyMC4xMzIwMTJcIlxuWzFdIFwiaTkxLEJJQ2RyMC4yMjAwMzNcIlxuWzFdIFwiaTkyLEJJQ2RyMC4wODY4NTRcIlxuWzFdIFwiaTkzLEJJQ2RyLTAuMDI2ODQ2XCJcblsxXSBcImk5NCxCSUNkcjAuMTczOTIyXCJcblsxXSBcImk5NSxCSUNkci0wLjMxNzkxMlwiXG5bMV0gXCJpOTYsQklDZHItMC4zNDc3OTlcIlxuWzFdIFwiaTk3LEJJQ2RyLTAuMTY3Nzk2XCJcblsxXSBcImk5OCxCSUNkcjAuMDM5ODg3XCJcblsxXSBcImk5OSxCSUNkcjAuMDUwNzc5XCJcblsxXSBcImkxMDAsQklDZHItMC4wMjY4MTFcIlxuIn0= -->
+<pre><code>[1] &quot;i1,BICdr0.137616&quot;
+[1] &quot;i2,BICdr-0.332481&quot;
+[1] &quot;i3,BICdr0.058893&quot;
+[1] &quot;i4,BICdr-0.233886&quot;
+[1] &quot;i5,BICdr-0.026846&quot;
+[1] &quot;i6,BICdr-0.018265&quot;
+[1] &quot;i7,BICdr-0.024097&quot;
+[1] &quot;i8,BICdr0.311599&quot;
+[1] &quot;i9,BICdr-0.126155&quot;
+[1] &quot;i10,BICdr-0.026846&quot;
+[1] &quot;i11,BICdr-0.082949&quot;
+[1] &quot;i12,BICdr-0.011594&quot;
+[1] &quot;i13,BICdr-0.052637&quot;
+[1] &quot;i14,BICdr-0.026846&quot;
+[1] &quot;i15,BICdr0.145452&quot;
+[1] &quot;i16,BICdr-0.026846&quot;
+[1] &quot;i17,BICdr-0.057627&quot;
+[1] &quot;i18,BICdr0.143283&quot;
+[1] &quot;i19,BICdr-0.199965&quot;
+[1] &quot;i20,BICdr-0.026846&quot;
+[1] &quot;i21,BICdr-0.026846&quot;
+[1] &quot;i22,BICdr-0.076403&quot;
+[1] &quot;i23,BICdr-0.048690&quot;
+[1] &quot;i24,BICdr0.035317&quot;
+[1] &quot;i25,BICdr-0.026846&quot;
+[1] &quot;i26,BICdr-0.519542&quot;
+[1] &quot;i27,BICdr-0.026846&quot;
+[1] &quot;i28,BICdr0.041150&quot;
+[1] &quot;i29,BICdr-0.312356&quot;
+[1] &quot;i30,BICdr0.237869&quot;
+[1] &quot;i31,BICdr-0.026846&quot;
+[1] &quot;i32,BICdr-0.026846&quot;
+[1] &quot;i33,BICdr-0.026846&quot;
+[1] &quot;i34,BICdr-0.026846&quot;
+[1] &quot;i35,BICdr-0.026846&quot;
+[1] &quot;i36,BICdr0.078180&quot;
+[1] &quot;i37,BICdr-0.073726&quot;
+[1] &quot;i38,BICdr-0.026846&quot;
+[1] &quot;i39,BICdr-0.412423&quot;
+[1] &quot;i40,BICdr0.276304&quot;
+[1] &quot;i41,BICdr-0.026846&quot;
+[1] &quot;i42,BICdr-0.026846&quot;
+[1] &quot;i43,BICdr-0.384462&quot;
+[1] &quot;i44,BICdr-0.415580&quot;
+[1] &quot;i45,BICdr-0.026846&quot;
+[1] &quot;i46,BICdr-0.026846&quot;
+[1] &quot;i47,BICdr-0.073881&quot;
+[1] &quot;i48,BICdr-0.026846&quot;
+[1] &quot;i49,BICdr0.004277&quot;
+[1] &quot;i50,BICdr-0.167600&quot;
+[1] &quot;i51,BICdr0.042629&quot;
+[1] &quot;i52,BICdr-0.026846&quot;
+[1] &quot;i53,BICdr0.086484&quot;
+[1] &quot;i54,BICdr-0.025205&quot;
+[1] &quot;i55,BICdr-0.026846&quot;
+[1] &quot;i56,BICdr-0.026846&quot;
+[1] &quot;i57,BICdr0.128539&quot;
+[1] &quot;i58,BICdr-0.059805&quot;
+[1] &quot;i59,BICdr-0.102886&quot;
+[1] &quot;i60,BICdr0.100623&quot;
+[1] &quot;i61,BICdr0.008223&quot;
+[1] &quot;i62,BICdr0.068667&quot;
+[1] &quot;i63,BICdr-0.346116&quot;
+[1] &quot;i64,BICdr0.078300&quot;
+[1] &quot;i65,BICdr-0.026846&quot;
+[1] &quot;i66,BICdr-0.245150&quot;
+[1] &quot;i67,BICdr-0.026846&quot;
+[1] &quot;i68,BICdr-0.166388&quot;
+[1] &quot;i69,BICdr-0.097225&quot;
+[1] &quot;i70,BICdr-0.183081&quot;
+[1] &quot;i71,BICdr-0.026846&quot;
+[1] &quot;i72,BICdr-0.026846&quot;
+[1] &quot;i73,BICdr-0.231585&quot;
+[1] &quot;i74,BICdr-0.026846&quot;
+[1] &quot;i75,BICdr0.128087&quot;
+[1] &quot;i76,BICdr0.222819&quot;
+[1] &quot;i77,BICdr0.120175&quot;
+[1] &quot;i78,BICdr-0.375351&quot;
+[1] &quot;i79,BICdr-0.436208&quot;
+[1] &quot;i80,BICdr0.197997&quot;
+[1] &quot;i81,BICdr-0.141130&quot;
+[1] &quot;i82,BICdr-0.325141&quot;
+[1] &quot;i83,BICdr-0.446977&quot;
+[1] &quot;i84,BICdr-0.087159&quot;
+[1] &quot;i85,BICdr-0.096125&quot;
+[1] &quot;i86,BICdr-0.026846&quot;
+[1] &quot;i87,BICdr0.025516&quot;
+[1] &quot;i88,BICdr-0.030824&quot;
+[1] &quot;i89,BICdr-0.067214&quot;
+[1] &quot;i90,BICdr0.132012&quot;
+[1] &quot;i91,BICdr0.220033&quot;
+[1] &quot;i92,BICdr0.086854&quot;
+[1] &quot;i93,BICdr-0.026846&quot;
+[1] &quot;i94,BICdr0.173922&quot;
+[1] &quot;i95,BICdr-0.317912&quot;
+[1] &quot;i96,BICdr-0.347799&quot;
+[1] &quot;i97,BICdr-0.167796&quot;
+[1] &quot;i98,BICdr0.039887&quot;
+[1] &quot;i99,BICdr0.050779&quot;
+[1] &quot;i100,BICdr-0.026811&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY291bnQ2XG5gYGAifQ== -->
+<pre class="r"><code>count6</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
+<pre><code>[1] 0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQoNCmBgYHtyfQ0KbGlicmFyeShWTFRpbWVDYXVzYWxpdHkpDQpjb3VudDE8LTANCmZvcihpIGluIHNlcSgxMCkpDQp7IA0KICB4MTwtcm5vcm0oMjAwLDAsMSkNCiAgeDI8LXJ1bmlmKDIwMCwtNSw1KQ0KI2E8LVNpbXBsZVNpbXVsYXRpb25WTHRpbWVzZXJpZXMoKQ0KI2I8LVNpbXBsZVNpbXVsYXRpb25WTHRpbWVzZXJpZXMoKQ0KY291bnQxPC1jb3VudDErYXMuaW50ZWdlcihHcmFuZ2VyRnVuYyhZPXgxLFg9eDIsYWxwaGE9MC4wMSkkWGdDc1lfZnRlc3QpDQp9DQpjb3VudDENCmBgYA0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQoNCmBgYHtyfQ0KDQpsaWJyYXJ5KFZMVGltZUNhdXNhbGl0eSkNCmNvdW50MDwtMA0KY291bnQxPC0wDQpmb3IoaSBpbiBzZXEoMTApKQ0KeyANCiAgeDE8LXJub3JtKDIwMCwwLDEpDQogIHgyPC1ybm9ybSgyMDAsMCwxKQ0KICBvdXQwPC1TaW1wbGVTaW11bGF0aW9uVkx0aW1lc2VyaWVzKCkNCiAgeDE8LW91dDAkeQ0KICB4Mjwtb3V0MCR4DQojYTwtU2ltcGxlU2ltdWxhdGlvblZMdGltZXNlcmllcygpDQojYjwtU2ltcGxlU2ltdWxhdGlvblZMdGltZXNlcmllcygpDQoNCkE8LVZMR3JhbmdlckZ1bmMoWT14MSxYPXgyLGFscGhhPTAuMDUpDQpWTEdkaWZmUmF0aW88LUEkQklDRGlmZlJhdGlvDQpjb3VudDA8LWNvdW50MCArIGFzLmludGVnZXIoIFZMR2RpZmZSYXRpbz49MC41ICkNCg0KcHJpbnQoc3ByaW50ZigiaSVkIixpKSApDQpwcmludChWTEdkaWZmUmF0aW8pDQpwcmludChBJHAudmFsKQ0KcHJpbnQoRm9sbCRWTHZhbCkNCn0NCnByaW50KHNwcmludGYoIlZMY291bnQlZCIsY291bnQwKSkNCmBgYA0KVEVTVA0KPT09PT0NCmBgYHtyfQ0KVFM8LU11bHRpcGxlU2ltdWxhdGlvblZMdGltZXNlcmllcygpDQpvdXQ8LW11bHRpcGxlVkxHcmFuZ2VyRnVuYyhUUykkYWRqTWF0DQpjaGVja011bHRpcGxlU2ltdWxhdGlvblZMdGltZXNlcmllcyhvdXQpDQpgYGANCg0KDQouLi4uLg0KYGBge3J9DQojc2V0LnNlZWQoMjAxODAxMDgpDQpsaWJyYXJ5KFZMVGltZUNhdXNhbGl0eSkNCg0KIyBjb3VudEgwPC0wLjANCiMgY291bnRIMTwtMC4wDQojIGNvdW50SGNvbXA8LTAuMA0KY291bnREaWZmPC0wDQpuIDwtIDIwMA0KTDwtNQ0KDQpkaWZmVmVjMDwtbnVtZXJpYygxMDApDQpkaWZmVmVjMTwtbnVtZXJpYygxMDApDQoNCmZvciAoayBpbiBzZXEoMTAwKSkNCnsNCiAgcHJpbnQoaykNCiMgeCA8LSByZXAoMCwgbiArIEwpDQojIHkgPC0gcmVwKDAsIG4gKyBMKQ0KIyANCiMgDQojIGZvciAoaSBpbiBzZXEobikpIHsNCiMgICB4W2kgKyAxXSA8LSAwLjIgKiB4W2ldICsgcm5vcm0oMSwgMCwgMikNCiMgICB5W2kgKyBMXSA8LSB4W2ldICsgcm5vcm0oMSwgMCwgMC41KQ0KIyB9DQojIA0KIyB5WzExMToxNTBdPC14WzEwMF0NCiMgDQojIHggPC0geFstKDE6TCldDQojIHkgPC0geVstKDE6TCldDQpvdXQxPC1WTFRpbWVDYXVzYWxpdHk6OlNpbXBsZVNpbXVsYXRpb25WTHRpbWVzZXJpZXMoKQ0KeDwtb3V0MSR4DQp5PC1vdXQxJHkNCg0KTTA8LUdyYW5nZXJGdW5jKFk9eSxYPXgsIG1heExhZz01KSANCk0xPC1WTEdyYW5nZXJGdW5jKFk9eSxYPXgsIG1heExhZz01KSANClZMR2RpZmY8LU0xJEJJQ19IMC1NMSRCSUNfSDENCkdkaWZmPC1NMCRCSUNfSDAtTTAkQklDX0gxDQoNCmNvdW50RGlmZjwtIGNvdW50RGlmZiArIGFzLmludGVnZXIoR2RpZmY8VkxHZGlmZikNCmRpZmZWZWMwW2tdPC1HZGlmZg0KZGlmZlZlYzFba108LVZMR2RpZmYNCn0NCmNvdW50RGlmZg0KDQpgYGANCiNyZXN1bHQNCmBgYHtyfQ0KI2xvYWQoIlZMR3Jlc3VsdC5SRGF0YSIpDQpsaWJyYXJ5KGdncGxvdDIpDQoNCg0KZGF0IDwtIGRhdGEuZnJhbWUoZGVucyA9IGMoZGlmZlZlYzAsIGRpZmZWZWMxKQ0KICAgICAgICAgICAgICAgICAgICwgbGluZXMgPSByZXAoYygiR3JhbmdlciIsICJWTC1HcmFuZ2VyIiksIGVhY2ggPSAxMDApKQ0KI1Bsb3QuDQp0aGVtZV91cGRhdGUodGV4dCA9IGVsZW1lbnRfdGV4dCggc2l6ZT0yMCkgICkNCnAxPC1nZ3Bsb3QoZGF0LCBhZXMoeCA9IGRlbnMsIGZpbGwgPSBsaW5lcykpICsgZ2VvbV9kZW5zaXR5KGFscGhhID0gMC41KSArIHhsYWIoIkJJQyBkaWZmZXJlbmNlIikgK3lsYWIoIkRlbnNpdHkgWzAsMV0iKSArIHRoZW1lX2xpZ2h0KCkrdGhlbWUoIGF4aXMudGV4dC54ID0gZWxlbWVudF90ZXh0KA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzaXplPTIwLCBhbmdsZT00NSksIGF4aXMudGV4dC55ID0gZWxlbWVudF90ZXh0KCAgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNpemU9MjApLCB0ZXh0ID0gZWxlbWVudF90ZXh0KHNpemU9MjApICkNCg0KcDEkbGFiZWxzJGZpbGw8LSJNZXRob2RzIg0KcGxvdChwMSkNCmBgYA0KDQojRXhwZXJpbWVudA0KYGBge3J9DQphdXRvTGFnZmxhZzwtVFJVRQ0KbWF4TGFnPC1yb3VuZCgwLjEqMjAwKQ0Kb3B0aW9uMDwtMA0KYGBgDQoNCg0KUGFydDENCg0KYGBge3J9DQpsaWJyYXJ5KHJtYXRpbykNCmNvdW50MjwtMA0KZm9yKGkgaW4gc2VxKDEwMCkpDQp7DQpmaWxlbmFtZTwtc3ByaW50ZigiZGF0YS9TaW1EYXRhL1NpbVRyYWplY3RvcnlEaXItTk9STUFMLUZPTEwtJWQubWF0IixpKQ0Kb3V0PC1yZWFkLm1hdChmaWxlbmFtZSkNCm9wdGlvbj1vcHRpb24wDQpmbGFnPC1GQUxTRQ0KaWYob3B0aW9uPT0wKQ0Kew0KICBCPC1WTEdyYW5nZXJGdW5jKFk9b3V0JFksWD1vdXQkTCxnYW1tYT0wLjUgLGF1dG9MYWdmbGFnPWF1dG9MYWdmbGFnLG1heExhZz1tYXhMYWcpDQogIHByaW50KHNwcmludGYoImklZCxCSUNkciVmIixpLEIkQklDRGlmZlJhdGlvKSApDQogIGZsYWc8LSBCJFhnQ3NZDQp9DQplbHNlIGlmKG9wdGlvbj09MSkNCnsNCiAgQjwtVkxUcmFuc2ZlckVudHJvcHkoWT1vdXQkWSxYPW91dCRMLFZMZmxhZz1GQUxTRSxtYXhMYWc9bWF4TGFnLGx4PW1heExhZyxseT1tYXhMYWcsYXV0b0xhZ2ZsYWc9YXV0b0xhZ2ZsYWcpDQogIGZsYWc8LUIkWGdDc1lfdHJucw0KICBwcmludChzcHJpbnRmKCJpJWQsVEZyYXRpbyVmIixpLEIkVEVyYXRpbykgKQ0KfQ0KZWxzZSBpZihvcHRpb249PTIpDQp7DQogIEI8LVZMVHJhbnNmZXJFbnRyb3B5KFk9b3V0JFksWD1vdXQkTCxWTGZsYWc9VFJVRSxtYXhMYWc9bWF4TGFnLGx4PW1heExhZyxseT1tYXhMYWcsYXV0b0xhZ2ZsYWc9YXV0b0xhZ2ZsYWcpDQogIGZsYWc8LUIkWGdDc1lfdHJucw0KICBwcmludChzcHJpbnRmKCJpJWQsVEZyYXRpbyVmIixpLEIkVEVyYXRpbykgKQ0KfQ0KDQpjb3VudDI8LWNvdW50Mithcy5pbnRlZ2VyKCBmbGFnICkNCn0NCmNvdW50Mg0KYGBgDQoNCmBgYHtyfQ0KbGlicmFyeShybWF0aW8pDQpjb3VudDM8LTANCmZvcihpIGluIHNlcSgxMDApKQ0Kew0KZmlsZW5hbWU8LXNwcmludGYoImRhdGEvU2ltRGF0YS9TaW1UcmFqZWN0b3J5RGlyLU5PUk1BTC1OT1JNQUwtJWQubWF0IixpKQ0Kb3V0PC1yZWFkLm1hdChmaWxlbmFtZSkNCm9wdGlvbj1vcHRpb24wDQpmbGFnPC1GQUxTRQ0KaWYob3B0aW9uPT0wKQ0Kew0KICBCPC1WTEdyYW5nZXJGdW5jKFk9b3V0JFksWD1vdXQkTCxnYW1tYT0wLjUsYXV0b0xhZ2ZsYWc9YXV0b0xhZ2ZsYWcsbWF4TGFnPW1heExhZykNCiAgcHJpbnQoc3ByaW50ZigiaSVkLEJJQ2RyJWYiLGksQiRCSUNEaWZmUmF0aW8pICkNCiAgZmxhZzwtIEIkWGdDc1kNCn0NCmVsc2UgaWYob3B0aW9uPT0xKQ0Kew0KICBCPC1WTFRyYW5zZmVyRW50cm9weShZPW91dCRZLFg9b3V0JEwsVkxmbGFnPUZBTFNFLG1heExhZz1tYXhMYWcsbHg9bWF4TGFnLGx5PW1heExhZyxhdXRvTGFnZmxhZz1hdXRvTGFnZmxhZykNCiAgZmxhZzwtQiRYZ0NzWV90cm5zDQogIHByaW50KHNwcmludGYoImklZCxURnJhdGlvJWYiLGksQiRURXJhdGlvKSApDQp9DQplbHNlIGlmKG9wdGlvbj09MikNCnsNCiAgQjwtVkxUcmFuc2ZlckVudHJvcHkoWT1vdXQkWSxYPW91dCRMLFZMZmxhZz1UUlVFLG1heExhZz1tYXhMYWcsbHg9bWF4TGFnLGx5PW1heExhZyxhdXRvTGFnZmxhZz1hdXRvTGFnZmxhZykNCiAgZmxhZzwtQiRYZ0NzWV90cm5zDQogIHByaW50KHNwcmludGYoImklZCxURnJhdGlvJWYiLGksQiRURXJhdGlvKSApDQp9DQoNCg0KY291bnQzPC1jb3VudDMrYXMuaW50ZWdlciggZmxhZyApDQp9DQpjb3VudDMNCmBgYA0KDQpgYGB7cn0NCmxpYnJhcnkocm1hdGlvKQ0KY291bnQ0PC0wDQpmb3IoaSBpbiBzZXEoMTAwKSkNCnsNCmZpbGVuYW1lPC1zcHJpbnRmKCJkYXRhL1NpbURhdGEvU2ltVHJhamVjdG9yeURpci1BUk1BLUZPTEwtJWQubWF0IixpKQ0Kb3V0PC1yZWFkLm1hdChmaWxlbmFtZSkNCm9wdGlvbj1vcHRpb24wDQpmbGFnPC1GQUxTRQ0KaWYob3B0aW9uPT0wKQ0Kew0KICBCPC1WTEdyYW5nZXJGdW5jKFk9b3V0JFksWD1vdXQkTCxnYW1tYT0wLjUsYXV0b0xhZ2ZsYWc9YXV0b0xhZ2ZsYWcsbWF4TGFnPW1heExhZykNCiAgcHJpbnQoc3ByaW50ZigiaSVkLEJJQ2RyJWYiLGksQiRCSUNEaWZmUmF0aW8pICkNCiAgZmxhZzwtIEIkWGdDc1kNCn0NCmVsc2UgaWYob3B0aW9uPT0xKQ0Kew0KICBCPC1WTFRyYW5zZmVyRW50cm9weShZPW91dCRZLFg9b3V0JEwsVkxmbGFnPUZBTFNFLG1heExhZz1tYXhMYWcsbHg9bWF4TGFnLGx5PW1heExhZyxhdXRvTGFnZmxhZz1hdXRvTGFnZmxhZykNCiAgZmxhZzwtQiRYZ0NzWV90cm5zDQogIHByaW50KHNwcmludGYoImklZCxURnJhdGlvJWYiLGksQiRURXJhdGlvKSApDQp9DQplbHNlIGlmKG9wdGlvbj09MikNCnsNCiAgQjwtVkxUcmFuc2ZlckVudHJvcHkoWT1vdXQkWSxYPW91dCRMLFZMZmxhZz1UUlVFLG1heExhZz1tYXhMYWcsbHg9bWF4TGFnLGx5PW1heExhZyxhdXRvTGFnZmxhZz1hdXRvTGFnZmxhZykNCiAgZmxhZzwtQiRYZ0NzWV90cm5zDQogIHByaW50KHNwcmludGYoImklZCxURnJhdGlvJWYiLGksQiRURXJhdGlvKSApDQp9DQoNCg0KY291bnQ0PC1jb3VudDQrYXMuaW50ZWdlciggZmxhZyApDQp9DQpjb3VudDQNCmBgYA0KDQpgYGB7cn0NCmxpYnJhcnkocm1hdGlvKQ0KY291bnQ1PC0wDQpmb3IoaSBpbiBzZXEoMTAwKSkNCnsNCmZpbGVuYW1lPC1zcHJpbnRmKCJkYXRhL1NpbURhdGEvU2ltVHJhamVjdG9yeURpci1BUk1BLUFSTUEtJWQubWF0IixpKQ0Kb3V0PC1yZWFkLm1hdChmaWxlbmFtZSkNCm9wdGlvbj1vcHRpb24wDQpmbGFnPC1GQUxTRQ0KaWYob3B0aW9uPT0wKQ0Kew0KICBCPC1WTEdyYW5nZXJGdW5jKFk9b3V0JFksWD1vdXQkTCxnYW1tYT0wLjUsYXV0b0xhZ2ZsYWc9YXV0b0xhZ2ZsYWcsbWF4TGFnPW1heExhZykNCiAgcHJpbnQoc3ByaW50ZigiaSVkLEJJQ2RyJWYiLGksQiRCSUNEaWZmUmF0aW8pICkNCiAgZmxhZzwtIEIkWGdDc1kNCn0NCmVsc2UgaWYob3B0aW9uPT0xKQ0Kew0KICBCPC1WTFRyYW5zZmVyRW50cm9weShZPW91dCRZLFg9b3V0JEwsVkxmbGFnPUZBTFNFLG1heExhZz1tYXhMYWcsbHg9bWF4TGFnLGx5PW1heExhZyxhdXRvTGFnZmxhZz1hdXRvTGFnZmxhZykNCiAgZmxhZzwtQiRYZ0NzWV90cm5zDQogIHByaW50KHNwcmludGYoImklZCxURnJhdGlvJWYiLGksQiRURXJhdGlvKSApDQp9DQplbHNlIGlmKG9wdGlvbj09MikNCnsNCiAgQjwtVkxUcmFuc2ZlckVudHJvcHkoWT1vdXQkWSxYPW91dCRMLFZMZmxhZz1UUlVFLG1heExhZz1tYXhMYWcsbHg9bWF4TGFnLGx5PW1heExhZyxhdXRvTGFnZmxhZz1hdXRvTGFnZmxhZykNCiAgZmxhZzwtQiRYZ0NzWV90cm5zDQogIHByaW50KHNwcmludGYoImklZCxURnJhdGlvJWYiLGksQiRURXJhdGlvKSApDQp9DQoNCmNvdW50NTwtY291bnQ1K2FzLmludGVnZXIoIGZsYWcgKQ0KfQ0KY291bnQ1DQpgYGANCg0KYGBge3J9DQpsaWJyYXJ5KHJtYXRpbykNCmNvdW50NjwtMA0KZm9yKGkgaW4gc2VxKDEwMCkpDQp7DQpmaWxlbmFtZTwtc3ByaW50ZigiZGF0YS9TaW1EYXRhL1NpbVRyYWplY3RvcnlEaXItQVJNQS1OT1JNQUwtJWQubWF0IixpKQ0Kb3V0PC1yZWFkLm1hdChmaWxlbmFtZSkNCm9wdGlvbj1vcHRpb24wDQpmbGFnPC1GQUxTRQ0KaWYob3B0aW9uPT0wKQ0Kew0KICBCPC1WTEdyYW5nZXJGdW5jKFk9b3V0JFksWD1vdXQkTCxnYW1tYT0wLjUsYXV0b0xhZ2ZsYWc9YXV0b0xhZ2ZsYWcsbWF4TGFnPW1heExhZykNCiAgcHJpbnQoc3ByaW50ZigiaSVkLEJJQ2RyJWYiLGksQiRCSUNEaWZmUmF0aW8pICkNCiAgZmxhZzwtIEIkWGdDc1kNCn0NCmVsc2UgaWYob3B0aW9uPT0xKQ0Kew0KICBCPC1WTFRyYW5zZmVyRW50cm9weShZPW91dCRZLFg9b3V0JEwsVkxmbGFnPUZBTFNFLG1heExhZz1tYXhMYWcsbHg9bWF4TGFnLGx5PW1heExhZyxhdXRvTGFnZmxhZz1hdXRvTGFnZmxhZykNCiAgZmxhZzwtQiRYZ0NzWV90cm5zDQogIHByaW50KHNwcmludGYoImklZCxURnJhdGlvJWYiLGksQiRURXJhdGlvKSApDQp9DQplbHNlIGlmKG9wdGlvbj09MikNCnsNCiAgQjwtVkxUcmFuc2ZlckVudHJvcHkoWT1vdXQkWSxYPW91dCRMLFZMZmxhZz1UUlVFLG1heExhZz1tYXhMYWcsbHg9bWF4TGFnLGx5PW1heExhZyxhdXRvTGFnZmxhZz1hdXRvTGFnZmxhZykNCiAgZmxhZzwtQiRYZ0NzWV90cm5zDQogIHByaW50KHNwcmludGYoImklZCxURnJhdGlvJWYiLGksQiRURXJhdGlvKSApDQp9DQoNCg0KY291bnQ2PC1jb3VudDUrYXMuaW50ZWdlciggZmxhZyApDQp9DQpjb3VudDYNCmBgYA0KDQo=</div>
 
 
 

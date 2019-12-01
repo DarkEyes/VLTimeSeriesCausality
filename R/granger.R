@@ -18,7 +18,7 @@ GrangerFunc<-function(Y,X, maxLag=1,alpha=0.05, autoLagflag=TRUE, family = gauss
     D <-ts.intersect(D, lag(YX,  - i))
 
   y  <- D[, 1]
-  n  <- length(y)
+  n  <- length(Y)
   xyPast <- D[,  - (1:2)] # delete two targted columns (leave only y past and x past)
   yPast <- xyPast[, ((1:maxLag) * 2) - 1] # delete all x columns (leave only y past)
   #========

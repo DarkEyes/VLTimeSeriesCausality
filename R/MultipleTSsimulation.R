@@ -3,28 +3,24 @@ MultipleSimulationVLtimeseries<-function(n=200,lag=5,YstFixInx=111,YfnFixInx=150
 {
   TS<-matrix(0,n,10) # 10 time series
   A<-SimpleSimulationVLtimeseries(n=n,lag=lag,YstFixInx=YstFixInx,YfnFixInx=YfnFixInx, XpointFixInx=XpointFixInx,arimaFlag=arimaFlag)
-  B<-SimpleSimulationVLtimeseries(n=n,lag=lag,YstFixInx=YstFixInx,YfnFixInx=YfnFixInx, XpointFixInx=XpointFixInx,arimaFlag=arimaFlag)
-  C<-SimpleSimulationVLtimeseries(n=n,lag=lag,YstFixInx=YstFixInx,YfnFixInx=YfnFixInx, XpointFixInx=XpointFixInx,arimaFlag=arimaFlag)
+  B<-SimpleSimulationVLtimeseries(n=n,lag=lag+5,YstFixInx=YstFixInx,YfnFixInx=YfnFixInx, XpointFixInx=XpointFixInx,arimaFlag=arimaFlag)
+  C<-SimpleSimulationVLtimeseries(n=n,lag=lag+8,YstFixInx=YstFixInx,YfnFixInx=YfnFixInx, XpointFixInx=XpointFixInx,arimaFlag=arimaFlag)
   TS[,1]<-A$x
   TS[,2]<-B$x
   TS[,3]<-C$x
   TS[,4]<-A$y
   TS[,5]<-B$y
   TS[,6]<-C$y
-  TS[,7]<-A$y
-  TS[,8]<-B$y
-  TS[,9]<-C$y
+  TS[,7]<-A$y+B$y
+  TS[,8]<-A$y + C$y
+  TS[,9]<-C$y + B$y
   TS[,10]<-A$y+B$y+C$y
   return(TS)
 }
 
 #'@export
-checkMultipleSimulationVLtimeseries<-function(adjMat)
+checkMultipleSimulationVLtimeseries<-function(trueAdjMat,adjMat)
 {
-  trueAdjMat<-matrix(FALSE,10,10) # row cause col
-  trueAdjMat[1,c(4,7,10)]<-TRUE
-  trueAdjMat[2,c(5,8,10)]<-TRUE
-  trueAdjMat[3,c(6,9,10)]<-TRUE
   TP<-0
   FP<-0
   FN<-0

@@ -2,20 +2,25 @@
 #'@import tseries
 #'@importFrom dHSIC dhsic.test
 #'@export
-VLGrangerFunc<-function(Y,X, maxLag=1,alpha=0.05,sigma=0.1, autoLagflag=TRUE,family = gaussian )
+VLGrangerFunc<-function(Y,X,alpha=0.05,maxLag,gamma=0.5,sigma=-1, autoLagflag=TRUE,family = gaussian )
 {
   XgCsY_ftest<-FALSE
+  if(missing(maxLag))
+    maxLag<-0.2*length(Y)
   if(autoLagflag == TRUE)
   {
-    follOut<-followingRelation(Y=Y,X=X)
+
+    follOut<-followingRelation(Y=Y,X=X,timeLagWindow=maxLag)
     maxLag<-max(1,follOut$optDelay)
   }
   else
   {
     follOut<-followingRelation(Y=Y,X=X,timeLagWindow=maxLag)
   }
-
-  X<-c(follOut$nX[-1],0)
+  if(follOut$optDelay ==0 ) # prevent X ~ Y
+    X<-follOut$nX
+  else
+    X<-c(follOut$nX[-1],0)
   YX<-cbind(ts(Y),ts(X))
   D <- YX
 
@@ -24,7 +29,7 @@ VLGrangerFunc<-function(Y,X, maxLag=1,alpha=0.05,sigma=0.1, autoLagflag=TRUE,fam
     D <-ts.intersect(D, lag(YX,  - i))
 
   y  <- D[, 1]
-  n  <- length(y)
+  n  <- length(Y)
   xyPast <- D[,  - (1:2)] # delete two targted columns (leave only y past and x past)
   yPast <- xyPast[, ((1:maxLag) * 2) - 1] # delete all x columns (leave only y past)
   #========
@@ -40,23 +45,21 @@ VLGrangerFunc<-function(Y,X, maxLag=1,alpha=0.05,sigma=0.1, autoLagflag=TRUE,fam
   BIC_H1<-(S1/n)*n^( (2*maxLag+1)/n ) # less value is better
 
 
-  #============= independent test
-  iPval<-dhsic.test(X=list(follOut$nX,Y), alpha = 0.05, method="bootstrap",
-                    kernel=c("gaussian"),
-                    pairwise=FALSE, B=1000)$p.value
 
 
   # BIC_H1 < BIC_H0 implies X Granger-causes Y (option 1)
   # pval < \alpha implies  X Granger-causes Y (option 2)
-  if(pval<alpha && follOut$follVal>= sigma && iPval<alpha)
+  if( (pval<=alpha) && (follOut$follVal>= sigma) )
     XgCsY_ftest=TRUE
-  XgCsY_BIC<- ( (BIC_H1<BIC_H0) && (follOut$follVal>= sigma) )
+  XgCsY_BIC<- ( (BIC_H1<BIC_H0) )
 
-
+  # BICDiffRatio > gamma implies X Granger-causes Y (option 3)
+  BICDiffRatio<-(BIC_H0-BIC_H1)/BIC_H0
+  XgCsY<- ( (BICDiffRatio>=gamma) ) # Our main flag of X causes Y using BICDiffRatio
 
 
   res<-list(ftest = ftest, p.val = pval,BIC_H1=BIC_H1, BIC_H0=BIC_H0,
-            XgCsY_ftest=XgCsY_ftest,XgCsY_BIC=XgCsY_BIC,follOut=follOut,maxLag=maxLag,H1=H1,H0=H0)
+            XgCsY_ftest=XgCsY_ftest,XgCsY_BIC=XgCsY_BIC,follOut=follOut,maxLag=maxLag,H1=H1,H0=H0,BICDiffRatio=BICDiffRatio,XgCsY=XgCsY)
   return(res)
 }
 

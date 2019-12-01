@@ -1,7 +1,7 @@
 #'
 #'@import tseries
 #'@export
-multipleVLGrangerFunc<-function(TS, maxLag=1,alpha=0.05,sigma=0.1, autoLagflag=TRUE,ftestFlag=TRUE,VLflag=TRUE,family = gaussian )
+multipleVLGrangerFunc<-function(TS, maxLag=1,alpha=0.05,sigma=0.15, gamma=0.5,autoLagflag=TRUE,causalFlag=0,VLflag=TRUE,family = gaussian )
 {
   m<-min(dim(TS))
   n<-max(dim(TS))
@@ -16,15 +16,19 @@ multipleVLGrangerFunc<-function(TS, maxLag=1,alpha=0.05,sigma=0.1, autoLagflag=T
       }
       else
       {
-        outij<-VLGrangerFunc(Y=TS[,j],X=TS[,i], maxLag=maxLag,alpha=alpha,sigma=sigma, autoLagflag=autoLagflag,family = family)
-        outji<-VLGrangerFunc(Y=TS[,i],X=TS[,j], maxLag=maxLag,alpha=alpha,sigma=sigma, autoLagflag=autoLagflag,family = family)
+        outij<-VLGrangerFunc(Y=TS[,j],X=TS[,i], maxLag=maxLag,alpha=alpha,sigma=sigma, gamma=gamma,autoLagflag=autoLagflag,family = family)
+        outji<-VLGrangerFunc(Y=TS[,i],X=TS[,j], maxLag=maxLag,alpha=alpha,sigma=sigma, gamma=gamma,autoLagflag=autoLagflag,family = family)
       }
-      if(ftestFlag)
+      if(causalFlag==0) # using BICDiffRaio
+      {
+        adjMat[i,j]<-outij$XgCsY
+        adjMat[j,i]<-outji$XgCsY
+      }else if (causalFlag==1) # using ftest
       {
         adjMat[i,j]<-outij$XgCsY_ftest
         adjMat[j,i]<-outji$XgCsY_ftest
       }
-      else
+      else # (causalFlag==2) # using BIC
       {
         adjMat[i,j]<-outij$XgCsY_BIC
         adjMat[j,i]<-outji$XgCsY_BIC
