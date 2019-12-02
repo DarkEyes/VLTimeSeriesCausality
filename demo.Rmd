@@ -107,12 +107,190 @@ plot(p1)
 #Experiment
 ```{r}
 autoLagflag<-TRUE
-maxLag<-round(0.1*200)
-option0<-0
+maxLag<-round(0.3*200)
+option0<-1
 ```
 
 
 Part1
+
+```{r}
+library(rmatio)
+count2<-0
+for(i in seq(100))
+{
+filename<-sprintf("data/SimData/SimTrajectoryDir-NORMAL-FOLL-%d.mat",i)
+out<-read.mat(filename)
+option=option0
+flag<-FALSE
+if(option==0)
+{
+  B<-VLGrangerFunc(Y=out$Y,X=out$L,gamma=0.5 ,autoLagflag=autoLagflag,maxLag=maxLag)
+  print(sprintf("i%d,BICdr%f",i,B$BICDiffRatio) )
+  flag<- B$XgCsY
+}
+else if(option==1)
+{
+  B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=FALSE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag<-B$XgCsY_trns
+  print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+}
+else if(option==2)
+{
+  B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=TRUE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag<-B$XgCsY_trns
+  print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+}
+
+count2<-count2+as.integer( flag )
+}
+count2
+```
+
+```{r}
+library(rmatio)
+count3<-0
+for(i in seq(100))
+{
+filename<-sprintf("data/SimData/SimTrajectoryDir-NORMAL-NORMAL-%d.mat",i)
+out<-read.mat(filename)
+option=option0
+flag<-FALSE
+if(option==0)
+{
+  B<-VLGrangerFunc(Y=out$Y,X=out$L,gamma=0.5,autoLagflag=autoLagflag,maxLag=maxLag)
+  print(sprintf("i%d,BICdr%f",i,B$BICDiffRatio) )
+  flag<- B$XgCsY
+}
+else if(option==1)
+{
+  B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=FALSE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag<-B$XgCsY_trns
+  print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+}
+else if(option==2)
+{
+  B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=TRUE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag<-B$XgCsY_trns
+  print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+}
+
+
+count3<-count3+as.integer( flag )
+}
+count3
+```
+
+```{r}
+library(rmatio)
+count4<-0
+for(i in seq(100))
+{
+filename<-sprintf("data/SimData/SimTrajectoryDir-ARMA-FOLL-%d.mat",i)
+out<-read.mat(filename)
+option=option0
+flag<-FALSE
+if(option==0)
+{
+  B<-VLGrangerFunc(Y=out$Y,X=out$L,gamma=0.5,autoLagflag=autoLagflag,maxLag=maxLag)
+  print(sprintf("i%d,BICdr%f",i,B$BICDiffRatio) )
+  flag<- B$XgCsY
+}
+else if(option==1)
+{
+  B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=FALSE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag<-B$XgCsY_trns
+  print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+}
+else if(option==2)
+{
+  B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=TRUE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag<-B$XgCsY_trns
+  print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+}
+
+
+count4<-count4+as.integer( flag )
+}
+count4
+```
+
+```{r}
+library(rmatio)
+count5<-0
+for(i in seq(100))
+{
+filename<-sprintf("data/SimData/SimTrajectoryDir-ARMA-ARMA-%d.mat",i)
+out<-read.mat(filename)
+option=option0
+flag<-FALSE
+if(option==0)
+{
+  B<-VLGrangerFunc(Y=out$Y,X=out$L,gamma=0.5,autoLagflag=autoLagflag,maxLag=maxLag)
+  print(sprintf("i%d,BICdr%f",i,B$BICDiffRatio) )
+  flag<- B$XgCsY
+}
+else if(option==1)
+{
+  B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=FALSE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag<-B$XgCsY_trns
+  print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+}
+else if(option==2)
+{
+  B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=TRUE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag<-B$XgCsY_trns
+  print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+}
+
+count5<-count5+as.integer( flag )
+}
+count5
+```
+
+```{r}
+library(rmatio)
+count6<-0
+for(i in seq(100))
+{
+filename<-sprintf("data/SimData/SimTrajectoryDir-ARMA-NORMAL-%d.mat",i)
+out<-read.mat(filename)
+option=option0
+flag<-FALSE
+if(option==0)
+{
+  B<-VLGrangerFunc(Y=out$Y,X=out$L,gamma=0.5,autoLagflag=autoLagflag,maxLag=maxLag)
+  print(sprintf("i%d,BICdr%f",i,B$BICDiffRatio) )
+  flag<- B$XgCsY
+}
+else if(option==1)
+{
+  B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=FALSE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag<-B$XgCsY_trns
+  print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+}
+else if(option==2)
+{
+  B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=TRUE,maxLag=maxLag,lx=maxLag,ly=maxLag,autoLagflag=autoLagflag)
+  flag<-B$XgCsY_trns
+  print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+}
+
+
+count6<-count5+as.integer( flag )
+}
+count6
+```
+
+#Experiment
+```{r}
+autoLagflag<-TRUE
+maxLag<-round(0.3*200)
+option0<-2
+```
+
+
+Part2
 
 ```{r}
 library(rmatio)
