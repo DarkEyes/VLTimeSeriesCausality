@@ -1,11 +1,13 @@
 #'
 #'@import tseries
 #'@export
-multipleVLGrangerFunc<-function(TS, maxLag=1,alpha=0.05,sigma=0.15, gamma=0.5,autoLagflag=TRUE,causalFlag=0,VLflag=TRUE,family = gaussian )
+multipleVLGrangerFunc<-function(TS, maxLag,alpha=0.05,sigma=0.15, gamma=0.5,autoLagflag=TRUE,causalFlag=0,VLflag=TRUE,family = gaussian )
 {
   m<-min(dim(TS))
   n<-max(dim(TS))
   adjMat<-matrix(FALSE,m,m) # row cause col
+  if(missing(maxLag))
+    maxLag<-0.2*length(TS[,1])
   for(i in seq(m-1))
     for(j in seq(i+1,m))
     {

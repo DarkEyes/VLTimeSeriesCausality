@@ -5,6 +5,11 @@ output: html_notebook
 # Experiment 2
 
 ```{r}
+maxLag<-round(0.4*200)
+option0<-0
+```
+
+```{r}
 library(rmatio)
 library(VLTimeCausality)
 matTarget<-read.mat("data/multipleSimData/MPAtargetMat.mat")
@@ -18,11 +23,11 @@ filename<-sprintf("data/multipleSimData/SimTrajectoryDir-NORMAL-%d.mat",i)
 out<-read.mat(filename)
 
 TS<-t(out$TS)
-option=0
+option=option0
 
 if(option==0)
 {
-  B<-multipleVLGrangerFunc(TS=TS,gamma=0.30,causalFlag=0,sigma = 0.5,VLflag=TRUE,autoLagflag=TRUE)
+  B<-multipleVLGrangerFunc(TS=TS,gamma=0.30,causalFlag=0,sigma = 0.5,maxLag=maxLag,VLflag=TRUE,autoLagflag=TRUE)
   res<-checkMultipleSimulationVLtimeseries(trueAdjMat=matTarget,B$adjMat)
   prec=res$prec
   rec=res$rec
@@ -34,15 +39,27 @@ if(option==0)
 }
 else if(option==1)
 {
-  # B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=FALSE)
-  # flag<-B$XgCsY_trns
-  # print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+  B<-multipleVLTransferEntropy(TS=TS,maxLag=maxLag,VLflag=FALSE)
+  res<-checkMultipleSimulationVLtimeseries(trueAdjMat=matTarget,B$adjMat)
+  prec=res$prec
+  rec=res$rec
+  F1=res$F1
+  print(sprintf("i%d,p%f,r%f,f%f",i,prec,rec,F1) )
+  r1<-c(r1,rec)
+  p1<-c(p1,prec)
+  f1<-c(f1,F1)
 }
 else if(option==2)
 {
-  # B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=TRUE)
-  # flag<-B$XgCsY_trns
-  # print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+  B<-multipleVLTransferEntropy(TS=TS,maxLag=maxLag,VLflag=TRUE)
+  res<-checkMultipleSimulationVLtimeseries(trueAdjMat=matTarget,B$adjMat)
+  prec=res$prec
+  rec=res$rec
+  F1=res$F1
+  print(sprintf("i%d,p%f,r%f,f%f",i,prec,rec,F1) )
+  r1<-c(r1,rec)
+  p1<-c(p1,prec)
+  f1<-c(f1,F1)
 }
 
 }
@@ -65,11 +82,11 @@ filename<-sprintf("data/multipleSimData/SimTrajectoryDir-ARMA-%d.mat",i)
 out<-read.mat(filename)
 
 TS<-t(out$TS)
-option=0
+option=option0
 
 if(option==0)
 {
-  B<-multipleVLGrangerFunc(TS=TS,gamma=0.30,causalFlag=0,sigma = 0.5,VLflag=TRUE,autoLagflag=TRUE)
+  B<-multipleVLGrangerFunc(TS=TS,gamma=0.30,causalFlag=0,sigma = 0.5,maxLag=maxLag,VLflag=TRUE,autoLagflag=TRUE)
   res<-checkMultipleSimulationVLtimeseries(trueAdjMat=matTarget,B$adjMat)
   prec=res$prec
   rec=res$rec
@@ -81,15 +98,27 @@ if(option==0)
 }
 else if(option==1)
 {
-  # B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=FALSE)
-  # flag<-B$XgCsY_trns
-  # print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+  B<-multipleVLTransferEntropy(TS=TS,maxLag=maxLag,VLflag=FALSE)
+  res<-checkMultipleSimulationVLtimeseries(trueAdjMat=matTarget,B$adjMat)
+  prec=res$prec
+  rec=res$rec
+  F1=res$F1
+  print(sprintf("i%d,p%f,r%f,f%f",i,prec,rec,F1) )
+  r1<-c(r1,rec)
+  p1<-c(p1,prec)
+  f1<-c(f1,F1)
 }
 else if(option==2)
 {
-  # B<-VLTransferEntropy(Y=out$Y,X=out$L,VLflag=TRUE)
-  # flag<-B$XgCsY_trns
-  # print(sprintf("i%d,TFratio%f",i,B$TEratio) )
+  B<-multipleVLTransferEntropy(TS=TS,maxLag=maxLag,VLflag=TRUE)
+  res<-checkMultipleSimulationVLtimeseries(trueAdjMat=matTarget,B$adjMat)
+  prec=res$prec
+  rec=res$rec
+  F1=res$F1
+  print(sprintf("i%d,p%f,r%f,f%f",i,prec,rec,F1) )
+  r1<-c(r1,rec)
+  p1<-c(p1,prec)
+  f1<-c(f1,F1)
 }
 
 }
@@ -98,172 +127,5 @@ print(sprintf("p%f,r%f,f%f",mean(p1),mean(r1),mean(f1)) )
 
 ```
 
-TEST
-```{r}
-multipleVLGrangerFunc2<-function(TS, maxLag=1,alpha=0.05,sigma=0.15, gamma=0.5,autoLagflag=TRUE,causalFlag=0,VLflag=TRUE,family = gaussian )
-{
-  m<-min(dim(TS))
-  n<-max(dim(TS))
-  adjMat<-matrix(FALSE,m,m) # row cause col
-  
-  for(i in seq(m-1))
-  {
-    for(j in seq(i+1,m))
-    {
-      print(sprintf("i%d,j%d",i,j) )
-      
-      if(VLflag == FALSE)
-      {
-        outij<-GrangerFunc2(Y=TS[,j],X=TS[,i], maxLag=maxLag,alpha=alpha,gamma=gamma, autoLagflag=autoLagflag, family = family)
-        outji<-GrangerFunc2(Y=TS[,i],X=TS[,j], maxLag=maxLag,alpha=alpha,gamma=gamma, autoLagflag=autoLagflag, family = family)
-      }
-      else
-      {
-        outij<-VLGrangerFunc2(Y=TS[,j],X=TS[,i], maxLag=maxLag,alpha=alpha,sigma=sigma, gamma=gamma,autoLagflag=autoLagflag,family = family)
 
-        
-        outji<-VLGrangerFunc2(Y=TS[,i],X=TS[,j], maxLag=maxLag,alpha=alpha,sigma=sigma, gamma=gamma,autoLagflag=autoLagflag,family = family)
-      }
-      #print(sprintf("i%d,j%d,causalFlag%d",i,j,causalFlag))
-      if(causalFlag==0) # using BICDiffRaio
-      {
-        adjMat[i,j]<-(outij$XgCsY)
-        adjMat[j,i]<-(outji$XgCsY)
-      }else if (causalFlag==1) # using ftest
-      {
-        adjMat[i,j]<-outij$XgCsY_ftest
-        adjMat[j,i]<-outji$XgCsY_ftest
-      }
-      else # (causalFlag==2) # using BIC
-      {
-        adjMat[i,j]<-outij$XgCsY_BIC
-        adjMat[j,i]<-outji$XgCsY_BIC
-      }
-    }
-  }
-  res<-list(adjMat=adjMat)
-  return(res)
-}
-VLGrangerFunc2<-function(Y,X, maxLag=1,alpha=0.05,gamma=0.5,sigma=0.1, autoLagflag=TRUE,family = gaussian )
-{
-  XgCsY_ftest<-FALSE
-  if(autoLagflag == TRUE)
-  {
-    follOut<-followingRelation(Y=Y,X=X)
-    maxLag<-max(1,follOut$optDelay)
-  }
-  else
-  {
-    follOut<-followingRelation(Y=Y,X=X,timeLagWindow=maxLag)
-  }
-  if(follOut$optDelay ==0 ) # prevent X ~ Y
-    X<-follOut$nX
-  else
-    X<-c(follOut$nX[-1],0)
-  YX<-cbind(ts(Y),ts(X))
-  D <- YX
-
-  # Create time-shift vesions of y and x (y(t),x(t),y(t-1),x(t-1),...)
-  for(i in 1:maxLag)
-    D <-ts.intersect(D, lag(YX,  - i))
-
-  y  <- D[, 1]
-  n  <- length(Y)
-  xyPast <- D[,  - (1:2)] # delete two targted columns (leave only y past and x past)
-  yPast <- xyPast[, ((1:maxLag) * 2) - 1] # delete all x columns (leave only y past)
-  #========
-  H1 <- glm(y ~ xyPast,family=family)
-  H0 <- glm(y ~ yPast,family=family)
-  S1 <- sum(H1$resid^2)
-  S0 <- sum(H0$resid^2)
-
-  ftest <- ((S0 - S1)/maxLag)/(S1/(n - 2 * maxLag - 1))
-  pval <- 1 - pf(q=ftest, df1= maxLag, df2= n - 2 * maxLag - 1)
-  R2<-summary(H1)$r.squared
-  BIC_H0<-(S0/n)*n^( (maxLag+1)/n ) # less value is better
-  BIC_H1<-(S1/n)*n^( (2*maxLag+1)/n ) # less value is better
-
-
-
-  # BIC_H1 < BIC_H0 implies X Granger-causes Y (option 1)
-  # pval < \alpha implies  X Granger-causes Y (option 2)
-  
-  # print(pval)
-  # print(alpha)
-  # print(follOut$follVal)
-  # print(sigma)
-  if( (pval<=alpha) && (follOut$follVal>= sigma) )
-    XgCsY_ftest=TRUE
-  XgCsY_BIC<- ( (BIC_H1<BIC_H0) )
-
-  # BICDiffRatio > gamma implies X Granger-causes Y (option 3)
-  BICDiffRatio<-(BIC_H0-BIC_H1)/BIC_H0
-  XgCsY<- ( (BICDiffRatio>=gamma) ) # Our main flag of X causes Y using BICDiffRatio
-
-
-  res<-list(ftest = ftest, p.val = pval,BIC_H1=BIC_H1, BIC_H0=BIC_H0,
-            XgCsY_ftest=XgCsY_ftest,XgCsY_BIC=XgCsY_BIC,follOut=follOut,maxLag=maxLag,H1=H1,H0=H0,BICDiffRatio=BICDiffRatio,XgCsY=XgCsY)
-  return(res)
-}
-GrangerFunc2<-function(Y,X, maxLag=1,alpha=0.05, autoLagflag=TRUE,gamma=0.5, family = gaussian)
-{
-  XgCsY_ftest<-FALSE
-  YX<-cbind(ts(Y),ts(X))
-  D <- YX
-
-  if(autoLagflag == TRUE)
-  {
-    follOut<-followingRelation(Y=Y,X=X)
-    maxLag<-max(1,follOut$optDelay)
-  }
-
-  # Create time-shift vesions of y and x (y(t),x(t),y(t-1),x(t-1),...)
-  for(i in 1:maxLag)
-    D <-ts.intersect(D, lag(YX,  - i))
-
-  y  <- D[, 1]
-  n  <- length(y)
-  xyPast <- D[,  - (1:2)] # delete two targted columns (leave only y past and x past)
-  yPast <- xyPast[, ((1:maxLag) * 2) - 1] # delete all x columns (leave only y past)
-  #========
-  H1 <- glm(y ~ xyPast,family=family)
-  H0 <- glm(y ~ yPast,family=family)
-  S1 <- sum(H1$resid^2)
-  S0 <- sum(H0$resid^2)
-
-  ftest <- ((S0 - S1)/maxLag)/(S1/(n - 2 * maxLag - 1))
-  pval <- 1 - pf(ftest, maxLag, n - 2 * maxLag - 1)
-  R2<-summary(H1)$r.squared
-  BIC_H0<-(S0/n)*n^( (maxLag+1)/n ) # less value is better
-  BIC_H1<-(S1/n)*n^( (2*maxLag+1)/n ) # less value is better
-
-  # BIC_H1 < BIC_H0 implies X Granger-causes Y (option 1)
-  # pval < \alpha implies  X Granger-causes Y (option 2)
-  if(pval<alpha)
-    XgCsY_ftest=TRUE
-  XgCsY_BIC<- (BIC_H1<BIC_H0)
-  BICDiffRatio<-(BIC_H0-BIC_H1)/BIC_H0
-  
-  XgCsY<- ( BICDiffRatio>=gamma)  # Our main flag of X causes Y using BICDiffRatio
-
-  res<-list(ftest = ftest, p.val = pval, BIC_H1=BIC_H1, BIC_H0=BIC_H0,
-            XgCsY_ftest=XgCsY_ftest,XgCsY_BIC=XgCsY_BIC,maxLag=maxLag,H1=H1,H0=H0,XgCsY=XgCsY,BICDiffRatio=BICDiffRatio)
-  return(res)
-}
-```
-
-```{r}
-# x1<-TS[,1]
-# x2<-TS[,2]
-# iPval<-dhsic.test(X=list(x1-x2,x2), alpha = 0.05, method="bootstrap",
-#                     kernel=c("gaussian"),
-#                     pairwise=FALSE, B=1000)$p.value
-# count1<-count1+as.integer(iPval<=0.05)
-# 
-# Foll<-followingRelation(Y=x1,X=x2)
-# A<-VLGrangerFunc(Y=x1,X=x2,alpha=0.05)
-# VLGdiffRatio<-A$BICDiffRatio
-# count0<-count0 + as.integer( VLGdiffRatio>=0.5 )
-# A
-```
 
