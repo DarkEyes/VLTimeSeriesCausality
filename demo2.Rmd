@@ -5,7 +5,7 @@ output: html_notebook
 # Experiment 2
 
 ```{r}
-maxLag<-round(0.4*200)
+maxLag<-round(0.1*200)
 option0<-0
 ```
 
@@ -17,7 +17,7 @@ matTarget<-t(matTarget$MPAtargetMat)
 r1<-c()
 p1<-c()
 f1<-c()
-for(i in seq(100))
+for(i in seq(1))
 {
 filename<-sprintf("data/multipleSimData/SimTrajectoryDir-NORMAL-%d.mat",i)
 out<-read.mat(filename)
