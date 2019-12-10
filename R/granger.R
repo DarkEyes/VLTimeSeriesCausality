@@ -1,7 +1,7 @@
 #'
 #'@import tseries
 #'@export
-GrangerFunc<-function(Y,X, maxLag=1,alpha=0.05, autoLagflag=TRUE, family = gaussian)
+GrangerFunc<-function(Y,X, maxLag=1,alpha=0.05, autoLagflag=TRUE,gamma=0.05, family = gaussian)
 {
   XgCsY_ftest<-FALSE
   YX<-cbind(ts(Y),ts(X))
@@ -39,7 +39,11 @@ GrangerFunc<-function(Y,X, maxLag=1,alpha=0.05, autoLagflag=TRUE, family = gauss
     XgCsY_ftest=TRUE
   XgCsY_BIC<- (BIC_H1<BIC_H0)
 
-  res<-list(ftest = ftest, p.val = pval, BIC_H1=BIC_H1, BIC_H0=BIC_H0,
-            XgCsY_ftest=XgCsY_ftest,XgCsY_BIC=XgCsY_BIC,maxLag=maxLag,H1=H1,H0=H0)
+  # BICDiffRatio > gamma implies X Granger-causes Y (option 3)
+  BICDiffRatio<-(BIC_H0-BIC_H1)/BIC_H0
+  XgCsY<- ( (BICDiffRatio>=gamma) ) # Our main flag of X causes Y using BICDiffRatio
+
+  res<-list(ftest = ftest, p.val = pval, BIC_H1=BIC_H1, BIC_H0=BIC_H0,XgCsY=XgCsY,
+            XgCsY_ftest=XgCsY_ftest,XgCsY_BIC=XgCsY_BIC,maxLag=maxLag,H1=H1,H0=H0,BICDiffRatio=BICDiffRatio)
   return(res)
 }

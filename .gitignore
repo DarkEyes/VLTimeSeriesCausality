@@ -35,3 +35,5 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 data/multipleSimData/~$res.xlsx
+data/*
+exp/*

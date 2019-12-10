@@ -40,7 +40,6 @@ VLGrangerFunc<-function(Y,X,alpha=0.05,maxLag,gamma=0.5,sigma=-1, autoLagflag=TR
 
   ftest <- ((S0 - S1)/maxLag)/(S1/(n - 2 * maxLag - 1))
   pval <- 1 - pf(ftest, maxLag, n - 2 * maxLag - 1)
-  R2<-summary(H1)$r.squared
   BIC_H0<-(S0/n)*n^( (maxLag+1)/n ) # less value is better
   BIC_H1<-(S1/n)*n^( (2*maxLag+1)/n ) # less value is better
 
