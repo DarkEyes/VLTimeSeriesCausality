@@ -3,7 +3,7 @@ Variable-lag Granger causality and Transfer Entropy for time series analysis (VL
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.5.0-6666ff.svg)](https://cran.r-project.org/)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://spdx.org/licenses/BSD-3-Clause.html)
 
-A framework to infer causality on a pair of time series of real numbers based on Variable-lag Granger causality and transfer entropy.
+A framework to infer causality on a pair of time series of real numbers based on Variable-lag Granger causality (VL-Granger) and transfer entropy (VL-Transfer Entropy).
 
 Installation
 ------------
@@ -15,12 +15,39 @@ remotes::install_github("DarkEyes/VLTimeSeriesCausality")
 ```
 This requires a user to install the "remotes" package before installing VLTimeSeriesCausality.
 
-Example: VLTimeSeriesCausality
+Example: Inferred VL-Granger causality time series
 ----------------------------------------------------------------------------------
+In the first step, we generate time series  TS$X and TS$Y where TS$X causes TS$Y with variable-lags.
 ``` r
-library(EDOIF)
+library(VLTimeSeriesCausality)
+# Generate simulation data
+TS <- VLTimeCausality::SimpleSimulationVLtimeseries()
 ```
-TODO: Will add texts soon!
+
+We can plot time series using the following function.
+```r
+VLTimeCausality::plotTimeSeries(TS$X,TS$Y)
+```
+A sample of generated time series pair that has a causal relation is plotted below:  
+
+<img src="https://github.com/DarkEyes/VLTimeSeriesCausality/blob/master/man/FIG/TSsample.png" width="550">
+
+We use the following function to infer whether X causes Y.
+``` r
+# Run the function
+out<-VLTimeCausality::VLGrangerFunc(Y=TS$Y,X=TS$X)
+```
+The result of Granger causality is below:
+
+```r
+out$BICDiffRatio
+[1] 0.8882051
+
+out$XgCsY
+[1] TRUE
+```
+
+
 
 Citation
 ----------------------------------------------------------------------------------
