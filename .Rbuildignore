@@ -1,3 +1,5 @@
 ^VLTimeSeriesCausality\.Rproj$
 ^\.Rproj\.user$
 ^\.xlsx$
+^exp$
+^data/.+$

@@ -1,3 +1,34 @@
+#' @title  VLTransferEntropy
+#'
+#' @description
+#'
+#' VLTransferEntropy is a Variable-lag Transfer Entropy function. It tests whether \code{X} VL-Transfer-Entropy-causes \code{Y}.
+#'
+#'
+#'@param Y is a numerical time series of effect
+#'@param X is a numerical time series of cause
+#'@param maxLag is a maximum possible time delay. The default is 0.2*length(Y).
+#'@param nboot is a number of times of bootstrapping for RTransferEntropy::transfer_entropy() function.
+#'@param lx,ly are lag parameters of RTransferEntropy::transfer_entropy().
+#'@param autoLagflag is a flag for enabling the automatic lag inference function. The default is true.
+#'If it is set to be true, then maxLag is set automatically using cross-correlation.
+#'Otherwise, if it is set to be false, then the function takes the maxLag value to infer Granger causality.
+#'@param VLflag is a flag of Transfer Entropy choice: either \code{VLflag=TRUE} for VL-Transfer Entropy or \code{VLflag=FALSE} for Transfer Entropy.
+#'
+#'@return This function returns of  whether \code{X} (VL-)Transfer-Entropy-causes \code{Y}.
+#'
+#'
+#'\item{TEratio}{ is a Transfer Entropy ratio. If it is greater than one , then \code{X} causes \code{Y}. }
+#'\item{res}{ is an object of output from RTransferEntropy::transfer_entropy() }
+#'\item{follOut}{ is a list of variables from function \code{followingRelation}. }
+#'\item{XgCsY}{The flag is true if \code{X} (VL-)Transfer-Entropy-causes \code{Y} using Transfer Entropy ratio ratio where \code{TEratio >1} if \code{X} causes \code{Y}.}
+#'
+#'@examples
+#' # Generate simulation data
+#'TS <- SimpleSimulationVLtimeseries()
+#' # Run the function
+#'out<-VLTransferEntropy(Y=TS$Y,X=TS$X)
+#'
 #'
 #'@import RTransferEntropy
 #'@export

@@ -1,7 +1,34 @@
+#' @title  multipleVLGrangerFunc
+#'
+#' @description
+#'
+#' multipleVLGrangerFunc is a function that infers Variable-lag Granger Causality of all pairwises of \code{m} time series \code{TS[,1],...TS[,m]}.
+#'
+#'
+#'@param TS is a numerical time series of effect where \code{TS[t,k]} is an element at time \code{t} of \code{k}th time series.
+#'@param maxLag is a maximum possible time delay. The default is 0.2*length(Y).
+#'@param alpha is a significance level of F-test to determine whether \code{X} Granger-causes \code{Y}.  The default is 0.05.
+#'@param autoLagflag is a flag for enabling the automatic lag inference function. The default is true.
+#'If it is set to be true, then maxLag is set automatically using cross-correlation.
+#'Otherwise, if it is set to be false, then the function takes the maxLag value to infer Granger causality.
+#'@param gamma is a parameter to determine whether \code{X} Granger-causes \code{Y} using BIC difference ratio. The default is  0.3.
+#'@param family is a parameter of family of function for Generalized Linear Models function (glm). The default is \code{gaussian}.
+#'@param VLflag is a flag of Granger causality choice: either \code{VLflag=TRUE} for VL-Granger or \code{VLflag=FALSE} for Granger causality.
+#'@param causalFlag is a choice of criterion for inferring casuality:
+#' \code{causalFlag=0} for BIC difference ratio, \code{causalFlag=1} for f-test, or \code{causalFlag=2} for BIC.
+#'
+#'@return This function returns of a list of an adjacency matrix of causality where \code{adjMat[i,j]} is true if \code{TS[,i]} causes \code{TS[,j]}.
+#'
+#'@examples
+#' # Generate simulation data
+#'TS <- MultipleSimulationVLtimeseries()
+#' # Run the function
+#'out<-multipleVLGrangerFunc(TS)
+#'
 #'
 #'@import tseries
 #'@export
-multipleVLGrangerFunc<-function(TS, maxLag,alpha=0.05,sigma=0.15, gamma=0.5,autoLagflag=TRUE,causalFlag=0,VLflag=TRUE,family = gaussian )
+multipleVLGrangerFunc<-function(TS, maxLag,alpha=0.05, gamma=0.3,autoLagflag=TRUE,causalFlag=0,VLflag=TRUE,family = gaussian )
 {
   m<-min(dim(TS))
   n<-max(dim(TS))
@@ -13,13 +40,13 @@ multipleVLGrangerFunc<-function(TS, maxLag,alpha=0.05,sigma=0.15, gamma=0.5,auto
     {
       if(VLflag == FALSE)
       {
-        outij<-GrangerFunc(Y=TS[,j],X=TS[,i], maxLag=maxLag,alpha=alpha, autoLagflag=autoLagflag, family = family)
-        outji<-GrangerFunc(Y=TS[,i],X=TS[,j], maxLag=maxLag,alpha=alpha, autoLagflag=autoLagflag, family = family)
+        outij<-GrangerFunc(Y=TS[,j],X=TS[,i], maxLag=maxLag,alpha=alpha, gamma=gamma, autoLagflag=autoLagflag, family = family)
+        outji<-GrangerFunc(Y=TS[,i],X=TS[,j], maxLag=maxLag,alpha=alpha, gamma=gamma, autoLagflag=autoLagflag, family = family)
       }
       else
       {
-        outij<-VLGrangerFunc(Y=TS[,j],X=TS[,i], maxLag=maxLag,alpha=alpha,sigma=sigma, gamma=gamma,autoLagflag=autoLagflag,family = family)
-        outji<-VLGrangerFunc(Y=TS[,i],X=TS[,j], maxLag=maxLag,alpha=alpha,sigma=sigma, gamma=gamma,autoLagflag=autoLagflag,family = family)
+        outij<-VLGrangerFunc(Y=TS[,j],X=TS[,i], maxLag=maxLag,alpha=alpha, gamma=gamma,autoLagflag=autoLagflag,family = family)
+        outji<-VLGrangerFunc(Y=TS[,i],X=TS[,j], maxLag=maxLag,alpha=alpha, gamma=gamma,autoLagflag=autoLagflag,family = family)
       }
       if(causalFlag==0) # using BICDiffRaio
       {

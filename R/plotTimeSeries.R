@@ -1,3 +1,23 @@
+#' @title  plotTimeSeries
+#'
+#' @description
+#'
+#' plotTimeSeries is a function for visualizing time series
+#'
+#'
+#'@param X is a 1st numerical time series
+#'@param Y is a 2nd numerical time series. If it is not supplied, the function plots only \code{X}.
+#'@param strTitle is a string of the plot tiltle
+#'@param TSnames is a list of legend of \code{X,Y} where TSnames[1] is a legend of \code{X} and  TSnames[2] is a legend of \code{Y}.
+#'
+#'@return This function returns an object of ggplot class.
+#'
+#'@examples
+#' # Generate simulation data
+#'TS <- SimpleSimulationVLtimeseries()
+#' # Run the function
+#'plotTimeSeries(Y=TS$Y,X=TS$X)
+#'
 #'@import ggplot2
 #'@importFrom graphics plot
 #'

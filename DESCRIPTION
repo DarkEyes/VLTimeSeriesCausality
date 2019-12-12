@@ -15,7 +15,6 @@ Depends:
     R (>= 3.5.0),
     dtw,
     tseries,
-    dHSIC,
     RTransferEntropy 
 Imports:
     igraph,

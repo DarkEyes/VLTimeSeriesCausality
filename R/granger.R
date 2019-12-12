@@ -1,7 +1,45 @@
+#' @title  GrangerFunc
 #'
-#'@import tseries
+#' @description
+#'
+#' GrangerFunc is a Granger Causality function. It tests whether \code{X} Granger-causes \code{Y}.
+#'
+#'
+#'@param Y is a numerical time series of effect
+#'@param X is a numerical time series of cause
+#'@param maxLag is a maximum possible time delay. The default is 1.
+#'@param alpha is a significance level of F-test to determine whether \code{X} Granger-causes \code{Y}.  The default is 0.05.
+#'@param autoLagflag is a flag for enabling the automatic lag inference function. The default is true.
+#'If it is set to be true, then maxLag is set automatically using cross-correlation.
+#'Otherwise, if it is set to be false, then the function takes the maxLag value to infer Granger causality.
+#'@param gamma is a parameter to determine whether \code{X} Granger-causes \code{Y} using BIC difference ratio.
+#'@param family is a parameter of family of function for Generalized Linear Models function (glm). The default is \code{gaussian}.
+#'
+#'@return This function returns of  whether \code{X} Granger-causes \code{Y}.
+#'
+#'
+#'\item{ftest}{ F-statistic of Granger causality. }
+#'\item{p.val}{ A p-value from F-test. }
+#'\item{BIC_H0}{Bayesian Information Criterion (BIC) derived from \code{Y} regressing on \code{Y} past.  }
+#'\item{BIC_H1}{Bayesian Information Criterion (BIC) derived from \code{Y} regressing on \code{Y},\code{X} past. }
+#'\item{XgCsY}{The flag is true if \code{X} Granger-causes \code{Y} using BIC difference ratio where \code{BICDiffRatio >= gamma}.}
+#'\item{XgCsY_ftest}{The flag is true if \code{X} Granger-causes \code{Y} using F-test where \code{p.val>=alpha}. }
+#'\item{XgCsY_BIC}{The flag is true if \code{X} Granger-causes \code{Y} using BIC where \code{BIC_H0>=BIC_H1}. }
+#'\item{maxLag}{A maximum possible time delay.  }
+#'\item{H0}{glm object of \code{Y} regressing on \code{Y} past.  }
+#'\item{H1}{glm object of \code{Y} regressing on \code{Y,X} past. }
+#'\item{BICDiffRatio}{ Bayesian Information Criterion difference ratio: \code{(BIC_H0-BIC_H1)/BIC_H0}.  }
+#'
+#'@examples
+#' # Generate simulation data
+#'TS <- SimpleSimulationVLtimeseries()
+#' # Run the function
+#'out<-GrangerFunc(Y=TS$Y,X=TS$X)
+#'
+#'@importFrom stats ccf gaussian lag glm rnorm pf ts ts.intersect
 #'@export
-GrangerFunc<-function(Y,X, maxLag=1,alpha=0.05, autoLagflag=TRUE,gamma=0.05, family = gaussian)
+#'
+GrangerFunc<-function(Y,X, maxLag=1,alpha=0.05, autoLagflag=TRUE,gamma=0.5, family = gaussian)
 {
   XgCsY_ftest<-FALSE
   YX<-cbind(ts(Y),ts(X))
