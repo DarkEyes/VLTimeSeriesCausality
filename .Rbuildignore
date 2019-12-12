@@ -3,3 +3,7 @@
 ^\.xlsx$
 ^exp$
 ^data/.+$
+^cran-comments\.md$
+^\.travis\.yml$
+^doc$
+^Meta$
