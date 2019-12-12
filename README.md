@@ -1,5 +1,3 @@
-# VLTimeSeriesCausality
- 
 Variable-lag Granger causality and Transfer Entropy for time series analysis (VLTimeSeriesCausality)
 ===========================================================
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.5.0-6666ff.svg)](https://cran.r-project.org/)
