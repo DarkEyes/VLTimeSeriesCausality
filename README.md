@@ -26,7 +26,7 @@ TODO: Will add texts soon!
 
 Citation
 ----------------------------------------------------------------------------------
-Chainarong Amornbunchornvej, Elena Zheleva, and Tanya Berger-Wolf (2019). Variable-lag Granger Causality for Time Series Analysis. In Proceedings of the 6th IEEE International Conference on Data Science and Advanced Analytics (DSAA), pp. 21-30. IEEE, 2019. <a href="https://www.cs.uic.edu/~elena/pubs/amornbunchornvej-dsaa19.pdf">link</a>
+Chainarong Amornbunchornvej, Elena Zheleva, and Tanya Berger-Wolf (2019). Variable-lag Granger Causality for Time Series Analysis. In Proceedings of the 6th IEEE International Conference on Data Science and Advanced Analytics (DSAA), pp. 21-30. IEEE. <a href="https://www.cs.uic.edu/~elena/pubs/amornbunchornvej-dsaa19.pdf">link</a>
 
 Contact
 ----------------------------------------------------------------------------------
