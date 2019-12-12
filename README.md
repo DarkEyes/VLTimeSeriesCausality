@@ -21,7 +21,7 @@ Example: VLTimeSeriesCausality
 ----------------------------------------------------------------------------------
 ``` r
 library(EDOIF)
-
+```
 TODO: Will add texts soon!
 
 Citation
