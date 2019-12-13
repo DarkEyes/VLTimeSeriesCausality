@@ -1,7 +1,7 @@
 ## Test environments
 * local WIN 10 install, R 3.6.1
 * local CentOS 7 install, R 3.5.2
-* win-builder (devel, release, and oldrelease)
+* win-builder (devel, release, R-devel ATC, and oldrelease)
 
 ## R CMD check --as-cran results
 There were no ERRORs or WARNINGs. 
