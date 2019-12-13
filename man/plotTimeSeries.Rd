@@ -11,7 +11,7 @@ plotTimeSeries(X, Y, strTitle = "Time Series Plot", TSnames)
 
 \item{Y}{is a 2nd numerical time series. If it is not supplied, the function plots only \code{X}.}
 
-\item{strTitle}{is a string of the plot tiltle}
+\item{strTitle}{is a string of the plot title}
 
 \item{TSnames}{is a list of legend of \code{X,Y} where TSnames[1] is a legend of \code{X} and  TSnames[2] is a legend of \code{Y}.}
 }

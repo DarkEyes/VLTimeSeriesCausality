@@ -9,7 +9,7 @@
 #'@param X is a numerical time series of a leader
 #'@param timeLagWindow is a maximum possible time delay in the term of time steps.
 #'@param lagWindow is a maximum possible time delay in the term of percentage of length(X).
-#'If \code{timeLagWindow} is missing, then \code{timeLagWindow=ceiling(lagWindow*length(X))}. The defualt is 0.2.
+#'If \code{timeLagWindow} is missing, then \code{timeLagWindow=ceiling(lagWindow*length(X))}. The default is 0.2.
 #'
 #'@return This function returns a list of following relation variables below.
 #'

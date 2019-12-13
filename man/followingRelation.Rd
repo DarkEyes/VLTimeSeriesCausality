@@ -14,7 +14,7 @@ followingRelation(Y, X, timeLagWindow, lagWindow = 0.2)
 \item{timeLagWindow}{is a maximum possible time delay in the term of time steps.}
 
 \item{lagWindow}{is a maximum possible time delay in the term of percentage of length(X).
-If \code{timeLagWindow} is missing, then \code{timeLagWindow=ceiling(lagWindow*length(X))}. The defualt is 0.2.}
+If \code{timeLagWindow} is missing, then \code{timeLagWindow=ceiling(lagWindow*length(X))}. The default is 0.2.}
 }
 \value{
 This function returns a list of following relation variables below.

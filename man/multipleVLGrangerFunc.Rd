@@ -28,7 +28,7 @@ multipleVLGrangerFunc(
 If it is set to be true, then maxLag is set automatically using cross-correlation.
 Otherwise, if it is set to be false, then the function takes the maxLag value to infer Granger causality.}
 
-\item{causalFlag}{is a choice of criterion for inferring casuality:
+\item{causalFlag}{is a choice of criterion for inferring causality:
 \code{causalFlag=0} for BIC difference ratio, \code{causalFlag=1} for f-test, or \code{causalFlag=2} for BIC.}
 
 \item{VLflag}{is a flag of Granger causality choice: either \code{VLflag=TRUE} for VL-Granger or \code{VLflag=FALSE} for Granger causality.}

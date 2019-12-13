@@ -14,7 +14,7 @@
 #'@param gamma is a parameter to determine whether \code{X} Granger-causes \code{Y} using BIC difference ratio. The default is  0.3.
 #'@param family is a parameter of family of function for Generalized Linear Models function (glm). The default is \code{gaussian}.
 #'@param VLflag is a flag of Granger causality choice: either \code{VLflag=TRUE} for VL-Granger or \code{VLflag=FALSE} for Granger causality.
-#'@param causalFlag is a choice of criterion for inferring casuality:
+#'@param causalFlag is a choice of criterion for inferring causality:
 #' \code{causalFlag=0} for BIC difference ratio, \code{causalFlag=1} for f-test, or \code{causalFlag=2} for BIC.
 #'
 #'@return This function returns of a list of an adjacency matrix of causality where \code{adjMat[i,j]} is true if \code{TS[,i]} causes \code{TS[,j]}.

@@ -33,7 +33,7 @@ This function returns a list of time series \code{TS}.
 \description{
 MultipleSimulationVLtimeseries is a support function for generating a set of time series \code{TS[,1],...TS[,10]}.
 TS[,1],TS[,2],TS[,3] are causes \code{X} time series that are generated independently.
-The rest of time series are \code{Y} time series that are effects of some cuases TS[,1],TS[,2],TS[,3].
+The rest of time series are \code{Y} time series that are effects of some causes TS[,1],TS[,2],TS[,3].
 TS[,1] causes TS[,4],TS[,7],TS[,8], and TS[,10].
 TS[,2] causes TS[,5],TS[,7],TS[,9], and TS[,10].
 TS[,3] causes TS[,6],TS[,8],TS[,9], and TS[,10].
