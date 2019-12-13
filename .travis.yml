@@ -1,7 +1,7 @@
-language: r
+language: R
 sudo: false
 cache: packages
-r:
+R:
   - oldrel
   - release
   - devel
