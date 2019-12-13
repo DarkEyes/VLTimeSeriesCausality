@@ -1,0 +1,7 @@
+language: r
+sudo: false
+cache: packages
+r:
+  - oldrel
+  - release
+  - devel
