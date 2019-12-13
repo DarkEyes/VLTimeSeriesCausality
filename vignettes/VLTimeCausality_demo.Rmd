@@ -1,0 +1,66 @@
+---
+title: "VLTimeCausality Demo"
+author: " C. Amornbunchornvej"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{VLTimeCausality_demo} 
+  %\VignetteEngine{knitr::knitr}
+  \usepackage[utf8]{inputenc}
+---
+
+# EXAMPLE#1 Simple Simulation & Granger causality
+
+```{r}
+library(VLTimeCausality)
+# Generate simulation data
+TS <- VLTimeCausality::SimpleSimulationVLtimeseries()
+# Generate simulation data
+TS <- VLTimeCausality::SimpleSimulationVLtimeseries()
+# Run the function
+out<-VLTimeCausality::GrangerFunc(Y=TS$Y,X=TS$X,alpha=0.05)
+#result
+print(sprintf("F-TEST p-value = %f",out$p.val))
+print(sprintf("X causes Y? %d",out$XgCsY_ftest))
+```
+
+# EXAMPLE#2 Simple Simulation & VL-Granger causality
+```{r}
+library(VLTimeCausality)
+# Generate simulation data
+TS <- VLTimeCausality::SimpleSimulationVLtimeseries()
+# Generate simulation data
+TS <- VLTimeCausality::SimpleSimulationVLtimeseries()
+# Run the function
+out<-VLTimeCausality::VLGrangerFunc(Y=TS$Y,X=TS$X,gamma=0.5)
+#result
+print(sprintf("BICDiffRatio = %f",out$BICDiffRatio))
+print(sprintf("X causes Y? %d",out$XgCsY))
+```
+
+# EXAMPLE#3 Simple Simulation & Transfer Entropy
+```{r}
+library(VLTimeCausality)
+# Generate simulation data
+TS <- VLTimeCausality::SimpleSimulationVLtimeseries()
+# Generate simulation data
+TS <- VLTimeCausality::SimpleSimulationVLtimeseries()
+# Run the function
+out<-VLTimeCausality::VLTransferEntropy(Y=TS$Y,X=TS$X,VLflag=FALSE)
+#result
+print(sprintf("TEratio = %f",out$TEratio))
+print(sprintf("X causes Y? %d",out$XgCsY_trns) )
+```
+# EXAMPLE#4 Simple Simulation & VL-Transfer Entropy
+```{r}
+library(VLTimeCausality)
+# Generate simulation data
+TS <- VLTimeCausality::SimpleSimulationVLtimeseries()
+# Generate simulation data
+TS <- VLTimeCausality::SimpleSimulationVLtimeseries()
+# Run the function
+out<-VLTimeCausality::VLTransferEntropy(Y=TS$Y,X=TS$X,VLflag=TRUE)
+#result
+print(sprintf("TEratio = %f",out$TEratio))
+print(sprintf("X causes Y? %d",out$XgCsY_trns) )
+```

@@ -37,9 +37,10 @@ multipleVLTransferEntropy is a function that infers Variable-lag Transfer Entrop
 }
 \examples{
 # Generate simulation data
-TS <- MultipleSimulationVLtimeseries()
+out1<-SimpleSimulationVLtimeseries()
+TS<-cbind(out1$X,out1$Y)
 # Run the function
-out<-multipleVLTransferEntropy(TS,maxLag=1)
+out2<-multipleVLTransferEntropy(TS,maxLag=1)
 
 
 }

@@ -1,5 +1,5 @@
 Package: VLTimeCausality
-Title: Variable-lag Time series casuality inference framework
+Title: Variable-Lag Time Series Casuality Inference Framework
 Version: 0.1.0
 Authors@R: 
     person(given = "Chainarong",

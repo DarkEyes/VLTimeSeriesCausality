@@ -37,3 +37,5 @@ vignettes/*.pdf
 data/multipleSimData/~$res.xlsx
 data/*
 exp/*
+doc
+Meta

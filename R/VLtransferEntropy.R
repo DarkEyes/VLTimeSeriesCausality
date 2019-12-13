@@ -21,7 +21,7 @@
 #'\item{TEratio}{ is a Transfer Entropy ratio. If it is greater than one , then \code{X} causes \code{Y}. }
 #'\item{res}{ is an object of output from RTransferEntropy::transfer_entropy() }
 #'\item{follOut}{ is a list of variables from function \code{followingRelation}. }
-#'\item{XgCsY}{The flag is true if \code{X} (VL-)Transfer-Entropy-causes \code{Y} using Transfer Entropy ratio ratio where \code{TEratio >1} if \code{X} causes \code{Y}.}
+#'\item{XgCsY_trns}{The flag is true if \code{X} (VL-)Transfer-Entropy-causes \code{Y} using Transfer Entropy ratio ratio where \code{TEratio >1} if \code{X} causes \code{Y}.}
 #'
 #'@examples
 #' # Generate simulation data
