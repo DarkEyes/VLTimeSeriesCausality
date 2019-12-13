@@ -1,6 +1,5 @@
 Variable-lag Granger causality and Transfer Entropy for time series analysis (VLTimeSeriesCausality)
 ===========================================================
-[![Travis CI build status](https://api.travis-ci.com/DarkEyes/VLTimeSeriesCausality.svg?branch=master)](https://travis-ci.com/DarkEyes/VLTimeSeriesCausality/)
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.5.0-6666ff.svg)](https://cran.r-project.org/)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://spdx.org/licenses/BSD-3-Clause.html)
 
