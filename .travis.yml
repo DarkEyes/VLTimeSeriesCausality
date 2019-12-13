@@ -1,4 +1,1 @@
 language: R
-before_install:
-    - sudo apt-get update
-cache: packages
