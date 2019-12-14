@@ -20,7 +20,6 @@ Depends:
     tseries,
     RTransferEntropy 
 Imports:
-    igraph,
     ggplot2 (>= 3.0)
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
