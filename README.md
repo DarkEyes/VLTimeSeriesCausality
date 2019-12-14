@@ -1,9 +1,14 @@
 Variable-lag Granger causality and Transfer Entropy for time series analysis (VLTimeSeriesCausality)
 ===========================================================
+[![Travis CI build status](https://travis-ci.com/DarkEyes/VLTimeSeriesCausality.svg?branch=master)](https://travis-ci.com/DarkEyes/VLTimeSeriesCausality/)
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.5.0-6666ff.svg)](https://cran.r-project.org/)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://spdx.org/licenses/BSD-3-Clause.html)
 
 A framework to infer causality on a pair of time series of real numbers based on Variable-lag Granger causality (VL-Granger) and transfer entropy (VL-Transfer Entropy).
+
+Typically, Granger causality and transfer entropy has an assumption of a fixed and constant time delay between the cause and effect. However, for a non-stationary time series, this assumption is not true. For example, considering two time series of velocity of person A and person B where B follows A. At some time, B stops tying his shoes, then running to catch up A. The fixed-lag assumption is not true in this case.
+
+We propose a framework that allows variable-lag between cause and effect in Granger causality and transfer entropy to allow them to deal with variable-lag non-stationary time series. 
 
 Installation
 ------------
