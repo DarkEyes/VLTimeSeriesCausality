@@ -2,7 +2,7 @@
 ^\.Rproj\.user$
 ^\.xlsx$
 ^exp$
-^data/.+$
+^data$
 ^cran-comments\.md$
 ^\.travis\.yml$
 ^doc$
