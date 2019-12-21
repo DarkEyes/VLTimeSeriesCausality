@@ -15,7 +15,14 @@ We propose a framework that allows variable-lags between cause and effect in Gra
 Installation
 ------------
 
+You can install our package from CRAN
+
+```r
+install.packages("VLTimeCausality")
+```
+
 For the newest version on github, please call the following command in R terminal.
+
 
 ``` r
 remotes::install_github("DarkEyes/VLTimeSeriesCausality")
