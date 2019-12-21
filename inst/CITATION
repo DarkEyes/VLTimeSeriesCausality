@@ -6,7 +6,10 @@ citEntry(entry       = "Proceedings",
                         as.person("Elena Zheleva"),
                         as.person("Tanya Berger-Wolf")
                         ),
+         booktitle   ="Proceedings of the 6th IEEE International Conference on Data Science and Advanced Analytics (DSAA)",
          year        = "2019",
          url         = "https://www.cs.uic.edu/~elena/pubs/amornbunchornvej-dsaa19.pdf",
+         publisher   = "IEEE",
+         pages       = "21-30",
          textVersion = "Variable-lag Granger Causality for Time Series Analysis. (2019) Chainarong Amornbunchornvej, Elena Zheleva, and Tanya Berger-Wolf. In Proceedings of the 6th IEEE International Conference on Data Science and Advanced Analytics (DSAA), pp. 21-30. IEEE, 2019."
          )
