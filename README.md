@@ -51,7 +51,7 @@ We use the following function to infer whether X causes Y.
 # Run the function
 out<-VLTimeCausality::VLGrangerFunc(Y=TS$Y,X=TS$X)
 ```
-The result of Granger causality is below:
+The result of VL-Granger causality is below:
 
 ```r
 out$BICDiffRatio
@@ -61,7 +61,7 @@ out$XgCsY
 [1] TRUE
 ```
 
-
+If out$XgCsY is true, then it means that X VL-Granger-causes Y. The value out$BICDiffRatio is a BIC difference ratio. If out$BICDiffRatio>0, it means that X is a good predictor of Y behaviors. The closer out$BICDiffRatio to 1, the stronger we can claim that X VL-Granger-causes Y.
 
 Citation
 ----------------------------------------------------------------------------------
