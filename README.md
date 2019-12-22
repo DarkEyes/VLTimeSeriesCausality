@@ -1,4 +1,4 @@
-Variable-Lag Time Series Causality Inference Framework (VLTimeSeriesCausality)
+VLTimeCausality: Variable-Lag Time Series Causality Inference Framework
 ===========================================================
 [![Travis CI build status](https://travis-ci.com/DarkEyes/VLTimeSeriesCausality.svg?branch=master)](https://travis-ci.com/DarkEyes/VLTimeSeriesCausality/)
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.5.0-6666ff.svg)](https://cran.r-project.org/)
