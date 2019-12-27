@@ -34,7 +34,7 @@ Example: Inferred VL-Granger causality time series
 ----------------------------------------------------------------------------------
 In the first step, we generate time series  TS$X and TS$Y where TS$X causes TS$Y with variable-lags.
 ``` r
-library(VLTimeSeriesCausality)
+library(VLTimeCausality)
 # Generate simulation data
 TS <- VLTimeCausality::SimpleSimulationVLtimeseries()
 ```
