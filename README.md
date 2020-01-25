@@ -66,7 +66,7 @@ If out$XgCsY is true, then it means that X VL-Granger-causes Y. The value out$BI
 
 Citation
 ----------------------------------------------------------------------------------
-Chainarong Amornbunchornvej, Elena Zheleva, and Tanya Berger-Wolf (2019). Variable-lag Granger Causality for Time Series Analysis. In Proceedings of the 6th IEEE International Conference on Data Science and Advanced Analytics (DSAA), pp. 21-30. IEEE. <a href="https://www.cs.uic.edu/~elena/pubs/amornbunchornvej-dsaa19.pdf">link</a>
+Chainarong Amornbunchornvej, Elena Zheleva, and Tanya Berger-Wolf (2019). Variable-lag Granger Causality for Time Series Analysis. In Proceedings of the 6th IEEE International Conference on Data Science and Advanced Analytics (DSAA), pp. 21-30. IEEE. https://doi.org/10.1109/DSAA.2019.00016 <a href="https://arxiv.org/abs/1912.10829">arXiv</a>
 
 Contact
 ----------------------------------------------------------------------------------
