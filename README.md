@@ -4,7 +4,7 @@ VLTimeCausality: Variable-Lag Time Series Causality Inference Framework
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.5.0-6666ff.svg)](https://cran.r-project.org/)
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version-last-release/VLTimeCausality)](https://cran.r-project.org/package=VLTimeCausality)
 [![Download](https://cranlogs.r-pkg.org/badges/grand-total/VLTimeCausality)](https://cran.r-project.org/package=VLTimeCausality)
-[![arXiv](https://img.shields.io/badge/cs.LG-arXiv%3A1912.10829-B31B1B.svg)](https://arxiv.org/abs/1912.10829/)
+[![arXiv](https://img.shields.io/badge/cs.LG-arXiv%3A2002.00208-B31B1B.svg)](https://arxiv.org/abs/2002.00208/)
 [![](https://img.shields.io/badge/doi-10.1109%2FDSAA.2019.00016-yellow)](https://doi.org/10.1109/DSAA.2019.00016 )
 [![License](https://img.shields.io/badge/License-GPL%203-orange.svg)](https://spdx.org/licenses/GPL-3.0-only.html)
 
