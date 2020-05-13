@@ -12,7 +12,8 @@ VLTransferEntropy(
   lx = 1,
   ly = 1,
   VLflag = TRUE,
-  autoLagflag = TRUE
+  autoLagflag = TRUE,
+  alpha = 0.05
 )
 }
 \arguments{
@@ -39,7 +40,9 @@ This function returns of  whether \code{X} (VL-)Transfer-Entropy-causes \code{Y}
 \item{TEratio}{ is a Transfer Entropy ratio. If it is greater than one , then \code{X} causes \code{Y}. }
 \item{res}{ is an object of output from RTransferEntropy::transfer_entropy() }
 \item{follOut}{ is a list of variables from function \code{followingRelation}. }
-\item{XgCsY_trns}{The flag is true if \code{X} (VL-)Transfer-Entropy-causes \code{Y} using Transfer Entropy ratio ratio where \code{TEratio >1} if \code{X} causes \code{Y}.}
+\item{XgCsY_trns}{The flag is true if \code{X} (VL-)Transfer-Entropy-causes \code{Y} using Transfer Entropy ratio ratio where \code{TEratio >1}
+if \code{X} causes \code{Y}. Additionally, if \code{nboot>1}, the flag is true only when \code{pval<=alpha}. }
+\item{pval}{ It is a p-value for TE bootstrapping by Dimpfl and Peter (2013).}
 }
 \description{
 VLTransferEntropy is a Variable-lag Transfer Entropy function. It tests whether \code{X} VL-Transfer-Entropy-causes \code{Y}.

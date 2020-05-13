@@ -10,7 +10,10 @@ SimpleSimulationVLtimeseries(
   YstFixInx = 110,
   YfnFixInx = 170,
   XpointFixInx = 100,
-  arimaFlag = TRUE
+  arimaFlag = TRUE,
+  seedVal = -1,
+  expflag = FALSE,
+  causalFlag = TRUE
 )
 }
 \arguments{
