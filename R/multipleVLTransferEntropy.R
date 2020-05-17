@@ -13,6 +13,7 @@
 #'If it is set to be true, then maxLag is set automatically using cross-correlation.
 #'Otherwise, if it is set to be false, then the function takes the maxLag value to infer Granger causality.
 #'@param VLflag is a flag of Granger causality choice: either \code{VLflag=TRUE} for VL-Granger or \code{VLflag=FALSE} for Granger causality.
+#'@param alpha is a significant-level threshold for TE bootstrapping by Dimpfl and Peter (2013).
 #'
 #'@return This function returns of a list of an adjacency matrix of causality where \code{adjMat[i,j]} is true if \code{TS[,i]} causes \code{TS[,j]}.
 #'
@@ -25,7 +26,7 @@
 #'
 #'
 #'@export
-multipleVLTransferEntropy<-function(TS,maxLag,nboot=0,lx=1,ly=1,VLflag=TRUE,autoLagflag=TRUE)
+multipleVLTransferEntropy<-function(TS,maxLag,nboot=0,lx=1,ly=1,VLflag=TRUE,autoLagflag=TRUE,alpha=0.05)
 {
   m<-min(dim(TS))
   n<-max(dim(TS))
@@ -35,7 +36,7 @@ multipleVLTransferEntropy<-function(TS,maxLag,nboot=0,lx=1,ly=1,VLflag=TRUE,auto
   for(i in seq(m-1))
     for(j in seq(i+1,m))
     {
-      outij<-VLTransferEntropy(Y=TS[,j],X=TS[,i], maxLag=maxLag,nboot=nboot,lx=lx,ly=ly,VLflag=VLflag,autoLagflag=autoLagflag)
+      outij<-VLTransferEntropy(Y=TS[,j],X=TS[,i], maxLag=maxLag,nboot=nboot,lx=lx,ly=ly,VLflag=VLflag,autoLagflag=autoLagflag,alpha=alpha)
       if(outij$XgCsY_trns)
       {
         adjMat[i,j]<-outij$XgCsY_trns

@@ -11,7 +11,8 @@ multipleVLTransferEntropy(
   lx = 1,
   ly = 1,
   VLflag = TRUE,
-  autoLagflag = TRUE
+  autoLagflag = TRUE,
+  alpha = 0.05
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ multipleVLTransferEntropy(
 \item{autoLagflag}{is a flag for enabling the automatic lag inference function. The default is true.
 If it is set to be true, then maxLag is set automatically using cross-correlation.
 Otherwise, if it is set to be false, then the function takes the maxLag value to infer Granger causality.}
+
+\item{alpha}{is a significant-level threshold for TE bootstrapping by Dimpfl and Peter (2013).}
 }
 \value{
 This function returns of a list of an adjacency matrix of causality where \code{adjMat[i,j]} is true if \code{TS[,i]} causes \code{TS[,j]}.

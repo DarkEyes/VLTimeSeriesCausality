@@ -32,6 +32,8 @@ VLTransferEntropy(
 \item{autoLagflag}{is a flag for enabling the automatic lag inference function. The default is true.
 If it is set to be true, then maxLag is set automatically using cross-correlation.
 Otherwise, if it is set to be false, then the function takes the maxLag value to infer Granger causality.}
+
+\item{alpha}{is a significant-level threshold for TE bootstrapping by Dimpfl and Peter (2013).}
 }
 \value{
 This function returns of  whether \code{X} (VL-)Transfer-Entropy-causes \code{Y}.

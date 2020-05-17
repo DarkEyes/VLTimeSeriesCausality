@@ -14,7 +14,7 @@
 #'If it is set to be true, then maxLag is set automatically using cross-correlation.
 #'Otherwise, if it is set to be false, then the function takes the maxLag value to infer Granger causality.
 #'@param VLflag is a flag of Transfer Entropy choice: either \code{VLflag=TRUE} for VL-Transfer Entropy or \code{VLflag=FALSE} for Transfer Entropy.
-#'@alpha is a significant-level threshold for TE bootstrapping by Dimpfl and Peter (2013).
+#'@param alpha is a significant-level threshold for TE bootstrapping by Dimpfl and Peter (2013).
 #'
 #'@return This function returns of  whether \code{X} (VL-)Transfer-Entropy-causes \code{Y}.
 #'
