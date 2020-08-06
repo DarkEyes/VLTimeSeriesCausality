@@ -65,6 +65,31 @@ out$XgCsY
 
 If out$XgCsY is true, then it means that X VL-Granger-causes Y. The value out$BICDiffRatio is a BIC difference ratio. If out$BICDiffRatio>0, it means that X is a good predictor of Y behaviors. The closer out$BICDiffRatio to 1, the stronger we can claim that X VL-Granger-causes Y.
 
+For the comparison between normal Granger test with our VL-Granger test, we recommend to use the F-test decision criterion the same as typical Granger test criterion.
+
+Below are the results of VL-Granger Causality using F-test.
+
+```r
+library(lmtest)
+data(ChickEgg)
+ChickEgg <- as.data.frame(ChickEgg)
+
+#============ The the egg causes chicken. 
+out_test1 <- VLTimeCausality::VLGrangerFunc(X=ChickEgg$egg,Y=ChickEgg$chicken)
+out_test1$p.val
+[1] 0.004980847
+out_test1$XgCsY_ftest
+[1] TRUE 
+
+#============ The reverse direction has no causal relation
+out_test2 <- VLTimeCausality::VLGrangerFunc(Y=ChickEgg$egg,X=ChickEgg$chicken)
+out_test2$p.val
+[1] 1
+out_test2$XgCsY_ftest
+[1] FALSE
+```
+
+
 Citation
 ----------------------------------------------------------------------------------
 Chainarong Amornbunchornvej, Elena Zheleva, and Tanya Berger-Wolf (2019). Variable-lag Granger Causality for Time Series Analysis. In Proceedings of the 6th IEEE International Conference on Data Science and Advanced Analytics (DSAA), pp. 21-30. IEEE. https://doi.org/10.1109/DSAA.2019.00016 <a href="https://arxiv.org/abs/1912.10829">arXiv</a>
