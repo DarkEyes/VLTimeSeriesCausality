@@ -5,7 +5,7 @@ VLTimeCausality: Variable-Lag Time Series Causality Inference Framework
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version-last-release/VLTimeCausality)](https://cran.r-project.org/package=VLTimeCausality)
 [![Download](https://cranlogs.r-pkg.org/badges/grand-total/VLTimeCausality)](https://cran.r-project.org/package=VLTimeCausality)
 [![arXiv](https://img.shields.io/badge/cs.LG-arXiv%3A2002.00208-B31B1B.svg)](https://arxiv.org/abs/2002.00208)
-[![](https://img.shields.io/badge/doi-10.1109%2FDSAA.2019.00016-yellow)](https://doi.org/10.1109/DSAA.2019.00016 )
+[![](https://img.shields.io/badge/doi-10.1145%2F3441452-yellow)](https://doi.org/10.1145/3441452 )
 [![License](https://img.shields.io/badge/License-GPL%203-orange.svg)](https://spdx.org/licenses/GPL-3.0-only.html)
 
 A framework to infer causality on a pair of time series of real numbers based on Variable-lag Granger causality (VL-Granger) and transfer entropy (VL-Transfer Entropy).
@@ -92,11 +92,7 @@ out_test2$XgCsY_ftest
 
 Citation
 ----------------------------------------------------------------------------------
-Chainarong Amornbunchornvej, Elena Zheleva, and Tanya Berger-Wolf (2019). Variable-lag Granger Causality for Time Series Analysis. In Proceedings of the 6th IEEE International Conference on Data Science and Advanced Analytics (DSAA), pp. 21-30. IEEE. https://doi.org/10.1109/DSAA.2019.00016 <a href="https://arxiv.org/abs/1912.10829">arXiv</a>
-
-or
-
-(Forthcoming) Chainarong Amornbunchornvej, Elena Zheleva, and Tanya Berger-Wolf (2021). Variable-lag Granger Causality and Transfer Entropy for Time Series Analysis. ACM Transactions on Knowledge Discovery from Data (TKDD), 15(y), 1-30.  https://doi.org/10.1145/3441452 
+Chainarong Amornbunchornvej, Elena Zheleva, and Tanya Berger-Wolf (2021). Variable-lag Granger Causality and Transfer Entropy for Time Series Analysis. ACM Transactions on Knowledge Discovery from Data (TKDD), 15(4), 1-30.  https://doi.org/10.1145/3441452 
 
 Contact
 ----------------------------------------------------------------------------------
