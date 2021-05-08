@@ -1,15 +1,16 @@
 citHeader("To cite the 'VLTimeCausality' package in publications use:")
 
-citEntry(entry       = "Proceedings",
+citEntry(entry       = "Article",
          title       = "Variable-lag Granger Causality for Time Series Analysis.",
          author      = personList(as.person("Chainarong Amornbunchornvej"),
                         as.person("Elena Zheleva"),
                         as.person("Tanya Berger-Wolf")
                         ),
-         booktitle   ="Proceedings of the 6th IEEE International Conference on Data Science and Advanced Analytics (DSAA)",
-         year        = "2019",
-         url         = "https://arxiv.org/abs/1912.10829",
-         publisher   = "IEEE",
-         pages       = "21-30",
-         textVersion = "Chainarong Amornbunchornvej, Elena Zheleva, and Tanya Berger-Wolf (2019).  Variable-lag Granger Causality for Time Series Analysis. In Proceedings of the 6th IEEE International Conference on Data Science and Advanced Analytics (DSAA), pp. 21-30. IEEE, 2019."
-         )
+         journal   ="ACM Transactions on Knowledge Discovery from Data",
+         year        = "2021",
+         volume       = "15",
+         number     = "4(67)",
+         url         = "https://doi.org/10.1145/3441452",
+         publisher   = "ACM",
+         pages       = "1-30",
+         textVersion = "Chainarong Amornbunchornvej, Elena Zheleva, and Tanya Berger-Wolf. 2021. Variable-lag Granger Causality and Transfer Entropy for Time Series Analysis. ACM Transactions on Knowledge Discovery from Data Vol 15, No. 4, Article 67 (May 2021), 30 pages.")

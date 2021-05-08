@@ -18,11 +18,11 @@
 #'@return This function returns of a list of an adjacency matrix of causality where \code{adjMat[i,j]} is true if \code{TS[,i]} causes \code{TS[,j]}.
 #'
 #'@examples
-#' # Generate simulation data
-#' out1<-SimpleSimulationVLtimeseries()
-#' TS<-cbind(out1$X,out1$Y)
-#' # Run the function
-#'out2<-multipleVLTransferEntropy(TS,maxLag=1)
+#' ## Generate simulation data
+#' #out1<-SimpleSimulationVLtimeseries()
+#' #TS<-cbind(out1$X,out1$Y)
+#' ## Run the function
+#'#out2<-multipleVLTransferEntropy(TS,maxLag=1)
 #'
 #'
 #'@export

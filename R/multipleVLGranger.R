@@ -20,10 +20,10 @@
 #'@return This function returns of a list of an adjacency matrix of causality where \code{adjMat[i,j]} is true if \code{TS[,i]} causes \code{TS[,j]}.
 #'
 #'@examples
-#' # Generate simulation data
-#'TS <- MultipleSimulationVLtimeseries()
-#' # Run the function
-#'out<-multipleVLGrangerFunc(TS)
+#' ## Generate simulation data
+#'#TS <- MultipleSimulationVLtimeseries()
+#' ## Run the function
+#'#out<-multipleVLGrangerFunc(TS)
 #'
 #'
 #'@import tseries

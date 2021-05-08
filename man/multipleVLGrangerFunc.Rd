@@ -42,10 +42,10 @@ This function returns of a list of an adjacency matrix of causality where \code{
 multipleVLGrangerFunc is a function that infers Variable-lag Granger Causality of all pairwises of \code{m} time series \code{TS[,1],...TS[,m]}.
 }
 \examples{
-# Generate simulation data
-TS <- MultipleSimulationVLtimeseries()
-# Run the function
-out<-multipleVLGrangerFunc(TS)
+## Generate simulation data
+#TS <- MultipleSimulationVLtimeseries()
+## Run the function
+#out<-multipleVLGrangerFunc(TS)
 
 
 }

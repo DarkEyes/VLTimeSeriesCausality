@@ -67,14 +67,14 @@ MultipleSimulationVLtimeseries<-function(n=200,lag=5,YstFixInx=110,YfnFixInx=170
 #' @return This function returns a list of precision \code{prec}, recall \code{rec}, and F1 score \code{F1} of inferred vs. groundtruth matrices.
 #'
 #' @examples
-#' # Generate simulation data
-#' G<-matrix(FALSE,10,10) # groundtruth
-#' G[1,c(4,7,8,10)]<-TRUE
-#' G[2,c(5,7,9,10)]<-TRUE
-#' G[3,c(6,8,9,10)]<-TRUE
-#' TS <- MultipleSimulationVLtimeseries()
-#' out<-multipleVLGrangerFunc(TS)
-#' checkMultipleSimulationVLtimeseries(trueAdjMat=G,adjMat=out$adjMat)
+#' ## Generate simulation data
+#' #G<-matrix(FALSE,10,10) # groundtruth
+#' #G[1,c(4,7,8,10)]<-TRUE
+#' #G[2,c(5,7,9,10)]<-TRUE
+#' #G[3,c(6,8,9,10)]<-TRUE
+#' #TS <- MultipleSimulationVLtimeseries()
+#' #out<-multipleVLGrangerFunc(TS)
+#' #checkMultipleSimulationVLtimeseries(trueAdjMat=G,adjMat=out$adjMat)
 #'
 #'@export
 checkMultipleSimulationVLtimeseries<-function(trueAdjMat,adjMat)

@@ -1,3 +1,6 @@
+# VLTimeCausality v0.1.3
+* Update the citation record
+
 # VLTimeCausality v0.1.2
 * Update LazyData setting
 

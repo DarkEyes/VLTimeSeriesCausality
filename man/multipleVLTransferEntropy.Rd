@@ -39,11 +39,11 @@ This function returns of a list of an adjacency matrix of causality where \code{
 multipleVLTransferEntropy is a function that infers Variable-lag Transfer Entropy of all pairwises of \code{m} time series \code{TS[,1],...TS[,m]}.
 }
 \examples{
-# Generate simulation data
-out1<-SimpleSimulationVLtimeseries()
-TS<-cbind(out1$X,out1$Y)
-# Run the function
-out2<-multipleVLTransferEntropy(TS,maxLag=1)
+## Generate simulation data
+#out1<-SimpleSimulationVLtimeseries()
+#TS<-cbind(out1$X,out1$Y)
+## Run the function
+#out2<-multipleVLTransferEntropy(TS,maxLag=1)
 
 
 }
