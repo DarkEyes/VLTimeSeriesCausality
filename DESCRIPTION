@@ -1,6 +1,6 @@
 Package: VLTimeCausality
 Title: Variable-Lag Time Series Causality Inference Framework
-Version: 0.1.3
+Version: 0.1.4
 Authors@R: 
     person(given = "Chainarong",
            family = "Amornbunchornvej",

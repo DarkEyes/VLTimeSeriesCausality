@@ -42,6 +42,9 @@ followingRelation<-function(Y,X,timeLagWindow,lagWindow=0.2)
   T<-length(X)
   follVal<-0
 
+  Y<-TSNANNearestNeighborPropagation(Y) # filling NA
+  X<-TSNANNearestNeighborPropagation(X) # filling NA
+
   if(missing(timeLagWindow))
   {
     timeLagWindow<-ceiling(lagWindow*T )

@@ -1,6 +1,6 @@
 VLTimeCausality: Variable-Lag Time Series Causality Inference Framework
 ===========================================================
-[![Travis CI build status](https://travis-ci.com/DarkEyes/VLTimeSeriesCausality.svg?branch=master)](https://travis-ci.com/DarkEyes/VLTimeSeriesCausality/)
+[![Travis CI build status](https://travis-ci.com/DarkEyes/VLTimeSeriesCausality.svg?branch=master)](https://app.travis-ci.com/github/DarkEyes/VLTimeSeriesCausality/)
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.5.0-6666ff.svg)](https://cran.r-project.org/)
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version-last-release/VLTimeCausality)](https://cran.r-project.org/package=VLTimeCausality)
 [![Download](https://cranlogs.r-pkg.org/badges/grand-total/VLTimeCausality)](https://cran.r-project.org/package=VLTimeCausality)
@@ -97,5 +97,5 @@ Chainarong Amornbunchornvej, Elena Zheleva, and Tanya Berger-Wolf (2021). Variab
 Contact
 ----------------------------------------------------------------------------------
 - Developer: C. Amornbunchornvej<div itemscope itemtype="https://schema.org/Person"><a itemprop="sameAs" content="https://orcid.org/0000-0003-3131-0370" href="https://orcid.org/0000-0003-3131-0370" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">https://orcid.org/0000-0003-3131-0370</a></div>
-- <a href="https://www.nectec.or.th/en/research/dsaru/dsarg-sai.html">Strategic Analytics Networks with Machine Learning and AI (SAI)</a>, <a href="https://www.nectec.or.th/en/">NECTEC</a>, Thailand
+- <a href="https://www.nectec.or.th">Strategic Analytics Networks with Machine Learning and AI (SAI)</a>, <a href="https://www.nectec.or.th/en/">NECTEC</a>, Thailand
 - Homepage: <a href="https://sites.google.com/view/amornbunchornvej/home">Link</a>

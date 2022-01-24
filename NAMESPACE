@@ -3,6 +3,7 @@
 export(GrangerFunc)
 export(MultipleSimulationVLtimeseries)
 export(SimpleSimulationVLtimeseries)
+export(TSNANNearestNeighborPropagation)
 export(VLGrangerFunc)
 export(VLTransferEntropy)
 export(checkMultipleSimulationVLtimeseries)
