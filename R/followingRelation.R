@@ -55,6 +55,11 @@ followingRelation<-function(Y,X,timeLagWindow,lagWindow=0.2)
   optIndexVec<-matrix(0, T)
   nX <- matrix(0, T)
 
+  if(is.nan(sum(ccfout$acf)) )
+  {
+    optDelay<-0
+    optCor<-0
+  }
   if(optDelay<0)
   {
     follVal<- -1

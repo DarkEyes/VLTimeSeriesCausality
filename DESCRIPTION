@@ -1,6 +1,6 @@
 Package: VLTimeCausality
 Title: Variable-Lag Time Series Causality Inference Framework
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: 
     person(given = "Chainarong",
            family = "Amornbunchornvej",
@@ -23,4 +23,4 @@ Imports:
     ggplot2 (>= 3.0)
 Suggests: knitr, rmarkdown, markdown
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.1

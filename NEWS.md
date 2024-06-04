@@ -1,3 +1,6 @@
+# VLTimeCausality v0.1.5
+* Update to fix ccf NA issue in time series
+
 # VLTimeCausality v0.1.4
 * Update to fix NA issue in time series
 * Added TSNANNearestNeighborPropagation for filling NA with a nearest value in time series.
